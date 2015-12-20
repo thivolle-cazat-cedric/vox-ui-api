@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="col-xs-12">
+    <table class="table table-hover table-striped">
+        <thead>
+            <th style="width: 1%"></th>
+            <th>extension</th>
+            <th style="width: 1%"></th>
+        </thead>
+        <tbody>
+            {% for d in devices%}
+            <tr id="{{d['id']}}" {%if usr['internalExtension'] == d['extension']%}class="info"{%endif%}>
+                <td>
+                    {% if d['state'] == 0%}
+                        <i class="fa fa-phone-square fa-2x text-success"></i>
+                    {% elif d['state'] == 5%}
+                        <i class="fa fa-phone-square fa-2x text-muted"></i>
+                    {% else %}
+                        <i class="fa fa-phone-time fa-2x text-muted"></i>
+                    {% endif %}
+                </td>
+                <td class="callable">{{d['extension']}}</td>
+                <td>
+                    <a href="{{url_for('.device', **{'device_id':d['id']})}}" class="btn btn-link"><span class="fa fa-chevron-right"></span></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

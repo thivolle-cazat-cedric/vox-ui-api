@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="col-xs-12">
+    <table class="table table-striped">
+        <tbody>
+            <tr>
+                <td colspan="3" class="text-left">
+                    <a href="{{url_for('.devices')}}" class="btn btn-link btn-block clearfix"><span class="pull-left fa fa-chevron-left"></span></a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {% if device['state'] == 0%}
+                        <i class="fa fa-phone-square fa-2x text-success"></i>
+                    {% elif device['state'] == 5%}
+                        <i class="fa fa-phone-square fa-2x text-muted"></i>
+                    {% else %}
+                        <i class="fa fa-phone-time fa-2x text-muted"></i>
+                    {% endif %}
+                </td>
+                <td>{{device['extension']}}</td>
+                <td>{{device['state_desc']}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

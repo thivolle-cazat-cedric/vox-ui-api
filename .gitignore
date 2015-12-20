@@ -1,0 +1,4 @@
+venv/*
+app/config/env/prod.py
+*.pyc
+*.DS_Store

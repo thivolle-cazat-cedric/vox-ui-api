@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="col-xs-12">
+    <div class="table-responsive">
+        <table class="table table-hover table-striped">
+            <thead>
+                <th style="width: 1%">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            {{item}}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            {% for i in items%}
+                            <li {% if i == item%} class="active" {%endif%}><a href="view.html?item={{i}}">{{i}}</a></li>
+                            {% endfor %}
+                            <li role="separator" class="divider"></li>
+                            <li {% if item == 'Tous'%} class="active" {%endif%}><a href="view.html">Tout</a></li>
+                        </ul>
+                    </div>
+                </th>
+                <th>Nom</th>
+                <th>Fixe</th>
+                <th>Mobile</th>
+                <th>Mail</th>
+            </thead>
+            <tbody>
+                {% for c in contacts%}
+                <tr>
+                    <td class="text-center text-muted">{{loop.index}}</td>
+                    <td>
+                        {{c['cn']}}
+                    </td>
+                    <td {%if c['telephoneNumber']%}class="callable"{%endif%}>
+                        {{c['telephoneNumber']}}
+                        
+                    </td>
+                    <td {%if c['mobile']%}class="callable"{%endif%}>
+                        {{c['mobile']}}
+                    </td>
+                    <td>
+                        <a href="mailto:{{c['mail']}}">{{c['mail']}}</a>
+
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>        
+    </div>
+
+    {% if item != 'Tout'%}
+        <nav class="text-center">
+            <ul class="pagination">
+                <li>
+                  <a href="view.html?item={{item}}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                </li>
+                {% for i in range(pager['start'], pager['end'] + 1) %}
+                    <li {%if i == pager['current']%}class="active"{%endif%}><a href="view.html?item={{item}}&page={{i}}">{{i}}</a></li>
+                {%endfor%}
+                <li>
+                  <a href="view.html?item={{item}}&page={{pager['max']}}">
+                    <span aria-hidden="{{true}}">&raquo;</span>
+                  </a>
+                </li>
+            </ul>
+        </nav>
+
+
+    {%endif%}
+</div>
+{% endblock %}

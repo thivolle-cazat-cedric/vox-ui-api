@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <title>vox-api</title>
+
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        <!-- toastr -->
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+
+        <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        
+        <div class="container">
+            <div class="header clearfix">
+                <nav>
+                    <ul class="nav nav-pills pull-right">
+                        <li class="disabled">
+                            <a href="">
+                                <i class="fa fa-newspaper-o"></i> 
+                                 <span class="hidden-sm hidden-xs">Journal</span>
+                            </a>
+                        </li>
+                        <li role="presentation" {% if '/contacts/' in request.path %}class="active"{% endif %}>
+                            <a href="{{url_for('CONTACT.view')}}">
+                                <i class="fa fa-book"></i>
+                                <span class="hidden-sm hidden-xs">Contacts</span>
+                            </a>
+                        </li>
+                        <li role="presentation" {% if '/devices/' in request.path %}class="active"{% endif %}>
+                            <a href="{{url_for('DEVICES.devices')}}">
+                                <i class="fa fa-group"></i>
+                                <span class="hidden-sm hidden-xs">Interne</span>
+                            </a>
+                        </li>
+                        
+                        <li ><a href="#" data-toggle="modal" data-target="#callModal"><i class="fa fa-phone"></i></a></li>
+                        <li class="divider"></li>
+                        <li role="presentation"><a href="https://voxity.fr">Voxity</a></li>
+                        <li role="presentation"><a href="https://api.voxity.fr/doc">API</a></li>
+                        <li role="presentation"><a href="#"><span class="fa fa fa-github-square"></span></a></li>
+                    </ul>
+                </nav>
+                <h3 class="text-muted">Vox-api</h3>
+            </div>
+            <div class="row">
+                {% block body %}{% endblock %}
+            </div>
+        </div> <!-- /.container -->
+
+
+        <!-- callModal -->
+        <div class="modal fade" id="callModal" tabindex="-1" role="dialog" aria-labelledby="callModalLabel">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="callModalLabel">Dialler</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form action="">
+                            <div class="input-group">
+                                <input type="tel" class="form-control" placeholder="Numéro de téléphone" aria-describedby="tel-number" id="telValue">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-success" type="submit"><span class="fa fa-chevron-right"></span></button>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        <!-- toastr -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        <script src="{{url_for('static', filename='js/main.js')}}"></script>
+    </body>
+
+
+</html>
