@@ -43,6 +43,9 @@ function generate_call(exten){
 
 
 $(document).ready(function() {
+    $('[data-toggle="tooltip"]').tooltip({
+        container: 'body',
+    })
 
     toastr.options = {
         "closeButton": true,
