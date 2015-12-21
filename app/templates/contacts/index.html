@@ -28,7 +28,11 @@
                 {% for c in contacts%}
                 <tr>
                     <td class="text-center text-muted">
+                        {%if item != 'Tout'%}
                         {{ item * (pager['current'] - 1) + loop.index }}
+                        {%else%}
+                        {{loop.index}}
+                        {%endif%}
                     </td>
                     <td>
                         {{c['cn']}}

@@ -49,7 +49,8 @@ def view():
                     pager['end'] = pager['max']
                     pager['start'] = pager['end'] - 10
 
-        except Exception as e:
+        except Exception:
+            contact = get_contacts()
             item = 'Tout'
     else:
         contact = get_contacts()
