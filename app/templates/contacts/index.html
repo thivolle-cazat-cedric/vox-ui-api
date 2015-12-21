@@ -27,7 +27,9 @@
             <tbody>
                 {% for c in contacts%}
                 <tr>
-                    <td class="text-center text-muted">{{loop.index}}</td>
+                    <td class="text-center text-muted">
+                        {{ item * (pager['current'] - 1) + loop.index }}
+                    </td>
                     <td>
                         {{c['cn']}}
                     </td>

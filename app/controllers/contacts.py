@@ -23,16 +23,18 @@ def json_data():
 @CONTACT.route('view.html', methods=["GET"])
 def view():
 
-    contact = get_contacts()
     item = request.args.get('item', 'Tout')
+    page = request.args.get('page', 1)
     pager = dict()
-    contact_total = len(contact)
 
     if item != 'Tout':
+        contact = get_contacts(page=page, limit=item)
+        contact_total = int(contact['pager']['total'])
+
         try:
             item = int(item)
-            pager['current'] = int(request.args.get('page', 1))
-            pager['max'] = roundup(contact_total / item)
+            pager['current'] = int(contact['pager']['curent_page'])
+            pager['max'] = int(contact['pager']['max_page'])
             pager['min'] = 1
             pager['start'] = 1
             pager['end'] = pager['max']
@@ -46,16 +48,16 @@ def view():
                 if pager['end'] > pager['max']:
                     pager['end'] = pager['max']
                     pager['start'] = pager['end'] - 10
-            constact_start = pager['current'] * item - item
-            contact_end = pager['current'] * item
-            contact = contact[constact_start:contact_end]
 
-        except Exception:
+        except Exception as e:
             item = 'Tout'
+    else:
+        contact = get_contacts()
+        contact_total = contact['pager']
 
     return render_template(
         'contacts/index.html',
-        contacts=contact,
+        contacts=contact['list'],
         pager=pager,
         item=item,
         items=LIST_AVAILABLE,
@@ -63,7 +65,7 @@ def view():
         usr=session['user']
     ).encode('utf-8')
 
+
 @CONTACT.route('<uid>-view.html', methods=["GET"])
 def test_view(uid=None):
     return str(uid)
-    
