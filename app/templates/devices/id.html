@@ -8,19 +8,12 @@
                     <a href="{{url_for('.devices')}}" class="btn btn-link btn-block clearfix"><span class="pull-left fa fa-chevron-left"></span></a>
                 </td>
             </tr>
+            {%for key, value in device.iteritems()%}
             <tr>
-                <td>
-                    {% if device['state'] == 0%}
-                        <i class="fa fa-phone-square fa-2x text-success"></i>
-                    {% elif device['state'] == 5%}
-                        <i class="fa fa-phone-square fa-2x text-muted"></i>
-                    {% else %}
-                        <i class="fa fa-phone-time fa-2x text-muted"></i>
-                    {% endif %}
-                </td>
-                <td>{{device['extension']}}</td>
-                <td>{{device['state_desc']}}</td>
+                <td>{{key}}</td>
+                <td>{{value}}</td>
             </tr>
+            {%endfor%}
         </tbody>
     </table>
 </div>
