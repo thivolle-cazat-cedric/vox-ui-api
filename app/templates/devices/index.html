@@ -10,7 +10,7 @@
         <tbody>
             {% for d in devices%}
             <tr id="{{d['id']}}" {%if usr['internalExtension'] == d['extension']%}class="info"{%endif%}>
-                <td>
+                <td data-toggle="tooltip" title="{{d['state_desc']}}">
                     {% if d['state'] == 0%}
                         <i class="fa fa-phone-square fa-2x text-success"></i>
                     {% elif d['state'] == 5%}
