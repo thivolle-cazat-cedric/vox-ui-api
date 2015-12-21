@@ -12,17 +12,27 @@ function generate_call(exten){
         $.ajax({
             url: "/calls/generate",
             method: "POST",
-            dataType: "text/json",
             data: {'exten': exten},
+            beforeSend : function(){
+                toastr["info"]("Votre téléphone va sonner.", "Appel en cours")
+
+            },
             success: function(data, status) {
                 console.log(data)
-                toastr["success"]("Votre téléphone va sonner pour joindre le " + exten, "Numérotation en cours")
+                if (data.data.status === 1) {
+                    toastr["success"]("Votre téléphone va sonner pour joindre le " + exten, "Appel en cours")
+                } else if(data.data.status === 500){
+                    toastr["error"]("Vous avez rejetez l'appel vers : " + exten, "Appel rejeté")
+                }
             },
             error: function(xhr, state, data){
+                console.log(xhr)
+                console.log(state)
+                console.log(data)
                 if (xhr.status != 400) {
                     toastr["warning"]("Une erreur c'est produite, Veuillez résailler ultérieurement. (err : "+xhr.status+')', "Erreur")
                 } else {
-                    console.log('nop')
+                    toastr["warning"]("Une erreur c'est produite. (err : "+xhr.responseJSON.data.message+')', "Erreur")
                 }
             }
         });
@@ -39,10 +49,10 @@ $(document).ready(function() {
         "debug": false,
         "newestOnTop": false,
         "progressBar": true,
-        "positionClass": "toast-bottom-center",
+        "positionClass": "toast-bottom-right",
         "preventDuplicates": true,
         "onclick": null,
-        "showDuration": "300",
+        "showDuration": "100",
         "hideDuration": "1000",
         "timeOut": "7000",
         "extendedTimeOut": "1000",
@@ -62,9 +72,16 @@ $(document).ready(function() {
         return false;
     });
 
+    $('.callable').tooltip({
+        title : 'Click2call',
+        container: 'body',
+    })
+
     $(document).on('click', '.callable', function(event){
         if (filter_exten($(this).text()).length > 1) {
             generate_call($(this).text());
         };
-    })
+    });
+
+
 });

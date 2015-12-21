@@ -1,12 +1,22 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, division, unicode_literals
-from flask import Blueprint
-from flask.json import jsonify
+from flask import Blueprint, request, abort
+from flask.json import jsonify, loads
 from app import voxity
 
 CALLS = Blueprint('CALLS', __name__)
 
 
-@CALLS.route('generate', methods=["GET"])
+@CALLS.route('generate', methods=["POST"])
 def generate_call():
-    return jsonify({'data': voxity.call('0666951941')})
+    if 'exten' in request.form:
+        resp = voxity.call(request.form['exten'])
+        if resp.get('status', False):
+            if str(resp['status']) == "1":
+                return jsonify({'data': resp})
+            elif str(resp['status']) == "500":
+                return jsonify({'data': resp})
+            else:
+                return jsonify({'data': resp}), 400
+
+    abort(500)
