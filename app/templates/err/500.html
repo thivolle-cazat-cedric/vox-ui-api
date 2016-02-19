@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="col-xs-12">
+    <div class="jumbotron">
+        <div class="alert alert-danger" role="alert">
+            <h1 class=""><span class="text-danger"> &#x1f632; <small>Error</small> 500 </span></h1>
+        </div>
+        <p class="lead">
+            Can't load this resource <kbd>{{request.path}}</kbd>. sorry !. <br>
+            Look the top of the page, you see <span class="label label-danger" style="font-weight: 200;">αlpha</span> &#x1f609;
+        </p>
+        <p class="text-danger">
+            <a class="btn btn-lg btn-success" href="/" role="button">Go back to Home <i class="fa fa-home"></i></a>
+        </p>
+      </div>
+</div>
+{% endblock %}

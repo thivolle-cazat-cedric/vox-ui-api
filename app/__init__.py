@@ -2,7 +2,7 @@
 from __future__ import (
     absolute_import, division, print_function, unicode_literals
 )
-from flask import Flask, request, session, url_for, redirect
+from flask import Flask, request, session, url_for, redirect, abort, render_template
 from flask_oauthlib.client import OAuth
 
 from app.config import config_loader
@@ -94,4 +94,20 @@ def create_app(env='prod'):
     def refresh():
         voxity.refresh_token()
 
+
+    @app.route("/err/500", methods=["GET"])
+    def raise_error_500():
+        abort(500)
+
+    @app.errorhandler(500)
+    def err_500(e):
+        return render_template('err/500.html'), 500
+
+    @app.route("/err/404", methods=["GET"])
+    def raise_error_404():
+        abort(404)
+
+    @app.errorhandler(404)
+    def err_404(e):
+        return render_template('err/404.html'), 404
     return app
