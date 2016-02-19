@@ -33,13 +33,13 @@
                                  <span class="hidden-sm hidden-xs">Journal</span>
                             </a>
                         </li>
-                        <li role="presentation" {% if '/contacts/' in request.path %}class="active"{% endif %}>
+                        <li role="presentation" {% if url_for('CONTACT.view') in request.path %}class="active"{% endif %}>
                             <a href="{{url_for('CONTACT.view')}}">
                                 <i class="fa fa-book"></i>
                                 <span class="hidden-sm hidden-xs">Contacts</span>
                             </a>
                         </li>
-                        <li role="presentation" {% if '/devices/' in request.path %}class="active"{% endif %}>
+                        <li role="presentation" {% if url_for('DEVICES.devices') in request.path %}class="active"{% endif %}>
                             <a href="{{url_for('DEVICES.devices')}}">
                                 <i class="fa fa-group"></i>
                                 <span class="hidden-sm hidden-xs">Interne</span>
@@ -48,9 +48,9 @@
                         
                         <li ><a href="#" data-toggle="modal" data-target="#callModal"><i class="fa fa-phone"></i></a></li>
                         <li class="divider"></li>
-                        <li role="presentation"><a href="https://voxity.fr">Voxity</a></li>
-                        <li role="presentation"><a href="https://api.voxity.fr/doc">API</a></li>
-                        <li role="presentation"><a href="#"><span class="fa fa fa-github-square"></span></a></li>
+                        <li role="presentation"><a href="https://voxity.fr" target="_blank">Voxity</a></li>
+                        <li role="presentation"><a href="https://api.voxity.fr/doc" target="_blank">API</a></li>
+                        <li role="presentation"><a href="#" target="_blank"><span class="fa fa fa-github-square"></span></a></li>
                     </ul>
                 </nav>
                 <h3 class="text-muted">Vox-api</h3>

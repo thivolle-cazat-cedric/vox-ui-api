@@ -5,10 +5,29 @@ voxity_bind = None
 
 
 def connectors(client_id, token):
-    return OAuth2Session(
+    conn = OAuth2Session(
         client_id,
         token=token
     )
+
+    return conn
+
+
+def bind(client_id, **kwargs):
+    return OAuth2Session(client_id, **kwargs)
+
+
+def refresh_token():
+    # conn = connectors(current_app.config['CLIENT_ID'], session['oauth_token'])
+
+    # session['oauth_token'] = conn.refresh_token(
+    #     current_app.config['VOXITY']['request_token_url'],
+    #     **{
+    #         'client_id': current_app.config['CLIENT_ID'],
+    #         'client_secret': current_app.config['CLIENT_SECRET'],
+    #     }
+    # )
+    pass
 
 
 def pager_dict(headers):
@@ -55,3 +74,10 @@ def call(exten):
         data={'exten': exten}
     )
     return resp.json()
+
+
+def self_user():
+    conn = connectors(current_app.config['CLIENT_ID'], session['oauth_token'])
+    return conn.get(
+        current_app.config['BASE_URL'] + '/users/self'
+    ).json()

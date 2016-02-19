@@ -3,13 +3,15 @@ from __future__ import (
     absolute_import, division, print_function, unicode_literals
 )
 from flask import Flask, request, session, url_for, redirect
-from requests_oauthlib import OAuth2Session
+from flask_oauthlib.client import OAuth
 
 from app.config import config_loader
 from app.controllers.devices import DEVICES
 from app.controllers.contacts import CONTACT
 from app.controllers.calls import CALLS
-from app.voxity import voxity_bind
+from app import voxity
+
+oauth = OAuth()
 
 
 def create_app(env='prod'):
@@ -27,10 +29,8 @@ def create_app(env='prod'):
         static_folder="app/lib"
     )
     config_loader(app.config, env)
-    voxity_bind = OAuth2Session(
-        app.config['CLIENT_ID'],
-        redirect_uri=app.config['REDIRECT_URI']
-    )
+    oauth.init_app(app)
+
     app.register_blueprint(
         DEVICES,
         url_prefix='/devices/'
@@ -51,6 +51,10 @@ def create_app(env='prod'):
         Redirect the user/resource owner to the OAuth provider (i.e. Github)
         using an URL with a few key OAuth parameters.
         """
+        voxity_bind = voxity.bind(
+            app.config['CLIENT_ID'],
+            redirect_uri=app.config['REDIRECT_URI']
+        )
         authorization_url, state = voxity_bind.authorization_url(
             app.config['AUTHORIZATION_BASE_URL']
         )
@@ -65,7 +69,7 @@ def create_app(env='prod'):
         in the redirect URL. We will use that to obtain an access token.
         """
 
-        voxity_bind = OAuth2Session(
+        voxity_bind = voxity.bind(
             app.config['CLIENT_ID'],
             state=session['oauth_state'],
             redirect_uri=app.config['REDIRECT_URI']
@@ -75,14 +79,19 @@ def create_app(env='prod'):
             client_secret=app.config['CLIENT_SECRET'],
             authorization_response=request.url
         )
+
         session['oauth_token'] = token
 
-        voxity = OAuth2Session(
+        conn = voxity.connectors(
             app.config['CLIENT_ID'],
-            token=session['oauth_token']
+            session['oauth_token']
         )
-        session['user'] = voxity.get(app.config['BASE_URL'] + '/users/self').json()
-        print(url_for('DEVICES.devices'))
+        session['user'] = voxity.self_user()
+
         return redirect(url_for('DEVICES.devices'))
+
+    @app.before_request
+    def refresh():
+        voxity.refresh_token()
 
     return app

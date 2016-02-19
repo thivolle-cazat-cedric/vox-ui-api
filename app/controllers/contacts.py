@@ -2,7 +2,7 @@
 from __future__ import absolute_import, division, unicode_literals
 from flask import Blueprint, render_template, session, request
 from flask.json import jsonify
-from app.voxity import get_contacts
+from app.voxity import get_contacts, refresh_token
 from math import ceil
 
 
@@ -14,6 +14,9 @@ LIST_AVAILABLE = [5, 10, 25, 50, 100]
 def roundup(x):
     return int(ceil(x))
 
+@CONTACT.before_request
+def refresh():
+    refresh_token()
 
 @CONTACT.route('', methods=["GET"])
 def json_data():
