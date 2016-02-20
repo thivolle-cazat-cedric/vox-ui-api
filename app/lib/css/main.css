@@ -90,3 +90,8 @@ body {
     text-decoration: none;
     cursor: pointer;
 }.callable:hover {color: #428bca;}
+
+.nav img.img-vox-logo {
+    max-height: 16px;
+    width: auto;
+}
