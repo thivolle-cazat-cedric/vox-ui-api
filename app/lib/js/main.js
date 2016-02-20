@@ -14,15 +14,15 @@ function generate_call(exten){
             method: "POST",
             data: {'exten': exten},
             beforeSend : function(){
-                toastr["info"]("Votre téléphone va sonner.", "Appel en cours")
+                toastr["info"]("your phone will ring.", "Click2 to call", {timeOut: 3500})
 
             },
             success: function(data, status) {
                 console.log(data)
                 if (data.data.status === 1) {
-                    toastr["success"]("Votre téléphone va sonner pour joindre le " + exten, "Appel en cours")
+                    toastr["success"]("Call in progress to " + exten, "Click to call")
                 } else if(data.data.status === 500){
-                    toastr["error"]("Vous avez rejetez l'appel vers : " + exten, "Appel rejeté")
+                    toastr["error"]("You reject call to " + exten, "Click to call")
                 }
             },
             error: function(xhr, state, data){
@@ -30,14 +30,14 @@ function generate_call(exten){
                 console.log(state)
                 console.log(data)
                 if (xhr.status != 400) {
-                    toastr["warning"]("Une erreur c'est produite, Veuillez résailler ultérieurement. (err : "+xhr.status+')', "Erreur")
+                    toastr["warning"]("Unknow error durring click2call (err : "+xhr.status+')', "Error")
                 } else {
-                    toastr["warning"]("Une erreur c'est produite. (err : "+xhr.responseJSON.data.message+')', "Erreur")
+                    toastr["warning"]("Click to call error : "+xhr.responseJSON.data.message+')', "Error")
                 }
             }
         });
     } else {
-        toastr["error"]("Le numéro de téléphone [" + exten +"] n'est pas au bon format.", "Erreur")
+        toastr["error"]("The phone number [" + exten +"] is not coorectly formated.", "Error")
     }
 }
 
@@ -51,7 +51,7 @@ $(document).ready(function() {
         "closeButton": true,
         "debug": false,
         "newestOnTop": false,
-        "progressBar": true,
+        "progressBar": false,
         "positionClass": "toast-bottom-right",
         "preventDuplicates": true,
         "onclick": null,
@@ -87,34 +87,25 @@ $(document).ready(function() {
     });
 
     // socket.io
-    var socket = io('https://api.voxity.fr/', {
-        forceNew: true,
+    var socket = io.connect('https://api.voxity.fr/', {
         path:'/event/v1',
         query:"access_token=" + token
     });
 
-    socket.on('*', function(data){
-        console.log(data)
-    })
-
     socket.on('connected', function(data){
-        console.log('connected', data);
-    })
+        // console.log('connected', data);
+        
+        socket.on('channels.ringing', function(data){
+            console.log('toto')
+            toastr["info"]("from <strong>" + data['caller_name'] + "</strong> <"+data['caller_num']+">", "Icomming Call")
+        })
 
-    socket.on('error', function(data){
-        console.log('errors', data);
+    
     })
+    
+    socket.onevent = function (packet) {
+        console.log(packet)
+    }
 
-    socket.on('calls.bridged', function(data){
-        console.log('new_state.ringing', data);
-    })
-
-    socket.on('calls.ringing', function(data){
-        console.log('calls.ringing', data);
-    })
-
-    socket.on('calls.hangup', function(data){
-        console.log('calls.hangup', data);
-    })
 
 });
