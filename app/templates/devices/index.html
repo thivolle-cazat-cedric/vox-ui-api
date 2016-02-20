@@ -13,6 +13,10 @@
                 <td data-toggle="tooltip" title="{{d['state_desc']}}">
                     {% if d['state'] == 0%}
                         <i class="fa fa-phone-square fa-2x text-success"></i>
+                    {% elif d['state'] == 2%}
+                        <i class="fa fa-phone-square fa-2x text-danger animated infinite flash"></i>
+                    {% elif d['state'] == 3%}
+                        <i class="fa fa-phone-square fa-2x text-danger"></i>
                     {% elif d['state'] == 5%}
                         <i class="fa fa-phone-square fa-2x text-muted"></i>
                     {% else %}
@@ -28,4 +32,8 @@
         </tbody>
     </table>
 </div>
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{url_for('static', filename='res/animate.min.css')}}">
 {% endblock %}
