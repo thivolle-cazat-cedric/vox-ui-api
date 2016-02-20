@@ -125,3 +125,30 @@ def logout():
     session['user'] = {}
     session['oauth_token'] = ""
     return resp
+
+
+def get_calls_log(page=None, limit=None):
+    conn = connectors(current_app.config['CLIENT_ID'], session['oauth_token'])
+    try:
+        resp = conn.get(
+            current_app.config['BASE_URL'] + '/calls/logs',
+            params={
+                'page': page,
+                'limit': limit
+            }
+        )
+    except TokenExpiredError:
+        refresh_token()
+        resp = conn.get(
+            current_app.config['BASE_URL'] + '/calls/logs',
+            params={
+                'page': page,
+                'limit': limit
+            }
+        )
+
+    data = {}
+    data['list'] = resp.json()['result']
+    data['pager'] = pager_dict(resp.headers)
+
+    return data

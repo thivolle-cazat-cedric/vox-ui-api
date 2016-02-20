@@ -46,6 +46,10 @@ def create_app(env='prod'):
         controllers.ACCOUNT,
         url_prefix='/account/'
     )
+    app.register_blueprint(
+        controllers.CALLS_LOG,
+        url_prefix='/call_log/'
+    )
 
     @app.route("/")
     def index():
