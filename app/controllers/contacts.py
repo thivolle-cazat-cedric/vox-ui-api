@@ -14,10 +14,6 @@ LIST_AVAILABLE = [5, 10, 25, 50, 100]
 def roundup(x):
     return int(ceil(x))
 
-@CONTACT.before_request
-def refresh():
-    refresh_token()
-
 @CONTACT.route('all.json', methods=["GET"])
 def json_data():
     return jsonify({'data': get_contacts()})
