@@ -18,7 +18,6 @@ function generate_call(exten){
 
             },
             success: function(data, status) {
-                console.log(data)
                 if (data.data.status === 1) {
                     toastr["success"]("Call in progress to " + exten, "Click to call")
                 } else if(data.data.status === 500){
@@ -26,9 +25,6 @@ function generate_call(exten){
                 }
             },
             error: function(xhr, state, data){
-                console.log(xhr)
-                console.log(state)
-                console.log(data)
                 if (xhr.status != 400) {
                     toastr["warning"]("Unknow error durring click2call (err : "+xhr.status+')', "Error")
                 } else {
@@ -93,19 +89,17 @@ $(document).ready(function() {
     });
 
     socket.on('connected', function(data){
-        // console.log('connected', data);
-        
         socket.on('channels.ringing', function(data){
-            console.log('toto')
             toastr["info"]("from <strong>" + data['caller_name'] + "</strong> <"+data['caller_num']+">", "Icomming Call")
         })
 
     
     })
     
-    socket.onevent = function (packet) {
-        console.log(packet)
-    }
+    // to show all event
+    // socket.onevent = function (packet) {
+    //     console.log(packet)
+    // }
 
 
 });
