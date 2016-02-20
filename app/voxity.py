@@ -67,7 +67,7 @@ def get_device(d_id):
 
 
 def get_contacts(page=None, limit=None):
-    conn = current_app.config['BASE_URL'] + '/logout'(current_app.config['CLIENT_ID'], session['oauth_token'])
+    conn = connectors(current_app.config['CLIENT_ID'], session['oauth_token'])
     try:
         resp = conn.get(
             current_app.config['BASE_URL'] + '/contacts',
