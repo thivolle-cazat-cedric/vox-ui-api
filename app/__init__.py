@@ -110,4 +110,5 @@ def create_app(env='prod'):
     @app.errorhandler(404)
     def err_404(e):
         return render_template('err/404.html'), 404
+
     return app

@@ -18,15 +18,15 @@ def bind(client_id, **kwargs):
 
 
 def refresh_token():
-    # conn = connectors(current_app.config['CLIENT_ID'], session['oauth_token'])
+    conn = connectors(current_app.config['CLIENT_ID'], session['oauth_token'])
 
-    # session['oauth_token'] = conn.refresh_token(
-    #     current_app.config['VOXITY']['request_token_url'],
-    #     **{
-    #         'client_id': current_app.config['CLIENT_ID'],
-    #         'client_secret': current_app.config['CLIENT_SECRET'],
-    #     }
-    # )
+    session['oauth_token'] = conn.refresh_token(
+        current_app.config['VOXITY']['request_token_url'],
+        **{
+            'client_id': current_app.config['CLIENT_ID'],
+            'client_secret': current_app.config['CLIENT_SECRET'],
+        }
+    )
     pass
 
 
