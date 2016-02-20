@@ -101,6 +101,11 @@ def create_app(env='prod'):
     def err_500(e):
         return render_template('err/500.html'), 500
 
+    if not app.config['DEBUG']:
+        @app.errorhandler(Exception)
+        def err_500_all(e):
+            return render_template('err/500.html'), 500
+
     @app.route("/err/404", methods=["GET"])
     def raise_error_404():
         abort(404)
