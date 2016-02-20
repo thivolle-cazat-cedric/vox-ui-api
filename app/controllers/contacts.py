@@ -18,19 +18,20 @@ def roundup(x):
 def refresh():
     refresh_token()
 
-@CONTACT.route('', methods=["GET"])
+@CONTACT.route('all.json', methods=["GET"])
 def json_data():
     return jsonify({'data': get_contacts()})
 
 
-@CONTACT.route('view.html', methods=["GET"])
+@CONTACT.route('', methods=["GET"])
+@CONTACT.route('index.html', methods=["GET"])
 def view():
 
-    item = request.args.get('item', 'Tout')
+    item = request.args.get('item', 25)
     page = request.args.get('page', 1)
     pager = dict()
 
-    if item != 'Tout':
+    if item != 'all':
         contact = get_contacts(page=page, limit=item)
         contact_total = int(contact['pager']['total'])
 
@@ -54,7 +55,7 @@ def view():
 
         except Exception:
             contact = get_contacts()
-            item = 'Tout'
+            item = 'all'
     else:
         contact = get_contacts()
         contact_total = contact['pager']
