@@ -8,8 +8,6 @@ from app.voxity import get_devices, get_device, refresh_token
 DEVICES = Blueprint('DEVICES', __name__)
 
 
-
-
 @DEVICES.route('', methods=["GET"])
 def devices_json():
     data = get_devices()

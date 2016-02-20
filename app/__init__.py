@@ -92,10 +92,6 @@ def create_app(env='prod'):
 
         return redirect(url_for('DEVICES.devices'))
 
-    @app.before_request
-    def refresh():
-        voxity.refresh_token()
-
 
     @app.route("/err/500", methods=["GET"])
     def raise_error_500():
