@@ -76,6 +76,10 @@ body {
   .jumbotron {
     border-bottom: 0;
   }
+
+  .nav h3{
+    width: 100%;
+  }
 }
 
  .nav.nav-pills .divider{
@@ -94,4 +98,7 @@ body {
 .nav img.img-vox-logo {
     max-height: 16px;
     width: auto;
+}
+.header .dropdown .fa-stack {
+    padding-top: 1.5px
 }

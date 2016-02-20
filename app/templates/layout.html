@@ -25,10 +25,35 @@
         
         <div class="container">
             <div class="header clearfix">
+                <h3 class="text-muted">
+                    Vox-ui-api
+                    <sup class="small">
+                        <span class="label label-danger" style="font-weight: 200;">&alpha;lpha</span>
+                    </sup>
+                    <div class="dropdown pull-right">
+                        <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dd-user" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <span data-toggle="tooltip" data-placement="bottom" title="{{session['user']['internalExtension']}}">{{session['user']['name']}}</span> 
+                            <span class="fa-stack">
+                                <i class="fa fa-square-o fa-stack-2x"></i>
+                                <i class="fa fa-user fa-stack-1x"></i>
+                            </span>
+                            <i class="fa fa-angle-down"></i>
+                        </button>
+                      <ul class="dropdown-menu" aria-labelledby="dd-user">
+                        <li {% if url_for('ACCOUNT.me_view') in request.path %}class="active"{% endif %}><a href="{{url_for('ACCOUNT.me_view')}}">
+                            <i class="fa fa-user fa-fw"></i> Account
+                        </a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="{{url_for('ACCOUNT.logout_me')}}">
+                            <i class="fa fa-power-off text-danger fa-fw"></i> Logout
+                        </a></li>
+                      </ul>
+                    </div>
+                </h3>
                 <nav>
-                    <ul class="nav nav-pills pull-right">
+                    <ul class="nav nav-pills pull-left">
                         <li class="disabled">
-                            <a href="">
+                            <a href="#">
                                 <i class="fa fa-newspaper-o"></i> 
                                  <span class="hidden-sm hidden-xs">Journal</span>
                             </a>
@@ -45,9 +70,9 @@
                                 <span class="hidden-sm hidden-xs">Interne</span>
                             </a>
                         </li>
-                        
                         <li ><a href="#" data-toggle="modal" data-target="#callModal"><i class="fa fa-phone"></i></a></li>
-                        <li class="divider"></li>
+                    </ul>
+                    <ul class="nav nav-pills pull-right">
                         <li role="presentation"><a href="https://voxity.fr" target="_blank" data-toggle="tooltip" title="Voxity" data-placement="bottom">
                             <!-- Voxity -->
                             <img class="img-vox-logo" src="{{url_for('static', filename='img/voxity-logo-75.png')}}" alt="voxity-logo">
@@ -56,12 +81,7 @@
                         <li role="presentation" class="disabled"><a href="#" target="_blank"><span class="fa fa fa-github-square"></span></a></li>
                     </ul>
                 </nav>
-                <h3 class="text-muted">
-                    Vox-ui-api
-                    <sup class="small">
-                        <span class="label label-danger" style="font-weight: 200;">&alpha;lpha</span>
-                    </sup>
-                </h3>
+                
             </div>
             <div class="row">
                 {% block body %}{% endblock %}

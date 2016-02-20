@@ -24,10 +24,9 @@ def refresh_token():
         current_app.config['VOXITY']['request_token_url'],
         **{
             'client_id': current_app.config['CLIENT_ID'],
-            'client_secret': current_app.config['CLIENT_SECRET'],
+            'client_secret': current_app.config['CLIENT_SECRET']
         }
     )
-    pass
 
 
 def pager_dict(headers):
@@ -36,7 +35,6 @@ def pager_dict(headers):
         'curent_page': headers.get('x-paging-page', 1),
         'max_page': headers.get('x-paging-total-pages', None)
     }
-
 
 def get_devices():
     conn = connectors(current_app.config['CLIENT_ID'], session['oauth_token'])
@@ -53,7 +51,7 @@ def get_device(d_id):
 
 
 def get_contacts(page=None, limit=None):
-    conn = connectors(current_app.config['CLIENT_ID'], session['oauth_token'])
+    conn = current_app.config['BASE_URL'] + '/logout'(current_app.config['CLIENT_ID'], session['oauth_token'])
     resp = conn.get(
         current_app.config['BASE_URL'] + '/contacts',
         params={
@@ -81,3 +79,11 @@ def self_user():
     return conn.get(
         current_app.config['BASE_URL'] + '/users/self'
     ).json()
+
+
+def logout():
+    conn = connectors(current_app.config['CLIENT_ID'], session['oauth_token'])
+    resp = conn.get("https://api.voxity.fr/api/v1/logout")
+    session['user'] = {}
+    session['oauth_token'] = ""
+    return resp

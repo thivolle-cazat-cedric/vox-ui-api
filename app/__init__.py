@@ -6,9 +6,7 @@ from flask import Flask, request, session, url_for, redirect, abort, render_temp
 from flask_oauthlib.client import OAuth
 
 from app.config import config_loader
-from app.controllers.devices import DEVICES
-from app.controllers.contacts import CONTACT
-from app.controllers.calls import CALLS
+from app import controllers
 from app import voxity
 
 oauth = OAuth()
@@ -32,17 +30,21 @@ def create_app(env='prod'):
     oauth.init_app(app)
 
     app.register_blueprint(
-        DEVICES,
+        controllers.DEVICES,
         url_prefix='/devices/'
     )
     app.register_blueprint(
-        CONTACT,
+        controllers.CONTACT,
         url_prefix='/contacts/'
     )
 
     app.register_blueprint(
-        CALLS,
+        controllers.CALLS,
         url_prefix='/calls/'
+    )
+    app.register_blueprint(
+        controllers.ACCOUNT,
+        url_prefix='/account/'
     )
 
     @app.route("/")
