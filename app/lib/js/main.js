@@ -86,5 +86,35 @@ $(document).ready(function() {
         };
     });
 
+    // socket.io
+    var socket = io('https://api.voxity.fr/', {
+        forceNew: true,
+        path:'/event/v1',
+        query:"access_token=" + token
+    });
+
+    socket.on('*', function(data){
+        console.log(data)
+    })
+
+    socket.on('connected', function(data){
+        console.log('connected', data);
+    })
+
+    socket.on('error', function(data){
+        console.log('errors', data);
+    })
+
+    socket.on('calls.bridged', function(data){
+        console.log('new_state.ringing', data);
+    })
+
+    socket.on('calls.ringing', function(data){
+        console.log('calls.ringing', data);
+    })
+
+    socket.on('calls.hangup', function(data){
+        console.log('calls.hangup', data);
+    })
 
 });
