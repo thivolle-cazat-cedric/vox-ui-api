@@ -92,8 +92,6 @@ $(document).ready(function() {
         socket.on('channels.ringing', function(data){
             toastr["info"]("from <strong>" + data['caller_name'] + "</strong> <"+data['caller_num']+">", "Icomming Call")
         })
-
-    
     })
     
     // to show all event
