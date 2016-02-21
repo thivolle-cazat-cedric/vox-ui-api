@@ -3,8 +3,8 @@ from __future__ import absolute_import, division, unicode_literals
 from flask import Blueprint, render_template, session, request, redirect, url_for
 from flask.json import jsonify
 from app.voxity import get_contacts, refresh_token
+from app.controllers import is_auth
 from math import ceil
-
 
 CONTACT = Blueprint('CONTACT', __name__)
 
@@ -15,12 +15,14 @@ def roundup(x):
     return int(ceil(x))
 
 @CONTACT.route('all.json', methods=["GET"])
+@is_auth
 def json_data():
     return jsonify({'data': get_contacts()})
 
 
 @CONTACT.route('', methods=["GET"])
 @CONTACT.route('index.html', methods=["GET"])
+@is_auth
 def view():
 
     item = request.args.get('item', 25)
@@ -68,10 +70,12 @@ def view():
 
 
 @CONTACT.route('<uid>-view.html', methods=["GET"])
+@is_auth
 def test_view(uid=None):
     return str(uid)
 
 @CONTACT.route('search.html', methods=['GET'])
+@is_auth
 def search():
     contact = list()
     form_value = dict()

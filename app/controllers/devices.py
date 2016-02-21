@@ -3,18 +3,21 @@ from __future__ import absolute_import, division, unicode_literals
 from flask import Blueprint, render_template, session
 from flask.json import jsonify
 from app.voxity import get_devices, get_device, refresh_token
+from app.controllers import is_auth
 
 
 DEVICES = Blueprint('DEVICES', __name__)
 
 
 @DEVICES.route('', methods=["GET"])
+@is_auth
 def devices_json():
     data = get_devices()
     return jsonify({'data': data})
 
 
 @DEVICES.route('view.html', methods=["GET"])
+@is_auth
 def devices():
 
     data = get_devices()

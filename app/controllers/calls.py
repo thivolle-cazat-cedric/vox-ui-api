@@ -2,12 +2,15 @@
 from __future__ import absolute_import, division, unicode_literals
 from flask import Blueprint, request, abort
 from flask.json import jsonify, loads
+from app.controllers import is_auth
 from app import voxity
+
 
 CALLS = Blueprint('CALLS', __name__)
 
 
 @CALLS.route('generate', methods=["POST"])
+@is_auth
 def generate_call():
     if 'exten' in request.form:
         resp = voxity.call(request.form['exten'])

@@ -3,6 +3,7 @@ from __future__ import absolute_import, division, unicode_literals
 from flask import Blueprint, render_template, session, request
 from flask.json import jsonify
 from app.voxity import get_calls_log
+from app.controllers import is_auth
 
 
 CALLS_LOG = Blueprint('CALLS_LOG', __name__)
@@ -11,11 +12,13 @@ LIST_AVAILABLE = [5, 10, 25, 50, 100]
 
 
 @CALLS_LOG.route('all.json', methods=["GET"])
+@is_auth
 def json_data():
     return jsonify({'data': get_calls_log()})
 
 @CALLS_LOG.route('', methods=["GET"])
 @CALLS_LOG.route('index.html', methods=["GET"])
+@is_auth
 def view():
 
     item = request.args.get('item', 25)
