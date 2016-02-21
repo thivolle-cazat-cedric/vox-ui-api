@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, division, unicode_literals
 from flask import Blueprint, request, abort
-from flask.json import jsonify, loads
+from flask.json import jsonify
 from app.controllers import is_auth
 from app import voxity
 

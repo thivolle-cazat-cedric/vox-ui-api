@@ -13,6 +13,7 @@ def token_is_expired():
 
     return token_expire_date <= now
 
+
 def connectors(**kwargs):
 
     token = kwargs.get('token', session['oauth_token'])

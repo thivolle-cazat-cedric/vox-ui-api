@@ -7,10 +7,9 @@ from app.voxity import self_user, logout, refresh_token
 from app.controllers import is_auth
 
 
-
 ACCOUNT = Blueprint('ACCOUNT', __name__)
-
 LIST_AVAILABLE = [5, 10, 25, 50, 100]
+
 
 def refresh_user_session():
     try:
