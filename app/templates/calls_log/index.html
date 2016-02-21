@@ -71,10 +71,16 @@
                     <span aria-hidden="true">&laquo;</span>
                   </a>
                 </li>
+                {% if pager['min'] < pager['start'] %}
+                <li class="disabled"><a >...</a></li>
+                {%endif%}
                 </li>
                 {% for i in range(pager['start'], pager['end'] + 1) %}
                     <li {%if i == pager['current']%}class="active"{%endif%}><a href="?item={{item}}&page={{i}}">{{i}}</a></li>
                 {%endfor%}
+                {% if pager['max'] > pager['end'] %}
+                <li class="disabled"><a >...</a></li>
+                {%endif%}
                 <li>
                   <a href="?item={{item}}&page={{pager['max']}}">
                     <span aria-hidden="{{true}}">&raquo;</span>
