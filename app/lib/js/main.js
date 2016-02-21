@@ -90,7 +90,10 @@ $(document).ready(function() {
 
     socket.on('connected', function(data){
         socket.on('channels.ringing', function(data){
-            toastr["info"]("from <strong>" + data['caller_name'] + "</strong> <"+data['caller_num']+">", "Icomming Call")
+            var mess = "from <strong>" + data['caller_name'] + "</strong> <"+data['caller_num']+">"
+            mess += "<br>"
+            mess += '<a href="https://www.google.fr/#q='+data['caller_num']+'" target="_blank" class="btn btn-link"><i class="fa fa-share-square-o fa-fw"></i> Google search</a>'
+            toastr["info"](mess, "Icomming Call")
         })
     })
     
