@@ -1,33 +1,36 @@
 from requests_oauthlib import OAuth2Session
-from oauthlib.oauth2 import TokenExpiredError
 from flask import current_app, session
-
+from datetime import datetime
 voxity_bind = None
 
 
-def connectors(client_id, token):
-    conn = OAuth2Session(
-        client_id,
+def connectors(**kwargs):
+    now = datetime.now()
+    token_expire_date = datetime.fromtimestamp(session['oauth_token']['expires_at'])
+    token = kwargs.get('token', session['oauth_token'])
+
+    if token_expire_date <= now:
+        conn = OAuth2Session(current_app.config['CLIENT_ID'], token=token)
+        session['oauth_token'] = conn.refresh_token(
+            current_app.config['VOXITY']['request_token_url'],
+            **{
+                'client_id': current_app.config['CLIENT_ID'],
+                'client_secret': current_app.config['CLIENT_SECRET']
+            }
+        )
+        token = session['oauth_token']
+    return OAuth2Session(
+        current_app.config['CLIENT_ID'],
         token=token
     )
 
-    return conn
 
-
-def bind(client_id, **kwargs):
-    return OAuth2Session(client_id, **kwargs)
+def bind(**kwargs):
+    return OAuth2Session(current_app.config['CLIENT_ID'], **kwargs)
 
 
 def refresh_token():
-    conn = connectors(current_app.config['CLIENT_ID'], session['oauth_token'])
-
-    session['oauth_token'] = conn.refresh_token(
-        current_app.config['VOXITY']['request_token_url'],
-        **{
-            'client_id': current_app.config['CLIENT_ID'],
-            'client_secret': current_app.config['CLIENT_SECRET']
-        }
-    )
+    return connectors()
 
 
 def pager_dict(headers):
@@ -38,53 +41,23 @@ def pager_dict(headers):
     }
 
 def get_devices():
-    conn = connectors(current_app.config['CLIENT_ID'], session['oauth_token'])
-    try:
-        resp = conn.get(
-            current_app.config['BASE_URL'] + '/devices/'
-        )
-    except TokenExpiredError:
-        refresh_token()
-        resp = conn.get(
-            current_app.config['BASE_URL'] + '/devices/'
-        )
-    return resp.json()['data']
+    return connectors().get(current_app.config['BASE_URL'] + '/devices/').json()['data']
 
 
 def get_device(d_id):
-    conn = connectors(current_app.config['CLIENT_ID'], session['oauth_token'])
-    try:
-        resp = conn.get(
-            current_app.config['BASE_URL'] + '/devices/' + d_id
-        )
-    except TokenExpiredError, e:
-        refresh_token()
-        resp = conn.get(
-            current_app.config['BASE_URL'] + '/devices/' + d_id
-        )
-
-    return resp.json()['data']
+    return connectors().get(
+        current_app.config['BASE_URL'] + '/devices/' + d_id
+    ).json()['data']
 
 
 def get_contacts(page=None, limit=None):
-    conn = connectors(current_app.config['CLIENT_ID'], session['oauth_token'])
-    try:
-        resp = conn.get(
-            current_app.config['BASE_URL'] + '/contacts',
-            params={
-                'page': page,
-                'limit': limit
-            }
-        )
-    except TokenExpiredError:
-        refresh_token()
-        resp = conn.get(
-            current_app.config['BASE_URL'] + '/contacts',
-            params={
-                'page': page,
-                'limit': limit
-            }
-        )
+    resp = connectors().get(
+        current_app.config['BASE_URL'] + '/contacts',
+        params={
+            'page': page,
+            'limit': limit
+        }
+    )
     data = {}
     data['list'] = resp.json()['result']
     data['pager'] = pager_dict(resp.headers)
@@ -92,60 +65,34 @@ def get_contacts(page=None, limit=None):
 
 
 def call(exten):
-    conn = connectors(current_app.config['CLIENT_ID'], session['oauth_token'])
-    try:
-        resp = conn.post(
-            current_app.config['BASE_URL'] + '/channels',
-            data={'exten': exten}
-        )
-    except TokenExpiredError:
-        refresh_token() 
-        resp = conn.post(
-            current_app.config['BASE_URL'] + '/channels',
-            data={'exten': exten}
-        )
-    return resp.json()
+    return connectors().post(
+        current_app.config['BASE_URL'] + '/channels',
+        data={'exten': exten}
+    ).json()
 
 
 def self_user():
-    conn = connectors(current_app.config['CLIENT_ID'], session['oauth_token'])
-    try:
-        return conn.get(
-            current_app.config['BASE_URL'] + '/users/self'
-        ).json()
-    except TokenExpiredError:
-        refresh_token()
-        return conn.get(
+    return connectors().get(
             current_app.config['BASE_URL'] + '/users/self'
         ).json()
 
 def logout():
-    conn = connectors(current_app.config['CLIENT_ID'], session['oauth_token'])
-    resp = conn.get(current_app.config['BASE_URL'] + "/logout")
+    resp = connectors().get(current_app.config['BASE_URL'] + "/logout")
     session['user'] = {}
-    session['oauth_token'] = ""
+    session['oauth_token'] = {}
+    session['oauth_state'] = {}
+
     return resp
 
 
 def get_calls_log(page=None, limit=None):
-    conn = connectors(current_app.config['CLIENT_ID'], session['oauth_token'])
-    try:
-        resp = conn.get(
-            current_app.config['BASE_URL'] + '/calls/logs',
-            params={
-                'page': page,
-                'limit': limit
-            }
-        )
-    except TokenExpiredError:
-        refresh_token()
-        resp = conn.get(
-            current_app.config['BASE_URL'] + '/calls/logs',
-            params={
-                'page': page,
-                'limit': limit
-            }
-        )
+    resp = connectors().get(
+        current_app.config['BASE_URL'] + '/calls/logs',
+        params={
+            'page': page,
+            'limit': limit
+        }
+    )
 
     data = {}
     data['list'] = resp.json()['result']

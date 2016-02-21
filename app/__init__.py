@@ -4,6 +4,7 @@ from __future__ import (
 )
 from flask import Flask, request, session, url_for, redirect, abort, render_template
 from flask_oauthlib.client import OAuth
+from datetime import datetime
 
 from app.config import config_loader
 from app import controllers
@@ -51,20 +52,39 @@ def create_app(env='prod'):
         url_prefix='/call_log/'
     )
 
+    @app.route("/raise")
+    def show_raise():
+        raise Exception
+
+    @app.route("/oauth_info")
+    def show_oath():
+        expired = datetime.fromtimestamp(session['oauth_token']['expires_at'])
+        return """
+        state : {0}<br>
+        token :{1}<br>
+        expired at : {2}
+        """.format(
+            session['oauth_state'],
+            session['oauth_token'],
+            expired
+        )
+
     @app.route("/")
     def index():
         """Step 1: User Authorization.
         Redirect the user/resource owner to the OAuth provider (i.e. Github)
         using an URL with a few key OAuth parameters.
         """
-        voxity_bind = voxity.bind(
-            app.config['CLIENT_ID'],
-            redirect_uri=app.config['REDIRECT_URI']
-        )
+        session['user'] = {}
+        session['oauth_token'] = {}
+
+        voxity_bind = voxity.bind(redirect_uri=app.config['REDIRECT_URI'])
+
         authorization_url, state = voxity_bind.authorization_url(
             app.config['AUTHORIZATION_BASE_URL']
         )
         session['oauth_state'] = state
+        session['authorization_url'] = authorization_url
         return redirect(authorization_url)
 
     @app.route("/callback", methods=["GET"])
@@ -76,7 +96,6 @@ def create_app(env='prod'):
         """
 
         voxity_bind = voxity.bind(
-            app.config['CLIENT_ID'],
             state=session['oauth_state'],
             redirect_uri=app.config['REDIRECT_URI']
         )
@@ -88,10 +107,7 @@ def create_app(env='prod'):
 
         session['oauth_token'] = token
 
-        conn = voxity.connectors(
-            app.config['CLIENT_ID'],
-            session['oauth_token']
-        )
+        conn = voxity.connectors()
         session['user'] = voxity.self_user()
 
         return redirect(url_for('DEVICES.devices'))
