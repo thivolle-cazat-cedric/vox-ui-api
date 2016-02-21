@@ -6,14 +6,18 @@ from datetime import datetime
 voxity_bind = None
 
 
-def connectors(**kwargs):
+def token_is_expired():
     now = datetime.now()
     token_expire_date = datetime.fromtimestamp(
-        session['oauth_token']['expires_at']
-    )
+        session['oauth_token']['expires_at'])
+
+    return token_expire_date <= now
+
+def connectors(**kwargs):
+
     token = kwargs.get('token', session['oauth_token'])
 
-    if token_expire_date <= now:
+    if token_is_expired():
         conn = OAuth2Session(current_app.config['CLIENT_ID'], token=token)
         session['oauth_token'] = conn.refresh_token(
             current_app.config['VOXITY']['request_token_url'],
