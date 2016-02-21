@@ -67,7 +67,6 @@ def get_contacts(page=None, limit=None, name=None):
             'cn': name,
         }
     )
-    print(resp)
     data = {}
     data['list'] = resp.json()['result']
     data['pager'] = pager_dict(resp.headers)
