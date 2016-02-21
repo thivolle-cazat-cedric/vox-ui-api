@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, division, unicode_literals
 from functools import wraps
-from flask import session, url_for, redirect, abort
+from flask import session, url_for, redirect
 from app.voxity import token_is_expired
 
+
+def clear_session():
+    for k in ['authorization_url', 'oauth_state', 'oauth_token', 'user']:
+        session.pop(k, None)
 
 def is_auth(function):
     @wraps(function)
@@ -16,14 +20,18 @@ def is_auth(function):
         '''
 
         if 'oauth_token' not in session:
+            clear_session()
             return redirect(url_for('index'))
 
         if 'access_token' not in session['oauth_token']:
-            try:
-                if token_is_expired():
-                    return redirect(url_for('index'))
-            except Exception:
-                return redirect(url_for('index'))
+            clear_session()
+            return redirect(url_for('index'))
+
+        try:
+            token_is_expired()
+        except Exception:
+            clear_session()
+            return redirect(url_for('index'))
 
         return function(*args, **kwargs)
 

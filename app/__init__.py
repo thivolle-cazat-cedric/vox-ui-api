@@ -12,7 +12,6 @@ from app import voxity
 
 oauth = OAuth()
 
-
 def create_app(env='prod'):
     """
     Initialise l'application (configuration, blueprints, base de données, ...)
@@ -55,19 +54,6 @@ def create_app(env='prod'):
     @app.route("/raise")
     def show_raise():
         raise Exception
-
-    @app.route("/oauth_info")
-    def show_oath():
-        expired = datetime.fromtimestamp(session['oauth_token']['expires_at'])
-        return """
-        state : {0}<br>
-        token :{1}<br>
-        expired at : {2}
-        """.format(
-            session['oauth_state'],
-            session['oauth_token'],
-            expired
-        )
 
     @app.route("/")
     def index():
@@ -121,10 +107,6 @@ def create_app(env='prod'):
     def err_500(e):
         return render_template('err/500.html'), 500
 
-    if not app.config['DEBUG']:
-        @app.errorhandler(Exception)
-        def err_500_all(e):
-            return render_template('err/500.html'), 500
 
     @app.route("/err/404", methods=["GET"])
     def raise_error_404():
@@ -133,5 +115,24 @@ def create_app(env='prod'):
     @app.errorhandler(404)
     def err_404(e):
         return render_template('err/404.html'), 404
+
+
+    if not app.config['DEBUG']:
+        @app.errorhandler(Exception)
+        def err_500_all(e):
+            return render_template('err/500.html'), 500
+    else:
+        @app.route("/oauth_info")
+        def show_oath():
+            expired = datetime.fromtimestamp(session['oauth_token']['expires_at'])
+            return """
+            state : {0}<br>
+            token :{1}<br>
+            expired at : {2}
+            """.format(
+                session['oauth_state'],
+                session['oauth_token'],
+                expired
+            )
 
     return app

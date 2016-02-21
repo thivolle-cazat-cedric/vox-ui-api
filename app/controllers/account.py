@@ -4,7 +4,7 @@ from oauthlib.oauth2 import TokenExpiredError
 from flask import Blueprint, render_template, session, abort
 from flask.json import jsonify
 from app.voxity import self_user, logout, refresh_token
-from app.controllers import is_auth
+from app.controllers import is_auth, clear_session
 
 
 ACCOUNT = Blueprint('ACCOUNT', __name__)
@@ -39,4 +39,5 @@ def me_view():
 @is_auth
 def logout_me():
     logout()
+    clear_session()
     return "ok log out"
