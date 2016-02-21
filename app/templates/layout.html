@@ -54,13 +54,13 @@
                 </h3>
                 <nav>
                     <ul class="nav nav-pills pull-left">
-                        <li {% if url_for('CALLS_LOG.view') in request.path %}class="active"{% endif %}>
+                        <li {% if '/'.join((url_for('CALLS_LOG.view').split('/')[0:-1])) in request.path %}class="active"{% endif %}>
                             <a href="{{url_for('CALLS_LOG.view')}}">
                                 <i class="fa fa-newspaper-o"></i> 
                                  <span class="hidden-sm hidden-xs">Journal</span>
                             </a>
                         </li>
-                        <li role="presentation" {% if url_for('CONTACT.view') in request.path %}class="active"{% endif %}>
+                        <li role="presentation" {% if '/'.join((url_for('CONTACT.view').split('/')[0:-1])) in request.path %}class="active"{% endif %}>
                             <a href="{{url_for('CONTACT.view')}}">
                                 <i class="fa fa-book"></i>
                                 <span class="hidden-sm hidden-xs">Contacts</span>
