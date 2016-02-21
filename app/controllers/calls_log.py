@@ -57,5 +57,5 @@ def view():
         pager=pager,
         item=item,
         items=LIST_AVAILABLE,
-        contact_total=log_total,
+        log_total=log_total,
     ).encode('utf-8')

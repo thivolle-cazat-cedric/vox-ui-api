@@ -39,6 +39,28 @@
                 </tr>
                 {% endfor %}
             </tbody>
+            <tfoot>
+                <tr class="active">
+                    <td>
+                        {% if  item != 'all' %}
+                            <strong>view</strong> : 
+                            {{(pager['current'] * item ) - item + 1}} - 
+                            {% if pager['current'] * item < log_total%}
+                                {{pager['current'] * item}}
+                            {%else%}
+                                {{log_total}}
+                            {% endif %}
+
+                        {% endif %}
+                    </td>
+                    <td colspan="2" class="text-right">
+                        <strong>Total</strong>
+                    </td>
+                    <td>
+                        {{log_total}}
+                    </td>
+                </tr>
+            </tfoot>
         </table>        
     </div>
     {% if item != 'all'%}
