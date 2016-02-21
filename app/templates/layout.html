@@ -42,7 +42,7 @@
                             <i class="fa fa-angle-down"></i>
                         </button>
                       <ul class="dropdown-menu" aria-labelledby="dd-user">
-                        <li {% if url_for('ACCOUNT.me_view') in request.path %}class="active"{% endif %}><a href="{{url_for('ACCOUNT.me_view')}}">
+                        <li {% if '/'.join((url_for('ACCOUNT.me_view').split('/')[0:-1])) in request.path %}class="active"{% endif %}><a href="{{url_for('ACCOUNT.me_view')}}">
                             <i class="fa fa-user fa-fw"></i> Account
                         </a></li>
                         <li role="separator" class="divider"></li>
