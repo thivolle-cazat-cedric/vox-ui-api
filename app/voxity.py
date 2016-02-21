@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, division, unicode_literals
 from requests_oauthlib import OAuth2Session
 from flask import current_app, session
 from datetime import datetime
@@ -6,7 +8,9 @@ voxity_bind = None
 
 def connectors(**kwargs):
     now = datetime.now()
-    token_expire_date = datetime.fromtimestamp(session['oauth_token']['expires_at'])
+    token_expire_date = datetime.fromtimestamp(
+        session['oauth_token']['expires_at']
+    )
     token = kwargs.get('token', session['oauth_token'])
 
     if token_expire_date <= now:
@@ -41,7 +45,9 @@ def pager_dict(headers):
     }
 
 def get_devices():
-    return connectors().get(current_app.config['BASE_URL'] + '/devices/').json()['data']
+    return connectors().get(
+        current_app.config['BASE_URL'] + '/devices/'
+    ).json()['data']
 
 
 def get_device(d_id):
@@ -50,14 +56,18 @@ def get_device(d_id):
     ).json()['data']
 
 
-def get_contacts(page=None, limit=None):
+def get_contacts(page=None, limit=None, name=None):
+    if name:
+        name = "*{0}*".format(name)
     resp = connectors().get(
         current_app.config['BASE_URL'] + '/contacts',
         params={
             'page': page,
-            'limit': limit
+            'limit': limit,
+            'cn': name,
         }
     )
+    print(resp)
     data = {}
     data['list'] = resp.json()['result']
     data['pager'] = pager_dict(resp.headers)
@@ -73,8 +83,8 @@ def call(exten):
 
 def self_user():
     return connectors().get(
-            current_app.config['BASE_URL'] + '/users/self'
-        ).json()
+        current_app.config['BASE_URL'] + '/users/self'
+    ).json()
 
 def logout():
     resp = connectors().get(current_app.config['BASE_URL'] + "/logout")

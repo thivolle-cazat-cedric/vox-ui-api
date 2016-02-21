@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, division, unicode_literals
-from flask import Blueprint, render_template, session, request
+from flask import Blueprint, render_template, session, request, redirect, url_for
 from flask.json import jsonify
 from app.voxity import get_contacts, refresh_token
 from math import ceil
@@ -63,10 +63,30 @@ def view():
         item=item,
         items=LIST_AVAILABLE,
         contact_total=contact_total,
-        usr=session['user']
+        search_mode=False
     ).encode('utf-8')
 
 
 @CONTACT.route('<uid>-view.html', methods=["GET"])
 def test_view(uid=None):
     return str(uid)
+
+@CONTACT.route('search.html', methods=['GET'])
+def search():
+    contact = list()
+    form_value = dict()
+    if not request.args.get('name', ''):
+        return redirect(url_for('CONTACT.view'))
+    else:
+        form_value['name'] = "{0}".format(request.args.get('name', ''))
+
+    contact = get_contacts(**form_value)
+    print(contact)
+    return render_template(
+        'contacts/index.html',
+        contacts=contact['list'],
+        item="all",
+        contact_total=len(contact['list']),
+        search_mode=True,
+        form_value=form_value
+    ).encode('utf-8')
