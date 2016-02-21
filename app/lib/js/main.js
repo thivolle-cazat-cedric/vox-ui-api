@@ -37,6 +37,16 @@ function generate_call(exten){
     }
 }
 
+function create_incoming_message(call_obj){
+    var mess = "from <strong>" + call_obj['caller_name'] + "</strong> <"+call_obj['caller_num']+">";
+    mess += '<br>';
+    mess += '<a href="https://www.google.fr/#q='+call_obj['caller_num']+'" target="_blank" class="btn btn-link">';
+    mess += '<i class="fa fa-share-square-o fa-fw"></i> Google search : '+call_obj['caller_num'];
+    mess += '</a>';
+
+    return mess
+}
+
 
 $(document).ready(function() {
     $('[data-toggle="tooltip"]').tooltip({
@@ -89,11 +99,22 @@ $(document).ready(function() {
     });
 
     socket.on('connected', function(data){
+        
+        // new incomming call
         socket.on('channels.ringing', function(data){
-            var mess = "from <strong>" + data['caller_name'] + "</strong> <"+data['caller_num']+">"
+            toastr["info"](create_incoming_message(data), "Icomming Call");
+        })
+
+        socket.on('channels.up', function(data){
+            var mess = create_incoming_message(data).split('<br>')[1];
+            toastr["success"](mess, "You are communicating with " + data['caller_num'])
+        })
+
+        socket.on('channels.hangup', function(data){
+            var mess = "Call from" + data['caller_name'] + "</strong> <"+data['caller_num']+">"
             mess += "<br>"
-            mess += '<a href="https://www.google.fr/#q='+data['caller_num']+'" target="_blank" class="btn btn-link"><i class="fa fa-share-square-o fa-fw"></i> Google search : '+data['caller_num']+'</a>'
-            toastr["info"](mess, "Icomming Call")
+            mess += 'is hangup.'
+            toastr["error"](mess, "Hangup call")
         })
     })
     
