@@ -12,10 +12,10 @@
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                             {% for i in items%}
-                            <li {% if i == item%} class="active" {%endif%}><a href="view.html?item={{i}}">{{i}}</a></li>
+                            <li {% if i == item%} class="active" {%endif%}><a href="?item={{i}}">{{i}}</a></li>
                             {% endfor %}
                             <li role="separator" class="divider"></li>
-                            <li {% if item == 'all' %} class="active" {%endif%}><a href="view.html">All</a></li>
+                            <li {% if item == 'all' %} class="active" {%endif%}><a href="">All</a></li>
                         </ul>
                     </div>
                 </th>
@@ -45,16 +45,16 @@
         <nav class="text-center">
             <ul class="pagination">
                 <li>
-                  <a href="view.html?item={{item}}" aria-label="Previous">
+                  <a href="?item={{item}}" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                   </a>
                 </li>
                 </li>
                 {% for i in range(pager['start'], pager['end'] + 1) %}
-                    <li {%if i == pager['current']%}class="active"{%endif%}><a href="view.html?item={{item}}&page={{i}}">{{i}}</a></li>
+                    <li {%if i == pager['current']%}class="active"{%endif%}><a href="?item={{item}}&page={{i}}">{{i}}</a></li>
                 {%endfor%}
                 <li>
-                  <a href="view.html?item={{item}}&page={{pager['max']}}">
+                  <a href="?item={{item}}&page={{pager['max']}}">
                     <span aria-hidden="{{true}}">&raquo;</span>
                   </a>
                 </li>
