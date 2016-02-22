@@ -89,7 +89,7 @@ def get_device(d_id):
     ).json()['data']
 
 
-def get_contacts(page=None, limit=None, name=None):
+def get_contacts(**kwargs):
     """
     :param int page: page number *default None*
     :param int limit: limit contact in response *default None*
@@ -97,15 +97,11 @@ def get_contacts(page=None, limit=None, name=None):
     :retype: list
     :return: contact list
     """
-    if name:
-        name = "*{0}*".format(name)
+    if 'cn' in kwargs:
+        kwargs['cn'] = "*{0}*".format(kwargs['cn'])
     resp = connectors().get(
-        current_app.config['BASE_URL'] + '/contacts',
-        params={
-            'page': page,
-            'limit': limit,
-            'cn': name,
-        }
+        current_app.config['BASE_URL'] + '/contacts/',
+        params=kwargs
     )
     data = {}
     data['list'] = resp.json()['result']
