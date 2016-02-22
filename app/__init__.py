@@ -70,9 +70,7 @@ def create_app(env='prod'):
 
         except KeyError:
             controllers.clear_session()
-            return redirect(url_for('ACCOUNT.signin'))
-
-        abort(500)
+        return redirect(url_for('ACCOUNT.signin'))
 
 
     @app.route("/callback", methods=["GET"])
