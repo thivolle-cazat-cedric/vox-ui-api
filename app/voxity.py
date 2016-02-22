@@ -27,7 +27,7 @@ def save_token(token):
     :retype: None
     '''
     duration = timedelta(days=7)
-    token['oauth_token']['expires_in'] = int(duration.td.total_seconds())
+    token['oauth_token']['expires_in'] = int(duration.total_seconds())
     token['oauth_token']['expires_at'] = datetime_to_timestamp(
         datetime.now() + duration
     )
