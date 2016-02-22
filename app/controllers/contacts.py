@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, division, unicode_literals
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, abort
 from flask.json import jsonify
 from app.voxity import get_contacts
 from app.controllers import is_auth
@@ -85,8 +85,7 @@ def search():
     else:
         form_value['name'] = "{0}".format(request.args.get('name', ''))
 
-    contact = get_contacts(**form_value)
-    print(contact)
+    contact = get_contacts(cn=form_value['name'])
     return render_template(
         'contacts/index.html',
         contacts=contact['list'],
@@ -95,3 +94,20 @@ def search():
         search_mode=True,
         form_value=form_value
     ).encode('utf-8')
+
+@CONTACT.route('whois.html', methods=['GET'])
+@is_auth
+def whois():
+    contacts = list()
+    name_list = list()
+    form_value = dict()
+    if not request.args.get('number', ''):
+        abort(400)
+    number = '{0}'.format(request.args.get('number'))
+
+    contacts += get_contacts(phoneNumber=number)['list']
+    contacts += get_contacts(mobile=number)['list']
+
+    for c in contacts:
+        name_list.append(c['cn'])
+    return jsonify({'data': name_list})
