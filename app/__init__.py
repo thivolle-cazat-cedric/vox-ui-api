@@ -61,17 +61,17 @@ def create_app(env='prod'):
         Redirect the user/resource owner to the OAuth provider (i.e. Github)
         using an URL with a few key OAuth parameters.
         """
-        session['user'] = {}
-        session['oauth_token'] = {}
 
-        voxity_bind = voxity.bind(redirect_uri=app.config['REDIRECT_URI'])
+        try:
+            voxity.connectors()
+            return redirect(url_for('DEVICES.devices'))
 
-        authorization_url, state = voxity_bind.authorization_url(
-            app.config['AUTHORIZATION_BASE_URL']
-        )
-        session['oauth_state'] = state
-        session['authorization_url'] = authorization_url
-        return redirect(authorization_url)
+        except KeyError:
+            controllers.clear_session()
+            return redirect(url_for('ACCOUNT.signin'))
+
+        abort(500)
+
 
     @app.route("/callback", methods=["GET"])
     def callback():
@@ -93,7 +93,6 @@ def create_app(env='prod'):
 
         session['oauth_token'] = token
 
-        conn = voxity.connectors()
         session['user'] = voxity.self_user()
 
         return redirect(url_for('DEVICES.devices'))

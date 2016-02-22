@@ -1,21 +1,42 @@
 # -*- coding: utf-8 -*-
+"""Voxity api module."""
 from __future__ import absolute_import, division, unicode_literals
 from requests_oauthlib import OAuth2Session
 from flask import current_app, session
-from datetime import datetime
+from datetime import datetime, timedelta
+from app.utils import datetime_to_timestamp
 voxity_bind = None
 
 
-def token_is_expired():
-    now = datetime.now()
+def token_is_expired(**kwargs):
+    """
+    :param dict token: *optional* token object, default, the session token
+    :return: true if token is expired
+    :retype: bool
+    """
     token_expire_date = datetime.fromtimestamp(
-        session['oauth_token']['expires_at'])
+        kwargs.get('token', session['oauth_token']['expires_at'])
+    )
 
-    return token_expire_date <= now
+    return token_expire_date <= datetime.now()
+
+
+def save_token(token):
+    '''
+    :param dict token: token object
+    :retype: None
+    '''
+    duration = timedelta(days=7)
+    token['oauth_token']['expires_in'] = int(duration.td.total_seconds())
+    token['oauth_token']['expires_at'] = datetime_to_timestamp(
+        datetime.now() + duration
+    )
 
 
 def connectors(**kwargs):
-
+    """
+    :retryp:OAuth2Session
+    """
     token = kwargs.get('token', session['oauth_token'])
 
     if token_is_expired():
@@ -27,6 +48,7 @@ def connectors(**kwargs):
                 'client_secret': current_app.config['CLIENT_SECRET']
             }
         )
+
         token = session['oauth_token']
     return OAuth2Session(
         current_app.config['CLIENT_ID'],
@@ -38,10 +60,6 @@ def bind(**kwargs):
     return OAuth2Session(current_app.config['CLIENT_ID'], **kwargs)
 
 
-def refresh_token():
-    return connectors()
-
-
 def pager_dict(headers):
     return {
         'total': headers.get('x-paging-total-records', None),
@@ -49,19 +67,36 @@ def pager_dict(headers):
         'max_page': headers.get('x-paging-total-pages', None)
     }
 
+
 def get_devices():
+    """
+    :retyp: list
+    :return: device list
+    """
     return connectors().get(
         current_app.config['BASE_URL'] + '/devices/'
     ).json()['data']
 
 
 def get_device(d_id):
+    """
+    :param str d_ind: device id
+    :retype: dict
+    :return: one device
+    """
     return connectors().get(
         current_app.config['BASE_URL'] + '/devices/' + d_id
     ).json()['data']
 
 
 def get_contacts(page=None, limit=None, name=None):
+    """
+    :param int page: page number *default None*
+    :param int limit: limit contact in response *default None*
+    :param str name: name filter
+    :retype: list
+    :return: contact list
+    """
     if name:
         name = "*{0}*".format(name)
     resp = connectors().get(
