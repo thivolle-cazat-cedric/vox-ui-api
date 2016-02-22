@@ -41,7 +41,7 @@ def connectors(**kwargs):
 
     if token_is_expired():
         conn = OAuth2Session(current_app.config['CLIENT_ID'], token=token)
-        session['oauth_token'] = conn.refresh_token(
+        token = conn.refresh_token(
             current_app.config['VOXITY']['request_token_url'],
             **{
                 'client_id': current_app.config['CLIENT_ID'],
@@ -49,7 +49,7 @@ def connectors(**kwargs):
             }
         )
 
-        token = session['oauth_token']
+        token = save_token(token)
     return OAuth2Session(
         current_app.config['CLIENT_ID'],
         token=token

@@ -93,7 +93,7 @@ def create_app(env='prod'):
             authorization_response=request.url
         )
 
-        session['oauth_token'] = token
+        voxity.save_token(token)
         session['user'] = voxity.self_user()
 
         return redirect(url_for('DEVICES.devices', **{'direction': 'incoming'}))
