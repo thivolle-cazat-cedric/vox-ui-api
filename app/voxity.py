@@ -134,13 +134,10 @@ def logout():
     return resp
 
 
-def get_calls_log(page=None, limit=None):
+def get_calls_log(**kwargs):
     resp = connectors().get(
         current_app.config['BASE_URL'] + '/calls/logs',
-        params={
-            'page': page,
-            'limit': limit
-        }
+        params=kwargs
     )
 
     data = {}

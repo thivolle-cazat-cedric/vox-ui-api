@@ -1,6 +1,20 @@
 {% extends "layout.html" %}
 {% block body %}
 <div class="col-xs-12">
+    <ul class="nav nav-tabs nav-justified">
+        <li{%if url_for('CALLS_LOG.view', **{'direction':'incoming'}) == request.path%} class="active"{%endif%}>
+            <a href="{{url_for('CALLS_LOG.view', **{'direction':'incoming'})+'?item='}}{{item}}"> Incoming Calls</a>
+        </li>
+        <li{%if url_for('CALLS_LOG.view', **{'direction':'outing'}) == request.path%} class="active"{%endif%}>
+            <a href="{{url_for('CALLS_LOG.view', **{'direction':'outing'})+'?item='}}{{item}}"> Outing Calls</a>
+        </li>
+    </ul>
+    {%if url_for('CALLS_LOG.view', **{'direction':'incoming'}) == request.path%}
+    <div class="alert alert-danger" role="alert">
+        <strong>Error !</strong><br>
+        this view is not working. it's not possible to get your incoming call list
+    </div>
+    {%endif%}
     <div class="table-responsive">
         <table class="table table-hover table-striped">
             <thead>
@@ -20,7 +34,13 @@
                     </div>
                 </th>
                 <th class="text-center">date time</th>
-                <th class="text-center">source phone number</th>
+                <th class="text-center">
+                {%if url_for('CALLS_LOG.view', **{'direction':'incoming'}) == request.path%}
+                    source phone number
+                {%else%}
+                    Destination call
+                {%endif%}
+                </th>
                 <th class="text-center">duration</th>
             </thead>
             <tbody>
@@ -30,7 +50,11 @@
                         {{c['call_date']}}
                     </td>
                     <td {%if c['src_phonenumber']%}class="callable"{%endif%}>
-                        {{c['src_phonenumber']}}
+                        {%if url_for('CALLS_LOG.view', **{'direction':'incoming'}) == request.path%}
+                            {{c['src_phonenumber']}}
+                        {%else%}
+                            {{c['dst_phonenumber']}}
+                        {%endif%}
                         
                     </td>
                     <td>
@@ -42,7 +66,7 @@
             <tfoot>
                 <tr class="active">
                     <td>
-                        {% if  item != 'all' %}
+                        {% if  item != 'all' and pager['max']%}
                             <strong>view</strong> : 
                             {{(pager['current'] * item ) - item + 1}} - 
                             {% if pager['current'] * item < log_total%}
@@ -57,13 +81,13 @@
                         <strong>Total</strong>
                     </td>
                     <td>
-                        {{log_total}}
+                        {{log_total or 0}}
                     </td>
                 </tr>
             </tfoot>
         </table>        
     </div>
-    {% if item != 'all'%}
+    {% if item != 'all' and pager['max']%}
         <nav class="text-center">
             <ul class="pagination">
                 <li>

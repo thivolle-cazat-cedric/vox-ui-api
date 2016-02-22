@@ -54,10 +54,10 @@
                 </h3>
                 <nav>
                     <ul class="nav nav-pills pull-left">
-                        <li {% if '/'.join((url_for('CALLS_LOG.view').split('/')[0:-1])) in request.path %}class="active"{% endif %}>
-                            <a href="{{url_for('CALLS_LOG.view')}}">
+                        <li {% if '/'.join((url_for('CALLS_LOG.json_data').split('/')[0:-1])) in request.path %}class="active"{% endif %}>
+                            <a href="{{url_for('CALLS_LOG.view', **{'direction':'incoming'})}}">
                                 <i class="fa fa-newspaper-o"></i> 
-                                 <span class="hidden-sm hidden-xs">Journal</span>
+                                 <span class="hidden-sm hidden-xs">Call log</span>
                             </a>
                         </li>
                         <li role="presentation" {% if '/'.join((url_for('CONTACT.view').split('/')[0:-1])) in request.path %}class="active"{% endif %}>
@@ -69,7 +69,7 @@
                         <li role="presentation" {% if url_for('DEVICES.devices') in request.path %}class="active"{% endif %}>
                             <a href="{{url_for('DEVICES.devices')}}">
                                 <i class="fa fa-group"></i>
-                                <span class="hidden-sm hidden-xs">Interne</span>
+                                <span class="hidden-sm hidden-xs">Internal</span>
                             </a>
                         </li>
                         <li ><a href="#" data-toggle="modal" data-target="#callModal"><i class="fa fa-phone"></i></a></li>

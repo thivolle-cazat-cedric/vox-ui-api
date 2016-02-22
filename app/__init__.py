@@ -95,7 +95,7 @@ def create_app(env='prod'):
 
         session['user'] = voxity.self_user()
 
-        return redirect(url_for('DEVICES.devices'))
+        return redirect(url_for('DEVICES.devices', **{'direction': 'incoming'}))
 
 
     @app.route("/err/500", methods=["GET"])
