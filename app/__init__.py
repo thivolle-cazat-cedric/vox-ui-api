@@ -64,6 +64,8 @@ def create_app(env='prod'):
 
         try:
             voxity.connectors()
+            if not user in session:
+                session['user'] = voxity.self_user()
             return redirect(url_for('DEVICES.devices'))
 
         except KeyError:
@@ -92,7 +94,6 @@ def create_app(env='prod'):
         )
 
         session['oauth_token'] = token
-
         session['user'] = voxity.self_user()
 
         return redirect(url_for('DEVICES.devices', **{'direction': 'incoming'}))
