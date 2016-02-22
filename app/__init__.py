@@ -63,13 +63,11 @@ def create_app(env='prod'):
         """
 
         try:
-            voxity.connectors()
-            if not user in session:
-                session['user'] = voxity.self_user()
-            return redirect(url_for('DEVICES.devices'))
-
+            if voxity.connectors():
+                return redirect(url_for('DEVICES.devices'))
         except KeyError:
             controllers.clear_session()
+
         return redirect(url_for('ACCOUNT.signin'))
 
 
