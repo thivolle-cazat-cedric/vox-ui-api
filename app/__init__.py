@@ -65,7 +65,7 @@ def create_app(env='prod'):
         try:
             if voxity.connectors():
                 return redirect(url_for('DEVICES.devices'))
-        except KeyError:
+        except:
             controllers.clear_session()
 
         return redirect(url_for('ACCOUNT.signin'))
