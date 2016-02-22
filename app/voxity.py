@@ -27,10 +27,11 @@ def save_token(token):
     :retype: None
     '''
     duration = timedelta(days=7)
-    token['oauth_token']['expires_in'] = int(duration.total_seconds())
-    token['oauth_token']['expires_at'] = datetime_to_timestamp(
+    token['expires_in'] = int(duration.total_seconds())
+    token['expires_at'] = datetime_to_timestamp(
         datetime.now() + duration
     )
+    session['oauth_token'] = token
 
 
 def connectors(**kwargs):
