@@ -67,7 +67,10 @@ def create_app(env='prod'):
         #         return redirect(url_for('DEVICES.devices'))
         # except:
         #     controllers.clear_session()
-        voxity.logout()
+        try:
+            voxity.logout()
+        except Exception:
+            pass
         controllers.clear_session()
         return redirect(url_for('ACCOUNT.signin'))
 

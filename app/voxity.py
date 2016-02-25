@@ -60,7 +60,7 @@ def connectors(**kwargs):
     """
     token = kwargs.get('token', session['oauth_token'])
 
-    if token_is_expired():
+    if session.get('user', False) and token_is_expired():
         return refresh_token()
 
     return OAuth2Session(
