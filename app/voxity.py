@@ -26,11 +26,7 @@ def save_token(token):
     :param dict token: token object
     :retype: None
     '''
-    # duration = timedelta(days=7)
-    # token['expires_in'] = int(duration.total_seconds())
-    # token['expires_at'] = datetime_to_timestamp(
-    #     datetime.now() + duration
-    # )
+    token['expires_in'] = -30
     session['oauth_token'] = token
     session.modified = True
 
