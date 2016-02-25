@@ -26,12 +26,31 @@ def save_token(token):
     :param dict token: token object
     :retype: None
     '''
-    # duration = timedelta(days=7)
-    # token['expires_in'] = int(duration.total_seconds())
-    # token['expires_at'] = datetime_to_timestamp(
-    #     datetime.now() + duration
-    # )
+    duration = timedelta(days=7)
+    token['expires_in'] = int(duration.total_seconds())
+    token['expires_at'] = datetime_to_timestamp(
+        datetime.now() + duration
+    )
     session['oauth_token'] = token
+
+
+def refresh_token():
+    '''
+    :retryp:OAuth2Session
+    :return:valid conector
+    '''
+    conn = OAuth2Session(
+        current_app.config['CLIENT_ID'],
+        token=session['oauth_token']
+    )
+    save_token(
+        conn.refresh_token(
+            current_app.config['TOKEN_URL'],
+            client_id=current_app.config['CLIENT_ID'],
+            client_secret=current_app.config['CLIENT_SECRET']
+        )
+    )
+    return conn
 
 
 def connectors(**kwargs):
@@ -41,19 +60,11 @@ def connectors(**kwargs):
     token = kwargs.get('token', session['oauth_token'])
 
     if token_is_expired():
-        conn = OAuth2Session(current_app.config['CLIENT_ID'], token=token)
-        token = conn.refresh_token(
-            current_app.config['VOXITY']['request_token_url'],
-            **{
-                'client_id': current_app.config['CLIENT_ID'],
-                'client_secret': current_app.config['CLIENT_SECRET']
-            }
-        )
+        return refresh_token()
 
-        token = save_token(token)
     return OAuth2Session(
         current_app.config['CLIENT_ID'],
-        token=token
+        token=token,
     )
 
 
