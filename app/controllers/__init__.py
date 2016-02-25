@@ -8,6 +8,8 @@ from app.voxity import token_is_expired, self_user
 def clear_session():
     for k in ['authorization_url', 'oauth_state', 'oauth_token', 'user']:
         session.pop(k, None)
+    session.modified = True
+
 
 def is_auth(function):
     @wraps(function)

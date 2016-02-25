@@ -32,6 +32,7 @@ def save_token(token):
         datetime.now() + duration
     )
     session['oauth_token'] = token
+    session.modified = True
 
 
 def refresh_token():
@@ -138,6 +139,7 @@ def logout():
     session['user'] = {}
     session['oauth_token'] = {}
     session['oauth_state'] = {}
+    session.modified = True
 
     return resp
 

@@ -67,7 +67,8 @@ def create_app(env='prod'):
         #         return redirect(url_for('DEVICES.devices'))
         # except:
         #     controllers.clear_session()
-
+        voxity.logout()
+        controllers.clear_session()
         return redirect(url_for('ACCOUNT.signin'))
 
 
@@ -91,6 +92,7 @@ def create_app(env='prod'):
 
         voxity.save_token(token)
         session['user'] = voxity.self_user()
+        session.modified = True
 
         return redirect(url_for('DEVICES.devices', **{'direction': 'incoming'}))
 
