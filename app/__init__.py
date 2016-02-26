@@ -2,6 +2,8 @@
 from __future__ import (
     absolute_import, division, print_function, unicode_literals
 )
+from traceback import print_exception
+from sys import exc_info
 from flask import Flask, request, session, url_for, redirect, abort, render_template
 from flask_oauthlib.client import OAuth
 from datetime import datetime
@@ -9,6 +11,7 @@ from datetime import datetime
 from app.config import config_loader
 from app import controllers
 from app import voxity
+
 
 oauth = OAuth()
 
@@ -100,28 +103,57 @@ def create_app(env='prod'):
         return redirect(url_for('DEVICES.devices', **{'direction': 'incoming'}))
 
 
-    @app.route("/err/500", methods=["GET"])
-    def raise_error_500():
-        abort(500)
-
-    @app.errorhandler(500)
-    def err_500(e):
-        return render_template('err/500.html'), 500
+    @app.route("/err/<int:error>", methods=["GET"])
+    def raise_error(error):
+        abort(error)
 
 
-    @app.route("/err/404", methods=["GET"])
-    def raise_error_404():
-        abort(404)
+    @app.errorhandler(401)
+    def err_401(e):
+        return render_template(
+            'err/401.html',
+            error_code='401',
+            error_icon="#128274",
+            link_to_home=False,
+        ), 401
+
+    @app.errorhandler(403)
+    def err_403(e):
+        return render_template(
+            'err/403.html',
+            error_code='403',
+            error_icon="#128274",
+            link_to_home=False,
+        ), 401
+
 
     @app.errorhandler(404)
     def err_404(e):
-        return render_template('err/404.html'), 404
+        return render_template(
+            'err/404.html',
+            error_code='404',
+            error_icon="#x1F47B",
+            link_to_home=True,
+        ), 404
+
 
 
     if not app.config['DEBUG']:
         @app.errorhandler(Exception)
         def err_500_all(e):
-            return render_template('err/500.html'), 500
+            exc_type, exc_value, exc_traceback = exc_info()
+            app.logger.error(print_exception(
+                exc_type,
+                exc_value,
+                exc_traceback,
+                limit=2
+            ))
+            return render_template(
+                'err/500.html',
+                error_code='500',
+                error_icon="#x1f632",
+                link_to_home=True,
+            ), 500
     else:
         @app.route("/oauth_info")
         def show_oath():

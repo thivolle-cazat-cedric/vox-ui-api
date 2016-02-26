@@ -1,20 +1,9 @@
-{% extends "layout.html" %}
-{% block body %}
-<div class="col-xs-12">
-    <div class="jumbotron">
-        <div class="alert alert-danger" role="alert">
-            <h1 class=""><span class="text-danger"> &#x1F47B; <small>Error</small> 404 </span></h1>
-        </div>
-        <p class="lead">
-            Can't find this resource <kbd>{{request.path}}</kbd>. sorry !<br>
-            Maybe this resource has moved.<br>
-            <small>
-                Look the top of the page, you see <span class="label label-danger" style="font-weight: 200;">αlpha</span>
-            </small>
-        </p>
-        <p class="text-danger">
-            <a class="btn btn-lg btn-success" href="/" role="button">Go back to Home <i class="fa fa-home"></i></a>
-        </p>
-      </div>
-</div>
+{% extends "err/main.html" %}
+
+{% block leadmessage %}
+ Can't find this resource <kbd>{{request.path}}</kbd>. sorry !<br>
+    Maybe this resource has moved.<br>
+    <small>
+        Look the top of the page, you see <span class="label label-danger" style="font-weight: 200;">αlpha</span>
+    </small>
 {% endblock %}

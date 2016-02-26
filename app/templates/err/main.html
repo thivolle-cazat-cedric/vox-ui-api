@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% set iconerr = {
+
+} %}
+{% block body %}
+<div class="col-xs-12">
+    <div class="jumbotron">
+        <div class="alert alert-danger" role="alert">
+            <h1 class=""><span class="text-danger"> {%if error_icon%}&{{error_icon}};{%endif%} <small>Error</small> {{error_code}} </span></h1>
+        </div>
+        <p class="lead">
+           {%block leadmessage%}{%endblock%}
+        </p>
+        <p class="text-center">
+            {%if link_to_home%}
+                <a class="btn btn-lg btn-success" href="/" role="button">Go back to Home <i class="fa fa-home"></i></a>
+            {%endif%}
+            {% block leadlink%}{%endblock%}
+        </p>
+      </div>
+</div>
+{% endblock %}

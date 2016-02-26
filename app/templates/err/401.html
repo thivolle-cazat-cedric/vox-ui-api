@@ -1,0 +1,9 @@
+{% extends "err/main.html" %}
+
+{% block leadmessage %}
+	You can acces this ressource, you must be signin to access <kbd>{{request.path}}</kbd>.<br>
+{% endblock %}
+
+{% block leadlink%}
+	<a class="btn btn-lg btn-success" href="{{url_for('ACCOUNT.signin')}}" role="button">Signin <i class="fa fa-sign-in"></i></a>
+{%endblock%}

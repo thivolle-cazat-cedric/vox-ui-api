@@ -14,6 +14,8 @@ def token_is_expired(**kwargs):
     :return: true if token is expired
     :retype: bool
     """
+
+    return True
     token_expire_date = datetime.fromtimestamp(
         kwargs.get('token', session['oauth_token']['expires_at'])
     )
@@ -26,8 +28,9 @@ def save_token(token):
     :param dict token: token object
     :retype: None
     '''
-    token['expires_in'] = -30
+    token['expires_in'] = -300
     session['oauth_token'] = token
+    token.pop('expires_at', None)
     session.modified = True
 
 
