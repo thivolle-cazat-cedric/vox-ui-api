@@ -85,7 +85,6 @@ def create_app(env='prod'):
         in the redirect URL. We will use that to obtain an access token.
         """
 
-        controllers.clear_session()
         voxity_bind = voxity.bind(
             state=session['oauth_state'],
             redirect_uri=app.config['REDIRECT_URI']
