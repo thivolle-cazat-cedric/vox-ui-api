@@ -121,6 +121,24 @@ def get_contacts(**kwargs):
     return data
 
 
+def add_contacts(**kwargs):
+    """
+    :param str cn: name **mandatory**
+    :param str telephoneNumber: first phone number **mandatory**
+    :param str mobile: mobile phone number
+    :param str mail: mail adresse
+    :retype: list
+    :return: contact list
+    """
+    try:
+        return connectors().post(
+            current_app.config['BASE_URL'] + '/contacts/',
+            params=kwargs
+        ).json()
+    except Exception:
+        return None
+
+
 def call(exten):
     return connectors().post(
         current_app.config['BASE_URL'] + '/channels',
