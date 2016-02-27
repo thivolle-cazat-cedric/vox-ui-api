@@ -2,8 +2,7 @@
 from __future__ import (
     absolute_import, division, print_function, unicode_literals
 )
-from traceback import print_exception
-from sys import exc_info
+from traceback import print_exc
 from flask import Flask, request, session, url_for, redirect, abort, render_template
 from flask_oauthlib.client import OAuth
 from datetime import datetime
@@ -14,6 +13,7 @@ from app import voxity
 
 
 oauth = OAuth()
+
 
 def create_app(env='prod'):
     """
