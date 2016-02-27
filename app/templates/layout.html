@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="author" content="THIVOLLE-CAZAT Cédric">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         <title>vox-ui-api</title>
 
@@ -20,75 +21,94 @@
             <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
             <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
+
+        <link rel="apple-touch-icon" href="{{url_for('static', filename='icon/app/75-icon_app.png')}}"> 
+        <link rel="icon" href="{{url_for('static', filename='icon/fav/vox-ui-api.ico')}}">
         {% block css %}{% endblock %}
 
     </head>
     <body>
-        
+        <div class="header clearfix">
+            <h3 class="text-muted">
+                <img src="{{url_for('static', filename='icon/fav/75-vox-ui-api-tr.png')}}" alt="" class="img img-logo">
+                Vox-ui-api
+                <sup class="small">
+                    <span class="label label-danger" style="font-weight: 200;">&alpha;lpha</span>
+                </sup>
+                <div class="dropdown pull-right">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dd-user" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span data-toggle="tooltip" data-placement="bottom" title="{{session['user']['internalExtension']}}">{{session['user']['name']}}</span> 
+                        <span class="fa-stack">
+                            <i class="fa fa-square-o fa-stack-2x"></i>
+                            <i class="fa fa-user fa-stack-1x"></i>
+                        </span>
+                        <i class="fa fa-angle-down"></i>
+                    </button>
+                  <ul class="dropdown-menu" aria-labelledby="dd-user">
+                    <li {% if '/'.join((url_for('ACCOUNT.me_view').split('/')[0:-1])) in request.path %}class="active"{% endif %}><a href="{{url_for('ACCOUNT.me_view')}}">
+                        <i class="fa fa-user fa-fw"></i> Account
+                    </a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="{{url_for('ACCOUNT.logout_me')}}">
+                        <i class="fa fa-power-off text-danger fa-fw"></i> Logout
+                    </a></li>
+                  </ul>
+                </div>
+            </h3>
+            <nav>
+                <ul class="nav nav-pills pull-left">
+                    <li {% if '/'.join((url_for('CALLS_LOG.json_data').split('/')[0:-1])) in request.path %}class="active"{% endif %}>
+                        <a href="{{url_for('CALLS_LOG.view', **{'direction':'incoming'})}}">
+                            <i class="fa fa-newspaper-o"></i> 
+                             <span class="hidden-sm hidden-xs">Call log</span>
+                        </a>
+                    </li>
+                    <li role="presentation" {% if '/'.join((url_for('CONTACT.view').split('/')[0:-1])) in request.path %}class="active"{% endif %}>
+                        <a href="{{url_for('CONTACT.view')}}">
+                            <i class="fa fa-book"></i>
+                            <span class="hidden-sm hidden-xs">Contacts</span>
+                        </a>
+                    </li>
+                    <li role="presentation" {% if url_for('DEVICES.devices') in request.path %}class="active"{% endif %}>
+                        <a href="{{url_for('DEVICES.devices')}}">
+                            <i class="fa fa-group"></i>
+                            <span class="hidden-sm hidden-xs">Internal</span>
+                        </a>
+                    </li>
+                    <li ><a href="#" data-toggle="modal" data-target="#callModal"><i class="fa fa-phone"></i></a></li>
+                </ul>
+                <ul class="nav nav-pills pull-right">
+                    <li role="presentation"><a href="https://voxity.fr" target="_blank" data-toggle="tooltip" title="Voxity" data-placement="bottom">
+                        <!-- Voxity -->
+                        <img class="img-vox-logo" src="{{url_for('static', filename='img/voxity-logo-75.png')}}" alt="voxity-logo">
+                    </a></li>
+                    <li role="presentation"><a href="https://api.voxity.fr/doc" target="_blank">API</a></li>
+                    <li role="presentation" class="disabled"><a href="#" target="_blank"><span class="fa fa fa-github-square"></span></a></li>
+                </ul>
+            </nav>
+            
+        </div>
         <div class="container">
-            <div class="header clearfix">
-                <h3 class="text-muted">
-                    Vox-ui-api
-                    <sup class="small">
-                        <span class="label label-danger" style="font-weight: 200;">&alpha;lpha</span>
-                    </sup>
-                    <div class="dropdown pull-right">
-                        <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dd-user" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <span data-toggle="tooltip" data-placement="bottom" title="{{session['user']['internalExtension']}}">{{session['user']['name']}}</span> 
-                            <span class="fa-stack">
-                                <i class="fa fa-square-o fa-stack-2x"></i>
-                                <i class="fa fa-user fa-stack-1x"></i>
-                            </span>
-                            <i class="fa fa-angle-down"></i>
-                        </button>
-                      <ul class="dropdown-menu" aria-labelledby="dd-user">
-                        <li {% if '/'.join((url_for('ACCOUNT.me_view').split('/')[0:-1])) in request.path %}class="active"{% endif %}><a href="{{url_for('ACCOUNT.me_view')}}">
-                            <i class="fa fa-user fa-fw"></i> Account
-                        </a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="{{url_for('ACCOUNT.logout_me')}}">
-                            <i class="fa fa-power-off text-danger fa-fw"></i> Logout
-                        </a></li>
-                      </ul>
-                    </div>
-                </h3>
-                <nav>
-                    <ul class="nav nav-pills pull-left">
-                        <li {% if '/'.join((url_for('CALLS_LOG.json_data').split('/')[0:-1])) in request.path %}class="active"{% endif %}>
-                            <a href="{{url_for('CALLS_LOG.view', **{'direction':'incoming'})}}">
-                                <i class="fa fa-newspaper-o"></i> 
-                                 <span class="hidden-sm hidden-xs">Call log</span>
-                            </a>
-                        </li>
-                        <li role="presentation" {% if '/'.join((url_for('CONTACT.view').split('/')[0:-1])) in request.path %}class="active"{% endif %}>
-                            <a href="{{url_for('CONTACT.view')}}">
-                                <i class="fa fa-book"></i>
-                                <span class="hidden-sm hidden-xs">Contacts</span>
-                            </a>
-                        </li>
-                        <li role="presentation" {% if url_for('DEVICES.devices') in request.path %}class="active"{% endif %}>
-                            <a href="{{url_for('DEVICES.devices')}}">
-                                <i class="fa fa-group"></i>
-                                <span class="hidden-sm hidden-xs">Internal</span>
-                            </a>
-                        </li>
-                        <li ><a href="#" data-toggle="modal" data-target="#callModal"><i class="fa fa-phone"></i></a></li>
-                    </ul>
-                    <ul class="nav nav-pills pull-right">
-                        <li role="presentation"><a href="https://voxity.fr" target="_blank" data-toggle="tooltip" title="Voxity" data-placement="bottom">
-                            <!-- Voxity -->
-                            <img class="img-vox-logo" src="{{url_for('static', filename='img/voxity-logo-75.png')}}" alt="voxity-logo">
-                        </a></li>
-                        <li role="presentation"><a href="https://api.voxity.fr/doc" target="_blank">API</a></li>
-                        <li role="presentation" class="disabled"><a href="#" target="_blank"><span class="fa fa fa-github-square"></span></a></li>
-                    </ul>
-                </nav>
-                
-            </div>
             <div class="row">
                 {% block body %}{% endblock %}
             </div>
         </div> <!-- /.container -->
+
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-5">
+                        Devloped by Cedric TC
+                    </div>
+                    <div class="col-xs-2 text-center">
+                        <img src="{{url_for('static', filename='icon/app/35-icon_app.png')}}" alt="" class="img">
+                    </div>
+                    <div class="col-xs-5 text-right">
+                        Version {{config['__VERSION__']}}
+                    </div>
+                </div>
+            </div>
+        </footer>
 
 
         <!-- callModal -->

@@ -2,8 +2,12 @@
 from __future__ import (
     absolute_import, division, print_function, unicode_literals
 )
+from os import path
 from traceback import print_exc
-from flask import Flask, request, session, url_for, redirect, abort, render_template
+from flask import (
+    Flask, request, session, url_for, redirect, abort,
+    render_template, send_from_directory
+)
 from flask_oauthlib.client import OAuth
 from datetime import datetime
 
@@ -13,6 +17,8 @@ from app import voxity
 
 
 oauth = OAuth()
+
+__VERSION__ = "1.0.0α"
 
 
 def create_app(env='prod'):
@@ -54,6 +60,8 @@ def create_app(env='prod'):
         url_prefix='/call_log/'
     )
 
+    app.config['__VERSION__'] = __VERSION__
+
     @app.route("/raise")
     def show_raise():
         raise Exception
@@ -76,6 +84,10 @@ def create_app(env='prod'):
             pass
         controllers.clear_session()
         return redirect(url_for('ACCOUNT.signin'))
+
+    @app.route("/favicon.ico")
+    def favicon():
+        return redirect(url_for('static', filename='icon/fav/vox-ui-api.ico'))
 
     @app.route("/callback", methods=["GET"])
     def callback():
