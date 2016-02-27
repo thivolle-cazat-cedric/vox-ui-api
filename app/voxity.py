@@ -30,7 +30,7 @@ def save_token(token):
     '''
     token['expires_in'] = -300
     session['oauth_token'] = token
-    token.pop('expires_at', None)
+    session['oauth_at'] = None
     session.modified = True
 
 

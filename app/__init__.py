@@ -97,8 +97,6 @@ def create_app(env='prod'):
         )
 
         voxity.save_token(token)
-        session['user'] = voxity.self_user()
-        session.modified = True
 
         return redirect(url_for('DEVICES.devices', **{'direction': 'incoming'}))
 
