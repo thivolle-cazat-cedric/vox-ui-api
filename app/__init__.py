@@ -77,7 +77,6 @@ def create_app(env='prod'):
         controllers.clear_session()
         return redirect(url_for('ACCOUNT.signin'))
 
-
     @app.route("/callback", methods=["GET"])
     def callback():
         """ Step 3: Retrieving an access token.
@@ -86,6 +85,7 @@ def create_app(env='prod'):
         in the redirect URL. We will use that to obtain an access token.
         """
 
+        controllers.clear_session()
         voxity_bind = voxity.bind(
             state=session['oauth_state'],
             redirect_uri=app.config['REDIRECT_URI']
@@ -95,16 +95,13 @@ def create_app(env='prod'):
             client_secret=app.config['CLIENT_SECRET'],
             authorization_response=request.url
         )
-
         voxity.save_token(token)
 
         return redirect(url_for('DEVICES.devices', **{'direction': 'incoming'}))
 
-
     @app.route("/err/<int:error>", methods=["GET"])
     def raise_error(error):
         abort(error)
-
 
     @app.errorhandler(401)
     def err_401(e):
@@ -124,7 +121,6 @@ def create_app(env='prod'):
             link_to_home=False,
         ), 401
 
-
     @app.errorhandler(404)
     def err_404(e):
         return render_template(
@@ -134,18 +130,10 @@ def create_app(env='prod'):
             link_to_home=True,
         ), 404
 
-
-
     if not app.config['DEBUG']:
         @app.errorhandler(Exception)
         def err_500_all(e):
-            exc_type, exc_value, exc_traceback = exc_info()
-            app.logger.error(print_exception(
-                exc_type,
-                exc_value,
-                exc_traceback,
-                limit=2
-            ))
+            app.logger.error(print_exception(limit=8))
             return render_template(
                 'err/500.html',
                 error_code='500',
