@@ -2,11 +2,10 @@
 from __future__ import (
     absolute_import, division, print_function, unicode_literals
 )
-from os import path
 from traceback import print_exc
 from flask import (
     Flask, request, session, url_for, redirect, abort,
-    render_template, send_from_directory
+    render_template
 )
 from flask_oauthlib.client import OAuth
 from datetime import datetime
@@ -62,10 +61,6 @@ def create_app(env='prod'):
 
     app.config['__VERSION__'] = __VERSION__
 
-    @app.route("/raise")
-    def show_raise():
-        raise Exception
-
     @app.route("/")
     def index():
         """Step 1: User Authorization.
@@ -91,24 +86,26 @@ def create_app(env='prod'):
 
     @app.route("/callback", methods=["GET"])
     def callback():
-        """ Step 3: Retrieving an access token.
+        """
+        Step 3: Retrieving an access token.
         The user has been redirected back from the provider to your registered
         callback URL. With this redirection comes an authorization code included
         in the redirect URL. We will use that to obtain an access token.
         """
+        if 'oauth_state' not in session:
+            redirect(url_for('.index'))
 
         voxity_bind = voxity.bind(
             state=session['oauth_state'],
             redirect_uri=app.config['REDIRECT_URI']
         )
-        token = voxity_bind.fetch_token(
+        voxity.save_token(voxity_bind.fetch_token(
             app.config['TOKEN_URL'],
             client_secret=app.config['CLIENT_SECRET'],
             authorization_response=request.url
-        )
-        voxity.save_token(token)
+        ))
 
-        return redirect(url_for('DEVICES.devices', **{'direction': 'incoming'}))
+        return redirect(url_for('DEVICES.devices'))
 
     @app.route("/err/<int:error>", methods=["GET"])
     def raise_error(error):
@@ -144,7 +141,7 @@ def create_app(env='prod'):
     if not app.config['DEBUG']:
         @app.errorhandler(Exception)
         def err_500_all(e):
-            app.logger.error(print_exc(limit=8))
+            app.logger.error(print_exc())
             return render_template(
                 'err/500.html',
                 error_code='500',
@@ -152,7 +149,7 @@ def create_app(env='prod'):
                 link_to_home=True,
             ), 500
     else:
-        @app.route("/oauth_info")
+        @app.route("/debug/oauth_info")
         def show_oath():
             expired = datetime.fromtimestamp(session['oauth_token']['expires_at'])
             return """
@@ -164,5 +161,9 @@ def create_app(env='prod'):
                 session['oauth_token'],
                 expired
             )
+
+        @app.route("/debug/raise")
+        def raise_exception():
+            raise Exception
 
     return app
