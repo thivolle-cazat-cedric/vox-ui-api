@@ -35,7 +35,9 @@
                 <sup class="small" data-toggle="tooltip" title="{{config['__VERSION__']}}lpha" data-placement="bottom">
                     <span class="label label-danger" style="font-weight: 200;">&alpha;</span>
                 </sup>
+
                 <div class="dropdown pull-right">
+                    {%if 'user' in session%}
                     <button class="btn btn-default dropdown-toggle" type="button" id="dd-user" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <span data-toggle="tooltip" data-placement="bottom" title="{{session['user']['internalExtension']}}">{{session['user']['name']}}</span> 
                         <span class="fa-stack">
@@ -53,6 +55,9 @@
                         <i class="fa fa-power-off text-danger fa-fw"></i> Logout
                     </a></li>
                   </ul>
+                  {% else %}
+                    <a href="{{url_for('ACCOUNT.signin')}}" class="btn btn-default">Signin <i class="fa fa-sign-in"></i></a>
+                  {%endif%}
                 </div>
             </h3>
             <nav>
@@ -145,7 +150,7 @@
         {% if 'oauth_token' in session and 'access_token' in session['oauth_token']%}
             <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
             <script type="text/javascript">var token = "{{session['oauth_token']['access_token']}}"</script>
-            
+
         {%endif%}
 
     </body>
