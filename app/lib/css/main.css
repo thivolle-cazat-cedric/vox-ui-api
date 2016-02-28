@@ -25,6 +25,10 @@ body {
   padding-right: 15px;
   padding-left: 15px;
 }
+.footer > .container .img-logo-app{
+  margin-top: -10px;
+  max-height: 40px;
+}
 
 .header,
 .marketing,

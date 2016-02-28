@@ -30,10 +30,10 @@
     <body>
         <div class="header clearfix">
             <h3 class="text-muted">
-                <img src="{{url_for('static', filename='icon/fav/75-vox-ui-api-tr.png')}}" alt="" class="img img-logo">
+                <img src="{{url_for('static', filename='icon/fav/75-vox-ui-api.png')}}" alt="" class="img img-logo">
                 Vox-ui-api
-                <sup class="small">
-                    <span class="label label-danger" style="font-weight: 200;">&alpha;lpha</span>
+                <sup class="small" data-toggle="tooltip" title="{{config['__VERSION__']}}lpha" data-placement="bottom">
+                    <span class="label label-danger" style="font-weight: 200;">&alpha;</span>
                 </sup>
                 <div class="dropdown pull-right">
                     <button class="btn btn-default dropdown-toggle" type="button" id="dd-user" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -101,7 +101,7 @@
                         Devloped by Cedric TC
                     </div>
                     <div class="col-xs-2 text-center">
-                        <img src="{{url_for('static', filename='icon/app/35-icon_app.png')}}" alt="" class="img">
+                        <img src="{{url_for('static', filename='icon/app/75-icon_app.png')}}" alt="" class="img img-logo-app">
                     </div>
                     <div class="col-xs-5 text-right">
                         Version {{config['__VERSION__']}}
