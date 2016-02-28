@@ -27,7 +27,7 @@ Basé sur [l'API Voxity](https://client.voxity.fr/doc). Cette interface vous per
 ## Installation du projet
 
 ```bash
-$ git clone ssh://git@git.voxity.fr:2288/cedric/voxity-ui-api.git
+$ git clone --recursive ssh://git@baltig.thivolle-cazat.fr:2288/root/voxity-ui-api.git
 $ cd voxity-ui-api
 $ virtualenv venv
 $ source venv/bin/activate
