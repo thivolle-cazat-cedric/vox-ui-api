@@ -5,6 +5,7 @@ from flask.json import jsonify
 from app.voxity import get_contacts
 from app.controllers import is_auth
 from math import ceil
+from app.utils import value_or_zero
 
 CONTACT = Blueprint('CONTACT', __name__)
 LIST_AVAILABLE = [5, 10, 25, 50, 100]
@@ -31,12 +32,12 @@ def view():
 
     if item != 'all':
         contact = get_contacts(page=page, limit=item)
-        contact_total = int(contact['pager']['total'])
+        contact_total = int(value_or_zero(contact['pager']['total']))
 
         try:
             item = int(item)
-            pager['current'] = int(contact['pager']['curent_page'])
-            pager['max'] = int(contact['pager']['max_page'])
+            pager['current'] = int(value_or_zero(contact['pager']['curent_page']))
+            pager['max'] = int(value_or_zero(contact['pager']['max_page']))
             pager['min'] = 1
             pager['start'] = 1
             pager['end'] = pager['max']
@@ -81,7 +82,7 @@ def search():
     contact = list()
     form_value = dict()
     if not request.args.get('name', ''):
-        return redirect(url_for('CONTACT.view'))
+        aboort(400)
     else:
         form_value['name'] = "{0}".format(request.args.get('name', ''))
 
@@ -95,6 +96,16 @@ def search():
         form_value=form_value
     ).encode('utf-8')
 
+@CONTACT.route('search.json', methods=['GET'])
+@is_auth
+def search_json():
+    search = dict()
+    for k in request.args:
+        search[k] = request.args[k]
+
+    contact = get_contacts(item=2500, **search)
+    return jsonify({'data': contact})
+
 @CONTACT.route('whois.html', methods=['GET'])
 @is_auth
 def whois():
@@ -103,11 +114,12 @@ def whois():
     form_value = dict()
     if not request.args.get('number', ''):
         abort(400)
-    number = '{0}'.format(request.args.get('number'))
+    number = '{0}'.format(request.args.get('number')).replace(' ', '').replace('.', '').replace('-', '')
 
-    contacts += get_contacts(phoneNumber=number)['list']
-    contacts += get_contacts(mobile=number)['list']
+    contacts += get_contacts()['list']
 
     for c in contacts:
-        name_list.append(c['cn'])
+        if c.get('mobile', '') == number or c.get('telephoneNumber', '') == number:
+            name_list.append(c)
+
     return jsonify({'data': name_list})
