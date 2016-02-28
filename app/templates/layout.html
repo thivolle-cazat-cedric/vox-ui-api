@@ -31,7 +31,7 @@
         <div class="header clearfix">
             <h3 class="text-muted">
                 <img src="{{url_for('static', filename='icon/fav/75-vox-ui-api.png')}}" alt="" class="img img-logo">
-                Vox-ui-api
+                <span class="hidden-xs">Vox-ui-api</span>
                 <sup class="small" data-toggle="tooltip" title="{{config['__VERSION__']}}lpha" data-placement="bottom">
                     <span class="label label-danger" style="font-weight: 200;">&alpha;</span>
                 </sup>
@@ -127,7 +127,7 @@
                     <div class="modal-body">
                         <form action="">
                             <div class="input-group">
-                                <input type="tel" class="form-control" placeholder="Numéro de téléphone" aria-describedby="tel-number" id="telValue">
+                                <input type="tel" class="form-control" placeholder="Numéro de téléphone" aria-describedby="tel-number" id="telValue" autofocus>
                                 <span class="input-group-btn">
                                     <button class="btn btn-success" type="submit"><span class="fa fa-chevron-right"></span></button>
                                 </span>
