@@ -92,36 +92,4 @@ $(document).ready(function() {
         };
     });
 
-    // socket.io
-    var socket = io.connect('https://api.voxity.fr/', {
-        path:'/event/v1',
-        query:"access_token=" + token
-    });
-
-    socket.on('connected', function(data){
-        
-        // new incomming call
-        socket.on('channels.ringing', function(data){
-            toastr["info"](create_incoming_message(data), "Icomming Call");
-        })
-
-        socket.on('channels.up', function(data){
-            var mess = create_incoming_message(data).split('<br>')[1];
-            toastr["success"](mess, "You are communicating with " + data['caller_num'])
-        })
-
-        socket.on('channels.hangup', function(data){
-            var mess = "Call from" + data['caller_name'] + "</strong> <"+data['caller_num']+">"
-            mess += "<br>"
-            mess += 'is hangup.'
-            toastr["error"](mess, "Hangup call")
-        })
-    })
-    
-    // to show all event
-    // socket.onevent = function (packet) {
-    //     console.log(packet)
-    // }
-
-
 });

@@ -135,7 +135,6 @@
                 </div>
             </div>
         </div>
-        <script type="text/javascript">var token = "{{session['oauth_token']['access_token']}}"</script>
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -143,7 +142,12 @@
         <!-- toastr -->
         <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
         <script src="{{url_for('static', filename='js/main.js')}}"></script>
-        <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+        {% if 'oauth_token' in session and 'access_token' in session['oauth_token']%}
+            <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+            <script type="text/javascript">var token = "{{session['oauth_token']['access_token']}}"</script>
+            
+        {%endif%}
+
     </body>
 
 
