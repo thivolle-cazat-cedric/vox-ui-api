@@ -4,8 +4,6 @@ html {
 }
 
 body {
-  padding-top: 20px;
-  padding-bottom: 20px;
   margin-bottom: 60px;
 }
 
@@ -36,8 +34,10 @@ body {
 }
 
 .header {
+  padding-top: 20px;
   padding-bottom: 20px;
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid #f5f5f5;
+  // background-color: #f5f5f5;
 }
 .header h3 {
   margin-top: 0;
@@ -110,9 +110,19 @@ body {
   }
 }
 
-
 .callable {
     color: #337ab7;
     text-decoration: none;
     cursor: pointer;
 }.callable:hover {color: #428bca;}
+
+
+
+.vox-blf-dashbord .icon-blf-state {}
+.vox-blf-dashbord .blf-name .btn{
+  text-align: left;
+  text-decoration: none;
+}
+.vox-blf-dashbord .blf-info a{
+  display: inline;
+}
