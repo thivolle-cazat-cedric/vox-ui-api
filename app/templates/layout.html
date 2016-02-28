@@ -98,7 +98,7 @@
         </div> <!-- /.container -->
 
         <footer class="footer">
-            <div class="container">
+            <div class="container-fluid">
                 <div class="row">
                     <div class="col-xs-5">
                         Devloped by Cedric TC
@@ -113,7 +113,7 @@
             </div>
         </footer>
 
-
+        {% if 'oauth_token' in session and 'access_token' in session['oauth_token']%}
         <!-- callModal -->
         <div class="modal fade" id="callModal" tabindex="-1" role="dialog" aria-labelledby="callModalLabel">
             <div class="modal-dialog modal-sm" role="document">
@@ -138,6 +138,9 @@
                 </div>
             </div>
         </div>
+        <!-- /callModal -->
+        {%endif%}
+
         <script src="{{url_for('static', filename='res/jquery-1.12.1.min.js')}}"></script>
         <script src="{{url_for('static', filename='res/bootstrap/dist/js/bootstrap.min.js')}}"></script>
         <!-- toastr -->
@@ -146,7 +149,6 @@
         {% if 'oauth_token' in session and 'access_token' in session['oauth_token']%}
             <script src="{{url_for('static', filename='res/socket.io-1.4.5.js')}}"></script>
             <script type="text/javascript">var token = "{{session['oauth_token']['access_token']}}"</script>
-
         {%endif%}
 
     </body>
