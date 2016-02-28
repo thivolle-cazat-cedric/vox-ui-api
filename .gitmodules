@@ -1,0 +1,9 @@
+[submodule "app/lib/res/toastr"]
+	path = app/lib/res/toastr
+	url = https://github.com/CodeSeven/toastr.git
+[submodule "app/lib/res/bootstrap"]
+	path = app/lib/res/bootstrap
+	url = https://github.com/twbs/bootstrap.git
+[submodule "app/lib/res/Font-Awesome"]
+	path = app/lib/res/Font-Awesome
+	url = https://github.com/FortAwesome/Font-Awesome.git
