@@ -37,14 +37,38 @@ function generate_call(exten){
     }
 }
 
-function create_incoming_message(call_obj){
-    var mess = "from <strong>" + call_obj['caller_name'] + "</strong> <"+call_obj['caller_num']+">";
-    mess += '<br>';
-    mess += '<a href="https://www.google.fr/#q='+call_obj['caller_num']+'" target="_blank" class="btn btn-link">';
-    mess += '<i class="fa fa-share-square-o fa-fw"></i> Google search : '+call_obj['caller_num'];
-    mess += '</a>';
+function whois(number, done){
+    $.ajax({
+            url: "/contacts/whois.html",
+            method: "GET",
+            data: {'number': number},
+            success: function(d, status) {
+                if (d.data) {
+                    done(null ,d.data)
+                } else if(data.data.status === 500){
+                    done('No data in response' ,d.data)
+                }
+            },
+            error: function(xhr, state, d){
+                done('No data in responsz' ,d)
+            }
+        });
+}
 
-    return mess
+function create_incoming_call_message(call_obj){
+    whois(call_obj['caller_num'], function(err, contacts){
+        var name = call_obj['caller_name'] 
+        if (!err && contacts[0]) {
+            name = contacts[0]['cn']
+        }
+        var mess = "from <strong>" + name + "</strong> <"+call_obj['caller_num']+">";
+        mess += '<br>';
+        mess += '<a href="https://www.google.fr/#q='+call_obj['caller_num']+'" target="_blank" class="btn btn-link">';
+        mess += '<i class="fa fa-share-square-o fa-fw"></i> Google search : '+call_obj['caller_num'];
+        mess += '</a>';
+        toastr["info"](mess, "Icomming Call");
+
+    });
 }
 
 
@@ -58,12 +82,12 @@ $(document).ready(function() {
         "debug": false,
         "newestOnTop": false,
         "progressBar": false,
-        "positionClass": "toast-bottom-right",
+        "positionClass": "toast-bottom-full-width",
         "preventDuplicates": true,
         "onclick": null,
         "showDuration": "100",
         "hideDuration": "1000",
-        "timeOut": "7000",
+        "timeOut": "70000",
         "extendedTimeOut": "1000",
         "showEasing": "swing",
         "hideEasing": "linear",

@@ -6,12 +6,10 @@ $(document).ready(function() {
 
     socket.on('connected', function(data){
         
-        socket.on('channels.ringing', function(data){
-            toastr["info"](create_incoming_message(data), "Icomming Call");
-        })
+        socket.on('channels.ringing', create_incoming_call_message})
 
         socket.on('channels.up', function(data){
-            var mess = create_incoming_message(data).split('<br>')[1];
+            var mess = create_incoming_call_message(data).split('<br>')[1];
             toastr["success"](mess, "You are communicating with " + data['caller_num'])
         })
 
