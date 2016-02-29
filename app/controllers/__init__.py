@@ -10,6 +10,13 @@ def clear_session():
         session.pop(k, None)
     session.modified = True
 
+def valide_session():
+    return (
+        'oauth_token' in session and
+        'access_token' in session['oauth_token'] and
+        'oauth_state' in session
+    )
+
 
 def is_auth(function):
     @wraps(function)
@@ -21,15 +28,7 @@ def is_auth(function):
             * *(boom)*status = ``True``
         '''
 
-        if 'oauth_token' not in session:
-            clear_session()
-            abort(401)
-
-        if 'access_token' not in session['oauth_token']:
-            clear_session()
-            abort(401)
-
-        if 'oauth_state' not in session:
+        if not valide_session():
             clear_session()
             abort(401)
 
@@ -40,8 +39,8 @@ def is_auth(function):
 
         if not session.get('user', False):
             session['user'] = self_user()
-        return function(*args, **kwargs)
 
+        return function(*args, **kwargs)
     return try_is_authenticate
 
 from app.controllers.devices import DEVICES

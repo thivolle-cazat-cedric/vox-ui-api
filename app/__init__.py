@@ -68,16 +68,13 @@ def create_app(env='prod'):
         using an URL with a few key OAuth parameters.
         """
 
-        # try:
-        #     if voxity.connectors():
-        #         return redirect(url_for('DEVICES.devices'))
-        # except:
-        #     controllers.clear_session()
+        if controllers.valide_session():
+            return redirect(url_for('DEVICES.devices'))
         try:
             voxity.logout()
         except Exception:
-            pass
-        controllers.clear_session()
+            controllers.clear_session()
+
         return redirect(url_for('ACCOUNT.signin'))
 
     @app.route("/favicon.ico")
