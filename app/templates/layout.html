@@ -148,7 +148,11 @@
         <script src="{{url_for('static', filename='js/main.js')}}"></script>
         {% if 'oauth_token' in session and 'access_token' in session['oauth_token']%}
             <script src="{{url_for('static', filename='res/socket.io-1.4.5.js')}}"></script>
-            <script type="text/javascript">var token = "{{session['oauth_token']['access_token']}}"</script>
+            <script type="text/javascript">
+                var token = "{{session['oauth_token']['access_token']}}"
+                var myExtension = "{{session['user']['internalExtension']}}"
+            </script>
+            <script src="{{url_for('static', filename='js/events.js')}}"></script>
         {%endif%}
 
     </body>

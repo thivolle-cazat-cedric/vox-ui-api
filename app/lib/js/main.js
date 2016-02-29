@@ -55,20 +55,27 @@ function whois(number, done){
         });
 }
 
-function create_incoming_call_message(call_obj){
-    whois(call_obj['caller_num'], function(err, contacts){
-        var name = call_obj['caller_name'] 
-        if (!err && contacts[0]) {
-            name = contacts[0]['cn']
-        }
-        var mess = "from <strong>" + name + "</strong> <"+call_obj['caller_num']+">";
-        mess += '<br>';
-        mess += '<a href="https://www.google.fr/#q='+call_obj['caller_num']+'" target="_blank" class="btn btn-link">';
-        mess += '<i class="fa fa-share-square-o fa-fw"></i> Google search : '+call_obj['caller_num'];
-        mess += '</a>';
-        toastr["info"](mess, "Icomming Call");
+function getUriIfo(num){
 
-    });
+    var dom = '<a href="https://www.google.fr/#q='+num+'" target="_blank" class="btn btn-link">';
+    dom += '<i class="fa fa-share-square-o fa-fw"></i> Google search : '+num;
+    dom += '</a>';
+    return dom
+}
+function create_incoming_call_message(call_obj){
+    if (call_obj['caller_num'] != myExtension) {        
+        whois(call_obj['caller_num'], function(err, contacts){
+            var name = call_obj['caller_name'] 
+            if (!err && contacts[0]) {
+                name = contacts[0]['cn']
+            }
+            var mess = "from <strong>" + name + "</strong> <"+call_obj['caller_num']+">";
+            mess += '<br>';
+            mess += getUriIfo(call_obj['caller_num'])
+            toastr["info"](mess, "Icomming Call");
+
+        });
+    }
 }
 
 
@@ -87,7 +94,7 @@ $(document).ready(function() {
         "onclick": null,
         "showDuration": "100",
         "hideDuration": "1000",
-        "timeOut": "70000",
+        "timeOut": "7000",
         "extendedTimeOut": "1000",
         "showEasing": "swing",
         "hideEasing": "linear",
@@ -102,6 +109,7 @@ $(document).ready(function() {
         evt.preventDefault();
         evt.stopPropagation();
         generate_call($('#callModal form #telValue').val())
+        $('#callModal form #telValue').val('')
         return false;
     });
 
