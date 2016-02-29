@@ -33,9 +33,11 @@ def me_view():
 
 
 @ACCOUNT.route('logout', methods=["GET"])
-@is_auth
 def logout_me():
-    logout()
+    try:
+        logout()
+    except Exception:
+        pass
     clear_session()
     return "ok log out"
 
