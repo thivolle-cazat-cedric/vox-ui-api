@@ -31,6 +31,14 @@ def me_view():
     refresh_user_session
     return render_template('account/me.html')
 
+@ACCOUNT.route('settings/notify.html', methods=["GET"])
+def settings_notify():
+    refresh_user_session
+    return render_template(
+        'account/notify.html',
+        container_class='container-fluid'
+    )
+
 
 @ACCOUNT.route('logout', methods=["GET"])
 def logout_me():

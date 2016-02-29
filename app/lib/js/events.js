@@ -6,10 +6,23 @@ $(document).ready(function() {
 
     socket.on('connected', function(data){
         
-        socket.on('channels.ringing', create_incoming_call_message)
+        socket.on('channels.ringing', function(callObj){
+            if (callObj['caller_num'] != myExtension) {        
+                whois(callObj['caller_num'], function(err, contacts){
+                    var name = callObj['caller_name'] 
+                    if (!err && contacts[0]) {
+                        name = contacts[0]['cn']
+                    }
+                    var mess = "from <strong>" + name + "</strong> <"+callObj['caller_num']+">";
+                    mess += '<br>';
+                    mess += getUriIfo(callObj['caller_num'])
+                    toastr["info"](mess, "Icomming Call");
+                    notify.showMessage(callObj['id'], 'Icomming call','from ' + name + ' <'+callObj['caller_num']+'>', getUriIfo(callObj['caller_num']))
+                });
+            }
+        })
 
         socket.on('channels.up', function(callObj){
-            console.log(callObj)
             whois(callObj, function(err, callerNameList){
                 var name = callObj['caller_name'] 
                 if (!err && contacts[0]) {
@@ -25,13 +38,12 @@ $(document).ready(function() {
         })
 
         socket.on('channels.hangup', function(data){
-
-            var mess = "Call from "+data['caller_num']
-            mess += ' is hangup.'
-            console.log(data)
+            var mess = notify.list[data['id']].message;
+            mess += ' is hangup.';
             if (data['caller_num'] != myExtension) {        
-                toastr["error"](mess, "Hangup call")
+                toastr["error"](mess, "Hangup call");
             }
+            notify.list[data['id']].close();
         })
     })
     

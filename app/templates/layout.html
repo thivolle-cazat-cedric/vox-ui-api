@@ -45,8 +45,11 @@
                         <i class="fa fa-angle-down"></i>
                     </button>
                   <ul class="dropdown-menu" aria-labelledby="dd-user">
-                    <li {% if '/'.join((url_for('ACCOUNT.me_view').split('/')[0:-1])) in request.path %}class="active"{% endif %}><a href="{{url_for('ACCOUNT.me_view')}}">
+                    <li {% if url_for('ACCOUNT.me_view') == request.path %}class="active"{% endif %}><a href="{{url_for('ACCOUNT.me_view')}}">
                         <i class="fa fa-user fa-fw"></i> Account
+                    </a></li>
+                    <li {% if url_for('ACCOUNT.settings_notify') == request.path %}class="active"{% endif %}><a href="{{url_for('ACCOUNT.settings_notify')}}">
+                        <i class="fa fa-cogs fa-fw"></i> Settings
                     </a></li>
                     <li role="separator" class="divider"></li>
                     <li><a href="{{url_for('ACCOUNT.logout_me')}}">
@@ -91,7 +94,7 @@
             </nav>
             
         </div>
-        <div class="container">
+        <div class="{{container_class or "container"}}">
             <div class="row">
                 {% block body %}{% endblock %}
             </div>
@@ -154,6 +157,7 @@
             </script>
             <script src="{{url_for('static', filename='js/events.js')}}"></script>
         {%endif%}
+        {% block jsscript %}{% endblock %}
 
     </body>
 

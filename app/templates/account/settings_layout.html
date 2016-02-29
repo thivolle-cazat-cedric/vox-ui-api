@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="col-xs-12 col-sm-4 col-md-2">
+        <ul class="nav nav-pills nav-stacked">
+            <li role="presentation" {% if request.path == url_for('ACCOUNT.settings_notify')%}class="active"{%endif%}><a href="{{url_for('ACCOUNT.settings_notify')}}"> <i class="fa fa-bullhorn fa-fw"></i> Notification</a></li>
+        </ul>        
+    </div>
+    <div class="col-xs-12 col-sm-8 col-md-10">
+    {% block body_settings %}{% endblock %}
+    </div>
+
+{% endblock %}
+
+{%block jsscript%}
+    <script src="{{url_for('static', filename='js/settings.js')}}"></script>
+{%endblock%}

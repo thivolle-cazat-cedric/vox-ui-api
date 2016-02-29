@@ -62,24 +62,39 @@ function getUriIfo(num){
     dom += '</a>';
     return dom
 }
-function create_incoming_call_message(call_obj){
-    if (call_obj['caller_num'] != myExtension) {        
-        whois(call_obj['caller_num'], function(err, contacts){
-            var name = call_obj['caller_name'] 
-            if (!err && contacts[0]) {
-                name = contacts[0]['cn']
-            }
-            var mess = "from <strong>" + name + "</strong> <"+call_obj['caller_num']+">";
-            mess += '<br>';
-            mess += getUriIfo(call_obj['caller_num'])
-            toastr["info"](mess, "Icomming Call");
 
+var notify = {
+    list: {},
+    support:function(){
+        return ("Notification" in window)
+    },
+    permited:function(){
+        return Notification.permission === "granted"
+    },
+    showSettings: function(){
+        Notification.requestPermission(function (permission) {
+            if(!('permission' in Notification)) {
+                Notification.permission = permission;
+            }
         });
+    },
+    showMessage: function(id, title, message, uri){
+        if (this.support() && this.permited()){
+            this.list[id] = new Notification(title, {
+                tag: id,
+                icon: document.location.origin + $($('.header .img-logo')[0]).attr('src'),
+                body: message,
+                onclick: function(evt){evt.preventDefault(); window.open(uri, '_blank')}
+            });
+            this.list[id].message = message;
+        }
     }
 }
 
-
 $(document).ready(function() {
+    if (notify.support() && Notification.permission.toLowerCase() == "default") {
+        notify.showSettings();
+    }
     $('[data-toggle="tooltip"]').tooltip({
         container: 'body',
     })
