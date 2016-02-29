@@ -29,6 +29,10 @@ def is_auth(function):
             clear_session()
             abort(401)
 
+        if 'oauth_state' not in session:
+            clear_session()
+            abort(401)
+
         try:
             token_is_expired()
         except Exception:
