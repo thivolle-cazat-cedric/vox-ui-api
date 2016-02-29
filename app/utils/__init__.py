@@ -1,5 +1,7 @@
 from time import mktime
 from datetime import datetime
+import string
+import random as master_random
 
 def datetime_to_timestamp(dt):
     if isinstance(dt, datetime):
@@ -16,3 +18,30 @@ def value_or_zero(value):
         return 0
     else:
         return value
+
+def random_string(min_size=10, max_size=None, alpha=True, uppercase=True, lowercase=True, digit=True, punctuation=False, exposant=6):
+    char_set = ''
+    if alpha:
+        if uppercase:
+            char_set += string.ascii_uppercase
+        if lowercase:
+            char_set += string.ascii_lowercase
+
+    if digit:
+        char_set += string.digits
+    if punctuation:
+        char_set += string.punctuation
+
+    rdm_str = ''.join(
+        master_random.sample(char_set * int(exposant), int(min_size))
+    )
+
+    if max_size is None:
+        return rdm_str
+    elif min_size < max_size:
+        if len(rdm_str) > max_size:
+            return rdm_str[:max_size]
+        else:
+            return rdm_str
+    else:
+        raise AttributeError('string_func :  min_size can be most important than max_size')

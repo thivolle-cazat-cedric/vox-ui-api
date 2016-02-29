@@ -47,6 +47,6 @@ SECRET_KEY = '<randum>'
 # Lancement de l'Application
 
 ```
-(venv) $ python main.py
+(venv) $ ./manage.py runserver
 ```
 Aller sur 127.0.0.1:6500
