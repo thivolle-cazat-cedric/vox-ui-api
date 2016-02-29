@@ -1,10 +1,13 @@
 # Projet d'interface simplifé
 
 Basé sur [l'API Voxity](https://client.voxity.fr/doc). Cette interface vous permet de :
- - [X] lister vos contacts
+ - [X] Lister vos contacts
  - [X] Lister vos numéro interne & connaitre leurs état d'enregistrement
- - [-] Génerer des appels
- - [ ] Voir votre journal d'appel
+ - [X] Génerer des appels
+ - [-] Voir votre journal d'appel
+ - [X] Notification de bureau
+ - [ ] Révocation du token
+ - [ ] Ajouter un contact
 
 -----
 
@@ -33,7 +36,6 @@ $ virtualenv venv
 $ source venv/bin/activate
 (venv) $ pip install -r requirement.txt
 (venv) $ echo "# -*- coding: utf-8 -*-
-
 CLIENT_ID = '<your_client_id>
 CLIENT_SECRET = '<your_client_secret>'
 SECRET_KEY = '<randum>'
