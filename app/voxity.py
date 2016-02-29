@@ -31,6 +31,7 @@ def save_token(token):
     token['expires_in'] = -300
     session['oauth_token'] = token
     session['oauth_at'] = None
+    session['oauth_state'] = None
     session.modified = True
 
 
@@ -78,6 +79,12 @@ def pager_dict(headers):
         'curent_page': headers.get('x-paging-page', 1),
         'max_page': headers.get('x-paging-total-pages', None)
     }
+
+
+def oauth_status():
+    return connectors().get(
+        current_app.config['BASE_URL'] + '/oauth/status'
+    ).json()
 
 
 def get_devices():
