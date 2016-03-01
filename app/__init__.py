@@ -138,7 +138,10 @@ def create_app(env='prod'):
     if not app.config['DEBUG']:
         @app.errorhandler(Exception)
         def err_500_all(e):
-            app.logger.error(print_exc())
+            try:
+                e
+            except Exception:
+                app.logger.error(print_exc())
             return render_template(
                 'err/500.html',
                 error_code='500',
