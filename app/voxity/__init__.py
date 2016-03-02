@@ -6,7 +6,7 @@ from flask import current_app, session, abort
 from datetime import datetime, timedelta
 from app.utils import datetime_to_timestamp
 from requests.models import Response
-
+from app.voxity.objects import Device
 
 def check_respons(resp):
     if isinstance(resp, Response):
@@ -72,7 +72,7 @@ def oauth_status():
     return None
 
 
-def get_devices(ret_object=False):
+def get_devices(ret_object=False, **kwargs):
     """
     :retyp: list
     :return: device list
@@ -83,12 +83,16 @@ def get_devices(ret_object=False):
             current_app.config['BASE_URL'] + '/devices/'
         )
         if check_respons(resp):
-            return resp.json().get('data', [])
+            ret = resp.json().get('data', [])
+            if not ret_object:
+                return ret
+            else:
+                return Device.litst_object_from_dict(ret, **kwargs)
 
     return None
 
 
-def get_device(d_id):
+def get_device(d_id, ret_object=False):
     """
     :param str d_ind: device id
     :retype: dict
@@ -100,7 +104,11 @@ def get_device(d_id):
             current_app.config['BASE_URL'] + '/devices/' + d_id
         )
         if check_respons(resp):
-            return resp.json().get('data', [])
+            ret = resp.json().get('data', [])
+            if not ret_object:
+                return ret
+            else:
+                return Device(**ret)
 
     return None
 

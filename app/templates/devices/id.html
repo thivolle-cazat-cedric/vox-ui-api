@@ -8,7 +8,7 @@
                     <a href="{{url_for('.devices')}}" class="btn btn-link btn-block clearfix"><span class="pull-left fa fa-chevron-left"></span></a>
                 </td>
             </tr>
-            {%for key, value in device.iteritems()%}
+            {%for key, value in device.to_dict().iteritems()%}
             <tr>
                 <td>{{key}}</td>
                 <td>{{value}}</td>

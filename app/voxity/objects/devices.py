@@ -1,4 +1,5 @@
 from . import ObjectBase
+from datetime import datetime
 
 class Device(ObjectBase):
     """
@@ -35,6 +36,12 @@ class Device(ObjectBase):
             self.state = int(self.state)
         except Exception:
             raise ValueError('Device.state : must ben integer')
+        try:
+            self.last_update = datetime.strptime(
+                self.last_update, '%Y-%m-%dT%H:%M:%S.%fZ'
+            )
+        except ValueError:
+            pass
 
     @property
     def icon_class(self):
@@ -51,3 +58,10 @@ class Device(ObjectBase):
         else:
             icon_class = "fa fa-2x fa-fw fa-phone-time text-muted"
         return icon_class
+
+    def to_dict(self):
+        ret = super(Device, self).to_dict()
+        if isinstance(self.last_update, datetime):
+            ret['last_update'] = self.last_update.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+
+        return ret
