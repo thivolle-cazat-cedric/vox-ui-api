@@ -61,6 +61,7 @@ def view():
 
     return render_template(
         'contacts/index.html',
+        container_class='container-fluid',
         contacts=contact['list'],
         pager=pager,
         item=item,
