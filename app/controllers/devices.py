@@ -4,6 +4,7 @@ from flask import Blueprint, render_template, session
 from flask.json import jsonify
 from app.voxity import get_devices, get_device
 from app.controllers import is_auth
+from app.voxity.objects import Device
 
 
 DEVICES = Blueprint('DEVICES', __name__)
@@ -20,21 +21,16 @@ def devices_json():
 @is_auth
 def devices():
 
-    data = get_devices()
-
-    devices = list()
-    for dev in data:
-        devices.append(dev)
-
-    devices = sorted(devices, key=lambda k: k['extension'])
     return render_template(
         'devices/index.html',
-        devices=devices,
-        usr=session['user']
+        devices=Device.litst_object_from_dict(
+            get_devices(),
+            sort_by_extention=True
+        )
     )
 
 
-@DEVICES.route('<device_id>', methods=["GET"])
+@DEVICES.route('<device_id>.json', methods=["GET"])
 @DEVICES.route('', methods=["GET"])
 def device_json(device_id):
     return jsonify(get_device(device_id))

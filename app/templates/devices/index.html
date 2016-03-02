@@ -5,27 +5,16 @@
 <div class="col-xs-12 col-sm-6">
     <ul class="list-group vox-blf-dashbord">
     {% for d in devices[0:end]%}
-        <li id="{{d['id']}}" class="list-group-item  {%if session['user']['internalExtension'] == d['extension']%}info{%endif%}">
+        <li id="{{d.id}}" class="list-group-item  {%if session['user']['internalExtension'] == d.extension%}info{%endif%}">
             <div class="row">
-                {% if d['state'] == 0%}
-                    {% set class =  "text-success"%}
-                {% elif d['state'] == 2%}
-                    {% set class =  "text-danger animated infinite flash"%}
-                {% elif d['state'] == 3%}
-                    {% set class =  "text-danger"%}
-                {% elif d['state'] == 5%}
-                    {% set class =  "text-muted"%}
-                {% else %}
-                    {% set class =  "fa-phone-time text-muted"%}
-                {% endif %}
                 <div class="col-xs-2 icon-blf-state">
-                    <i class="fa fa-2x fa-fw fa-phone-square {{class}}" data-toggle="tooltip" title="{{d['state_desc']}}"></i>
+                    <i class="{{d.icon_class}}" data-toggle="tooltip" title="{{d.state_desc}}"></i>
                 </div>
                 <div class="col-xs-8 callable blf-name">
-                    <button role="button" class="btn btn-link btn-block text-left">{{d['extension']}}</button>
+                    <button role="button" class="btn btn-link btn-block text-left">{{d.extension}}</button>
                 </div>
                 <div class="col-xs-2 blf-info text-right">
-                    <a href="{{url_for('.device', **{'device_id':d['id']})}}" role="button" class="btn btn-link pull-right"><i class="fa fa-chevron-right"></i></a>
+                    <a href="{{url_for('.device', **{'device_id':d.id})}}" role="button" class="btn btn-link pull-right"><i class="fa fa-chevron-right"></i></a>
                 </div>
             </div>
         </li>
@@ -36,27 +25,16 @@
 <div class="col-xs-12 col-sm-6">
     <ul class="list-group vox-blf-dashbord">
     {% for d in devices[end:]%}
-        <li id="{{d['id']}}" class="list-group-item  {%if session['user']['internalExtension'] == d['extension']%}info{%endif%}">
+        <li id="{{d.id}}" class="list-group-item  {%if session['user']['internalExtension'] == d.extension%}info{%endif%}">
             <div class="row">
-                {% if d['state'] == 0%}
-                    {% set class =  "text-success"%}
-                {% elif d['state'] == 2%}
-                    {% set class =  "text-danger animated infinite flash"%}
-                {% elif d['state'] == 3%}
-                    {% set class =  "text-danger"%}
-                {% elif d['state'] == 5%}
-                    {% set class =  "text-muted"%}
-                {% else %}
-                    {% set class =  "fa-phone-time text-muted"%}
-                {% endif %}
                 <div class="col-xs-2 icon-blf-state">
-                    <i class="fa fa-2x fa-fw fa-phone-square {{class}}" data-toggle="tooltip" title="{{d['state_desc']}}"></i>
+                    <i class="{{d.icon_class}}" data-toggle="tooltip" title="{{d.state_desc}}"></i>
                 </div>
                 <div class="col-xs-8 callable blf-name">
-                    <button role="button" class="btn btn-link btn-block text-left">{{d['extension']}}</button>
+                    <button role="button" class="btn btn-link btn-block text-left">{{d.extension}}</button>
                 </div>
                 <div class="col-xs-2 blf-info text-right">
-                    <a href="{{url_for('.device', **{'device_id':d['id']})}}" role="button" class="btn btn-link pull-right"><i class="fa fa-chevron-right"></i></a>
+                    <a href="{{url_for('.device', **{'device_id':d.id})}}" role="button" class="btn btn-link pull-right"><i class="fa fa-chevron-right"></i></a>
                 </div>
             </div>
         </li>

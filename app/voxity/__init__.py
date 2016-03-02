@@ -2,11 +2,18 @@
 """Voxity api module."""
 from __future__ import absolute_import, division, unicode_literals
 from requests_oauthlib import OAuth2Session
-from flask import current_app, session
+from flask import current_app, session, abort
 from datetime import datetime, timedelta
 from app.utils import datetime_to_timestamp
-voxity_bind = None
+from requests.models import Response
 
+
+def check_respons(resp):
+    if isinstance(resp, Response):
+        if resp.status_code >= 400:
+            abort(resp.status_code)
+        return True
+    return False
 
 def save_token(token):
     '''
@@ -65,7 +72,7 @@ def oauth_status():
     return None
 
 
-def get_devices():
+def get_devices(ret_object=False):
     """
     :retyp: list
     :return: device list
@@ -75,7 +82,8 @@ def get_devices():
         resp = con.get(
             current_app.config['BASE_URL'] + '/devices/'
         )
-        return resp.json().get('data', [])
+        if check_respons(resp):
+            return resp.json().get('data', [])
 
     return None
 
@@ -88,9 +96,11 @@ def get_device(d_id):
     """
     con = connectors()
     if con:
-        return con.get(
+        resp = con.get(
             current_app.config['BASE_URL'] + '/devices/' + d_id
-        ).json()['data']
+        )
+        if check_respons(resp):
+            return resp.json().get('data', [])
 
     return None
 
