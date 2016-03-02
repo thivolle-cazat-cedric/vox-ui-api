@@ -54,7 +54,6 @@ def pager_dict(headers):
     :retype: dict
     :return: dict pagger from header response
     '''
-    print(type(headers))
     return {
         'total_item': headers.get('x-paging-total-records', None),
         'max_page': headers.get('x-paging-total-pages', None),
@@ -90,8 +89,6 @@ def get_contacts(**kwargs):
             current_app.config['BASE_URL'] + '/contacts/',
             params=kwargs
         )
-        print('#'*20)
-        print(type(resp))
         data = {}
         data['list'] = resp.json()['result']
         data['pager'] = pager_dict(resp.headers)
