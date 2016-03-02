@@ -2,20 +2,15 @@
 from __future__ import (
     absolute_import, division, print_function, unicode_literals
 )
-from traceback import print_exc
 from flask import (
     Flask, request, session, url_for, redirect, abort,
     render_template
 )
-from flask_oauthlib.client import OAuth
 from datetime import datetime
 
 from app.config import config_loader
-from app import controllers
-from app import voxity
+from app import controllers, voxity
 
-
-oauth = OAuth()
 
 __VERSION__ = "1.0.0α"
 
@@ -35,7 +30,6 @@ def create_app(env='prod'):
         static_folder="app/lib"
     )
     config_loader(app.config, env)
-    oauth.init_app(app)
 
     app.register_blueprint(
         controllers.DEVICES,
@@ -68,8 +62,9 @@ def create_app(env='prod'):
         using an URL with a few key OAuth parameters.
         """
 
-        if controllers.valide_session():
+        if controllers.valide_session() and voxity.connectors() is not None:
             return redirect(url_for('DEVICES.devices'))
+
         try:
             voxity.logout()
         except Exception:
@@ -89,11 +84,8 @@ def create_app(env='prod'):
         callback URL. With this redirection comes an authorization code included
         in the redirect URL. We will use that to obtain an access token.
         """
-        if 'oauth_state' not in session:
-            redirect(url_for('.index'))
 
         voxity_bind = voxity.bind(
-            state=session['oauth_state'],
             redirect_uri=app.config['REDIRECT_URI']
         )
         voxity.save_token(voxity_bind.fetch_token(
@@ -103,10 +95,6 @@ def create_app(env='prod'):
         ))
 
         return redirect(url_for('DEVICES.devices'))
-
-    @app.route("/err/<int:error>", methods=["GET"])
-    def raise_error(error):
-        abort(error)
 
     @app.errorhandler(401)
     def err_401(e):
@@ -137,7 +125,7 @@ def create_app(env='prod'):
 
     if not app.config['DEBUG']:
         @app.errorhandler(Exception)
-        def err_500_all(error):
+        def err_except_all(error):
             app.logger.error(
                 "{0} ERROR 500 : {1}".format("#" * 10, error),
                 exc_info=error
@@ -148,16 +136,34 @@ def create_app(env='prod'):
                 error_icon="#x1f632",
                 link_to_home=True,
             ), 500
+
+        @app.errorhandler(500)
+        def err_500_all(err):
+            app.logger.error(
+                "{0} ERROR 500 : {1}".format("#" * 10, err),
+                exc_info=err
+            )
+            return render_template(
+                'err/500.html',
+                error_code='500',
+                error_icon="#x1f632",
+                link_to_home=True,
+            ), 500
+
     else:
+        @app.route("/err/<int:error>", methods=["GET"])
+        def raise_error(error):
+            abort(error)
+
         @app.route("/debug/oauth_info")
         def show_oath():
-            expired = datetime.fromtimestamp(session['oauth_token']['expires_at'])
+            expired = datetime.fromtimestamp(
+                session['oauth_token']['expires_at']
+            )
             return """
-            state : {0}<br>
-            token :{1}<br>
-            expired at : {2}
+            token :{0}<br>
+            expired : {1}
             """.format(
-                session['oauth_state'],
                 session['oauth_token'],
                 expired
             )

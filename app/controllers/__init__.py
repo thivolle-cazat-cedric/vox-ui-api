@@ -2,7 +2,7 @@
 from __future__ import absolute_import, division, unicode_literals
 from functools import wraps
 from flask import session, url_for, redirect, abort
-from app.voxity import token_is_expired, self_user
+from app.voxity import self_user
 
 
 def clear_session():
@@ -13,8 +13,7 @@ def clear_session():
 def valide_session():
     return (
         'oauth_token' in session and
-        'access_token' in session['oauth_token'] and
-        'oauth_state' in session
+        'access_token' in session['oauth_token']
     )
 
 
@@ -31,11 +30,6 @@ def is_auth(function):
         if not valide_session():
             clear_session()
             abort(401)
-
-        try:
-            token_is_expired()
-        except Exception:
-            clear_session()
 
         if not session.get('user', False):
             session['user'] = self_user()

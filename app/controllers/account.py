@@ -61,6 +61,5 @@ def signin():
     authorization_url, state = voxity_bind.authorization_url(
         current_app.config['AUTHORIZATION_BASE_URL']
     )
-    session['oauth_state'] = state
     session['authorization_url'] = authorization_url
     return redirect(authorization_url)
