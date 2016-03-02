@@ -63,7 +63,7 @@ def create_app(env='prod'):
         """
 
         if controllers.valide_session() and voxity.connectors() is not None:
-            return redirect(url_for('DEVICES.devices'))
+            return redirect(url_for('DEVICES.devices_view'))
 
         try:
             voxity.logout()
@@ -94,7 +94,7 @@ def create_app(env='prod'):
             authorization_response=request.url
         ))
 
-        return redirect(url_for('DEVICES.devices'))
+        return redirect(url_for('DEVICES.devices_view'))
 
     @app.errorhandler(401)
     def err_401(e):
