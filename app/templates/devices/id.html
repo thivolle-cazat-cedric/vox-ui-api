@@ -5,7 +5,7 @@
         <tbody>
             <tr>
                 <td colspan="3" class="text-left">
-                    <a href="{{url_for('.devices')}}" class="btn btn-link btn-block clearfix"><span class="pull-left fa fa-chevron-left"></span></a>
+                    <a href="{{url_for('DEVICES.devices_view')}}" class="btn btn-link btn-block clearfix"><span class="pull-left fa fa-chevron-left"></span></a>
                 </td>
             </tr>
             {%for key, value in device.to_dict().iteritems()%}

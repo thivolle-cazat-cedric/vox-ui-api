@@ -8,12 +8,14 @@ from app.utils import datetime_to_timestamp
 from requests.models import Response
 from app.voxity.objects import Device
 
+
 def check_respons(resp):
     if isinstance(resp, Response):
         if resp.status_code >= 400:
             abort(resp.status_code)
         return True
     return False
+
 
 def save_token(token):
     '''
@@ -69,47 +71,6 @@ def oauth_status():
         return con.get(
             current_app.config['BASE_URL'] + '/oauth/status'
         ).json()
-    return None
-
-
-def get_devices(ret_object=False, **kwargs):
-    """
-    :retyp: list
-    :return: device list
-    """
-    con = connectors()
-    if con:
-        resp = con.get(
-            current_app.config['BASE_URL'] + '/devices/'
-        )
-        if check_respons(resp):
-            ret = resp.json().get('data', [])
-            if not ret_object:
-                return ret
-            else:
-                return Device.litst_object_from_dict(ret, **kwargs)
-
-    return None
-
-
-def get_device(d_id, ret_object=False):
-    """
-    :param str d_ind: device id
-    :retype: dict
-    :return: one device
-    """
-    con = connectors()
-    if con:
-        resp = con.get(
-            current_app.config['BASE_URL'] + '/devices/' + d_id
-        )
-        if check_respons(resp):
-            ret = resp.json().get('data', [])
-            if not ret_object:
-                return ret
-            else:
-                return Device(**ret)
-
     return None
 
 
