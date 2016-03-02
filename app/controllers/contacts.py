@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, division, unicode_literals
-from flask import Blueprint, render_template, request, redirect, url_for, abort
+from flask import Blueprint, render_template, request, abort
 from flask.json import jsonify
 from app.voxity import get_contacts
 from app.controllers import is_auth
@@ -32,7 +32,7 @@ def view():
 
     if item != 'all':
         contact = get_contacts(page=page, limit=item)
-        contact_total = int(value_or_zero(contact['pager']['total']))
+        contact_total = int(value_or_zero(contact['pager']['total_item']))
 
         try:
             item = int(item)

@@ -2,7 +2,7 @@
 from __future__ import absolute_import, division, unicode_literals
 from flask import Blueprint, render_template, request, session, abort
 from flask.json import jsonify
-from app.voxity import get_calls_log
+from app.voxity.channel import get_log
 from app.controllers import is_auth
 from app.utils import value_or_zero
 
@@ -15,14 +15,14 @@ LIST_AVAILABLE = [5, 10, 25, 50, 100]
 @CALLS_LOG.route('all.json', methods=["GET"])
 @is_auth
 def json_data():
-    return jsonify({'data': get_calls_log()})
+    return jsonify({'data': get_log()})
 
 
 @CALLS_LOG.route('my.json', methods=["GET"])
 @is_auth
 def my_json():
     return jsonify(
-        {'data': get_calls_log(
+        {'data': get_log(
             dstchannel=session['user']['internalExtension']
         )}
     )
@@ -50,11 +50,11 @@ def view(direction='incoming'):
             session['user']['internalExtension']
         )
 
-    log = get_calls_log(**params)
+    log = get_log(**params)
 
     try:
         item = int(item)
-        pager['current'] = int(value_or_zero(log['pager']['curent_page']))
+        pager['current'] = int(value_or_zero(log['pager']['curent']))
         pager['max'] = int(value_or_zero(log['pager']['max_page']))
         pager['min'] = 1
         pager['start'] = 1
@@ -80,7 +80,7 @@ def view(direction='incoming'):
         pager=pager,
         item=item,
         items=LIST_AVAILABLE,
-        log_total=int(value_or_zero(log['pager']['total'])),
+        log_total=int(value_or_zero(log['pager']['total_item'])),
     ).encode('utf-8')
 
 
@@ -106,11 +106,11 @@ def json_view(direction='incoming'):
             session['user']['internalExtension']
         )
 
-    log = get_calls_log(**params)
+    log = get_log(**params)
 
     try:
         item = int(item)
-        pager['current'] = int(value_or_zero(log['pager']['curent_page']))
+        pager['current'] = int(value_or_zero(log['pager']['curent']))
         pager['max'] = int(value_or_zero(log['pager']['max_page']))
         pager['min'] = 1
         pager['start'] = 1

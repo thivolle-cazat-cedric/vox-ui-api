@@ -119,17 +119,6 @@ def add_contacts(**kwargs):
     return None
 
 
-def call(exten):
-    con = connectors()
-    if con is not None:
-        return con.post(
-            current_app.config['BASE_URL'] + '/channels',
-            data={'exten': exten}
-        ).json()
-
-    return None
-
-
 def self_user():
     con = connectors()
     if con is not None:
@@ -150,22 +139,5 @@ def logout():
         session.modified = True
 
         return resp
-
-    return None
-
-
-def get_calls_log(**kwargs):
-    con = connectors()
-    if con is not None:
-        resp = connectors().get(
-            current_app.config['BASE_URL'] + '/calls/logs',
-            params=kwargs
-        )
-
-        data = {}
-        data['list'] = resp.json()['result']
-        data['pager'] = pager_dict(resp.headers)
-
-        return data
 
     return None
