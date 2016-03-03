@@ -2,7 +2,7 @@
 from __future__ import absolute_import, division, unicode_literals
 from flask import Blueprint, render_template, request, abort
 from flask.json import jsonify
-from app.voxity import get_contacts
+from app.voxity import contact
 from app.controllers import is_auth
 from math import ceil
 from app.utils import value_or_zero
@@ -18,7 +18,7 @@ def roundup(x):
 @CONTACT.route('all.json', methods=["GET"])
 @is_auth
 def json_data():
-    return jsonify({'data': get_contacts()})
+    return jsonify({'data': contact.get().get('list', []) or []})
 
 
 @CONTACT.route('', methods=["GET"])
@@ -31,38 +31,37 @@ def view():
     pager = dict()
 
     if item != 'all':
-        contact = get_contacts(page=page, limit=item)
-        contact_total = int(value_or_zero(contact['pager']['total_item']))
+        contacts = contact.get(page=page, limit=item, ret_object=True)
+        contact_total = int(value_or_zero(contacts['pager']['total_item']))
 
-        try:
-            item = int(item)
-            pager['current'] = int(value_or_zero(contact['pager']['curent_page']))
-            pager['max'] = int(value_or_zero(contact['pager']['max_page']))
-            pager['min'] = 1
-            pager['start'] = 1
-            pager['end'] = pager['max']
+        # try:
+        item = int(item)
+        pager['current'] = int(value_or_zero(contacts['pager']['curent']))
+        pager['max'] = int(value_or_zero(contacts['pager']['max_page']))
+        pager['min'] = 1
+        pager['start'] = 1
+        pager['end'] = pager['max']
 
-            if pager['end'] - pager['start'] > 10:
-                pager['start'] = pager['current'] - 5
-                if pager['start'] < 1:
-                    pager['start'] = 1
+        if pager['end'] - pager['start'] > 10:
+            pager['start'] = pager['current'] - 5
+            if pager['start'] < 1:
+                pager['start'] = 1
 
-                pager['end'] = pager['start'] + 10
-                if pager['end'] > pager['max']:
-                    pager['end'] = pager['max']
-                    pager['start'] = pager['end'] - 10
+            pager['end'] = pager['start'] + 10
+            if pager['end'] > pager['max']:
+                pager['end'] = pager['max']
+                pager['start'] = pager['end'] - 10
 
-        except Exception:
-            contact = get_contacts()
-            item = 'all'
+        # except Exception:
+            # contacts = contact.get(ret_object=True)
+            # item = 'all'
     else:
-        contact = get_contacts()
+        contacts = contact.get(ret_object=True)
         contact_total = contact['pager']
-
     return render_template(
         'contacts/index.html',
         container_class='container-fluid',
-        contacts=contact['list'],
+        contacts=contacts['list'],
         pager=pager,
         item=item,
         items=LIST_AVAILABLE,
@@ -71,31 +70,41 @@ def view():
     ).encode('utf-8')
 
 
-@CONTACT.route('<uid>-view.html', methods=["GET"])
+@CONTACT.route('<uid>.html', methods=["GET"])
 @is_auth
 def test_view(uid=None):
-    return str(uid)
+    return "Not developed"
+
+@CONTACT.route('<uid>.json', methods=["GET"])
+@is_auth
+def contact_uid(uid=None):
+    c = contact.get_uid(uid=uid)
+    if c:
+        return jsonify({'data': c})
+    else:
+        abort(404)
 
 
 @CONTACT.route('search.html', methods=['GET'])
 @is_auth
 def search():
-    contact = list()
+    c = list()
     form_value = dict()
     if not request.args.get('name', ''):
-        aboort(400)
+        abort(400)
     else:
         form_value['name'] = "{0}".format(request.args.get('name', ''))
 
-    contact = get_contacts(cn=form_value['name'])
+    c = contact.get(cn=form_value['name'], ret_object=True)
     return render_template(
         'contacts/index.html',
-        contacts=contact['list'],
+        contacts=c['list'],
         item="all",
-        contact_total=len(contact['list']),
+        contact_total=len(c['list']),
         search_mode=True,
         form_value=form_value
     ).encode('utf-8')
+
 
 @CONTACT.route('search.json', methods=['GET'])
 @is_auth
@@ -104,23 +113,29 @@ def search_json():
     for k in request.args:
         search[k] = request.args[k]
 
-    contact = get_contacts(item=2500, **search)
-    return jsonify({'data': contact})
+    c = contact.get(**search)
+    return jsonify({'data': c})
 
-@CONTACT.route('whois.html', methods=['GET'])
+
+@CONTACT.route('whois.json', methods=['GET'])
 @is_auth
 def whois():
-    contacts = list()
-    name_list = list()
-    form_value = dict()
+
     if not request.args.get('number', ''):
         abort(400)
-    number = '{0}'.format(request.args.get('number')).replace(' ', '').replace('.', '').replace('-', '')
 
-    contacts += get_contacts()['list']
+    c = list()
+    name_list = list()
 
-    for c in contacts:
-        if c.get('mobile', '') == number or c.get('telephoneNumber', '') == number:
-            name_list.append(c)
+    number = '{0}'.format(
+        request.args.get('number')
+    ).replace(' ', '').replace('.', '').replace('-', '')
+
+    c += contact.get()['list']
+
+    for elt in c:
+        if elt.get('mobile', '') == number or \
+           elt.get('telephoneNumber', '') == number:
+            name_list.append(elt)
 
     return jsonify({'data': name_list})

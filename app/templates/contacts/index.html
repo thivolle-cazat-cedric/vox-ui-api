@@ -53,15 +53,15 @@
                     <td colspan="2">
                         {{c['cn']}}
                     </td>
-                    <td {%if c['telephoneNumber']%}class="callable"{%endif%}>
-                        {{c['telephoneNumber']}}
+                    <td {%if c.telephone_number%}class="callable"{%endif%}{% if c.phone_number_raccourci %} title="click2call - {{c.phone_number_raccourci}}"{% endif %}>
+                        {{c.telephone_number}}
                         
                     </td>
-                    <td {%if c['mobile']%}class="callable"{%endif%}>
-                        {{c['mobile']}}
+                    <td {%if c.mobile%}class="callable"{%endif%} {% if c.phone_mobile_raccourci %} title="click2call - {{c.phone_mobile_raccourci}}"{% endif %}>
+                        {{c.mobile}}
                     </td>
                     <td>
-                        <a href="mailto:{{c['mail']}}">{{c['mail']}}</a>
+                        <a href="mailto:{{c.mail}}">{{c.mail}}</a>
 
                     </td>
                     <td>

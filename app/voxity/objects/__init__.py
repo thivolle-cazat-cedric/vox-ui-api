@@ -14,7 +14,7 @@ class ObjectBase(object):
         self.from_dict(kwargs)
 
     def __repr__(self):
-        return "<{1}>".format(self.__class__.__name__)
+        return "<{0}>".format(self.__class__.__name__)
 
     def __str__(self):
         return self.__repr__()

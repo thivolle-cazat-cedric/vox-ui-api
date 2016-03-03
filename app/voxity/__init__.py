@@ -22,8 +22,7 @@ def save_token(token):
     :param dict token: token object
     :retype: None
     '''
-    token['expires_in'] = -300
-    token.pop('oauth_state', None)
+    token['expires_in'] = -3000
     token['expires_at'] = datetime_to_timestamp(
         datetime.now() + timedelta(days=7)
     )
@@ -70,49 +69,6 @@ def oauth_status():
         return con.get(
             current_app.config['BASE_URL'] + '/oauth/status'
         ).json()
-    return None
-
-
-def get_contacts(**kwargs):
-    """
-    :param int page: page number *default None*
-    :param int limit: limit contact in response *default None*
-    :param str name: name filter
-    :retype: list
-    :return: contact list
-    """
-    if 'cn' in kwargs:
-        kwargs['cn'] = "*{0}*".format(kwargs['cn'])
-    con = connectors()
-    if con is not None:
-        resp = con.get(
-            current_app.config['BASE_URL'] + '/contacts/',
-            params=kwargs
-        )
-        data = {}
-        data['list'] = resp.json()['result']
-        data['pager'] = pager_dict(resp.headers)
-        return data
-
-    return None
-
-
-def add_contacts(**kwargs):
-    """
-    :param str cn: name **mandatory**
-    :param str telephoneNumber: first phone number **mandatory**
-    :param str mobile: mobile phone number
-    :param str mail: mail adresse
-    :retype: list
-    :return: contact list
-    """
-    con = connectors()
-    if con is not None:
-        return con.post(
-            current_app.config['BASE_URL'] + '/contacts/',
-            params=kwargs
-        ).json()
-
     return None
 
 
