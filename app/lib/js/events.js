@@ -23,7 +23,7 @@ $(document).ready(function() {
         })
 
         socket.on('channels.up', function(callObj){
-            whois(callObj, function(err, callerNameList){
+            whois(callObj['caller_num'], function(err, callerNameList){
                 var name = callObj['caller_name'] 
                 if (!err && contacts[0]) {
                     name = contacts[0]['cn']

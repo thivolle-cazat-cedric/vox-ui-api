@@ -39,20 +39,20 @@ function generate_call(exten){
 
 function whois(number, done){
     $.ajax({
-            url: "/contacts/whois.html",
-            method: "GET",
-            data: {'number': number},
-            success: function(d, status) {
-                if (d.data) {
-                    done(null ,d.data)
-                } else if(data.data.status === 500){
-                    done('No data in response' ,d.data)
-                }
-            },
-            error: function(xhr, state, d){
-                done('No data in responsz' ,d)
+        url: "/contacts/whois.json",
+        method: "GET",
+        data: {'number': number},
+        success: function(d, status) {
+            if (d.data) {
+                done(null ,d.data)
+            } else if(data.data.status === 500){
+                done('No data in response' ,d.data)
             }
-        });
+        },
+        error: function(xhr, state, d){
+            done('No data in responsz' ,d)
+        }
+    });
 }
 
 function getUriIfo(num){
