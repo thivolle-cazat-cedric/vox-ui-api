@@ -93,8 +93,10 @@ def create_app(env='prod'):
             client_secret=app.config['CLIENT_SECRET'],
             authorization_response=request.url
         ))
-
-        return redirect(url_for('DEVICES.devices_view'))
+        if 'next_uri_aft_signin' in session:
+            return redirect(session.pop('next_uri_aft_signin'))
+        else:
+            return redirect(url_for('DEVICES.devices_view'))
 
     @app.errorhandler(401)
     def err_401(e):

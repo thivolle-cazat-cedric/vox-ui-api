@@ -5,5 +5,5 @@
 {% endblock %}
 
 {% block leadlink%}
-	<a class="btn btn-lg btn-success" href="{{url_for('ACCOUNT.signin')}}" role="button">Signin <i class="fa fa-sign-in"></i></a>
+	<a class="btn btn-lg btn-success" href="{{url_for('ACCOUNT.signin')}}?next={{request.path}}" role="button">Signin <i class="fa fa-sign-in"></i></a>
 {%endblock%}
