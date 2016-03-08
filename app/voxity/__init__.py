@@ -77,7 +77,7 @@ def self_user():
     if con is not None:
         return con.get(
             current_app.config['BASE_URL'] + '/users/self'
-        ).json()
+        ).json()['result']
 
     return None
 
