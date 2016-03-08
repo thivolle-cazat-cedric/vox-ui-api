@@ -25,10 +25,15 @@ def generate_call():
     abort(500)
 
 
-@CALLS.route('', methods=["GET"])
+@CALLS.route('json/', methods=["GET"])
 @is_auth
 def channels_json():
-    return jsonify({'data': channel.get()})
+    filter_query = dict()
+    for k in channel.Channel._DICT_KEYS:
+        if request.args.get(k, False):
+            filter_query[k] = request.args.get(k)
+
+    return jsonify({'data': channel.get_local_filter(**filter_query)})
 
 
 @CALLS.route('<device_id>.json', methods=["GET"])

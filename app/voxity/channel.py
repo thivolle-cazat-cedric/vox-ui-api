@@ -26,15 +26,35 @@ def get(ret_object=False, **kwargs):
 
     con = connectors()
     if con:
-        resp = con.get(get_base_url())
+        resp = con.get(get_base_url(), params=kwargs)
         if check_respons(resp):
-            ret = resp.json().get('data', [])
+            ret = resp.json().get('result', [])
             if not ret_object:
                 return ret
             else:
                 return Channel.litst_object_from_dict(ret, **kwargs)
 
     return None
+
+def get_local_filter(ret_object=False, **kwargs):
+    ret = list()
+    if not kwargs:
+        return get(ret_object=ret_object)
+    else:
+        channels = get()
+
+    for c in channels:
+        conditions = list()
+        for k in kwargs.keys():
+            conditions.append(str(c[k]).lower() == str(kwargs[k]).lower())
+
+        if any(conditions) and ret_object:
+            c = Channel(**c)
+            ret.append(c)
+        elif any(conditions) and not ret_object:
+            ret.append(c)
+
+    return ret
 
 
 def get_id(d_id, ret_object=False):
