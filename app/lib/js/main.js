@@ -119,6 +119,7 @@ $(document).ready(function() {
 
     $('#callModal').on('show.bs.modal',function(elt){$('#callModal form #telValue').val('');});
     $('#callModal').on('shown.bs.modal',function(elt){$('#callModal form #telValue').focus();});
+    $('#callModal').on('hide.bs.modal',function(elt){$('#callModal form #telValue').blur();});
 
     $('#callModal form').on('submit', function(evt) {
         evt.preventDefault();
@@ -137,6 +138,15 @@ $(document).ready(function() {
         if (filter_exten($(this).text()).length > 1) {
             generate_call($(this).text());
         };
+    });
+
+    $(document).keypress(function(event) {
+        var tag = event.target.tagName.toLowerCase();
+        // r
+        if (tag != 'input' && event.charCode == 114 && typeof refreshState == 'function') {refreshState()}
+        // c
+        else if (tag != 'input' && event.charCode == 99) {$('#callModal').modal('show')}
+
     });
 
 });
