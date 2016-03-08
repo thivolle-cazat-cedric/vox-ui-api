@@ -10,6 +10,7 @@ from datetime import datetime
 
 from app.config import config_loader
 from app import controllers, voxity
+from app.voxity.error import ExceptVoxityTokenExpired
 
 
 __VERSION__ = "1.0.0α"
@@ -125,7 +126,24 @@ def create_app(env='prod'):
             link_to_home=True,
         ), 404
 
+    @app.errorhandler(ExceptVoxityTokenExpired)
+    def err_token_expired(error):
+        if (
+            'try_refresh_token' not in session and
+            not isinstance(session['try_refresh_token'], int)
+        ):
+            session['try_refresh_token'] = 0
+
+        if session['try_refresh_token'] < 1:
+            session['try_refresh_token'] += 1
+            voxity.refresh_token()
+            return redirect(request.path)
+        else:
+            session['try_refresh_token'] = 10
+            abort(401)
+
     if not app.config['DEBUG']:
+
         @app.errorhandler(Exception)
         def err_except_all(error):
             app.logger.error(

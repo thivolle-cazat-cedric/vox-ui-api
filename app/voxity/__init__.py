@@ -6,11 +6,15 @@ from flask import current_app, session, abort
 from datetime import datetime, timedelta
 from app.utils import datetime_to_timestamp
 from requests.models import Response
-from app.voxity.objects import Device
+from app.voxity.error import ExceptVoxityTokenExpired
 
 
 def check_respons(resp):
     if isinstance(resp, Response):
+        if resp.status_code == 401:
+            session['try_refresh_token'] = 0
+            session.modified = True
+            raise ExceptVoxityTokenExpired()
         if resp.status_code >= 400:
             abort(resp.status_code)
         return True
@@ -26,14 +30,30 @@ def save_token(token):
     token['expires_at'] = datetime_to_timestamp(
         datetime.now() + timedelta(days=7)
     )
-
     session['oauth_token'] = token
+    session['try_refresh_token'] = 0
     session.modified = True
 
 
 def bind(**kwargs):
     return OAuth2Session(current_app.config['CLIENT_ID'], **kwargs)
 
+def refresh_token():
+    '''
+    :retryp:OAuth2Session
+    :return:valid conector
+    '''
+    vox_bind = bind(
+        token=session['oauth_token']
+    )
+    token = vox_bind.refresh_token(
+        current_app.config['TOKEN_URL'],
+        client_id=current_app.config['CLIENT_ID'],
+        client_secret=current_app.config['CLIENT_SECRET']
+    )
+    save_token(token)
+
+    return connectors()
 
 def connectors(**kwargs):
     """
