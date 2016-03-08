@@ -2,6 +2,10 @@
 {% block body %}
 {% set end = (devices|length / 2)| round(0,'ceil') | int%}
 
+<p class="text-center">
+    <button class="btn btn-default" type="button" id="refresh-dashboard"><i class="fa fa-refresh"></i></button>
+</p>
+
 <div class="col-xs-12 col-sm-6">
     <ul class="list-group vox-blf-dashbord">
     {% for d in devices[0:end]%}
@@ -45,4 +49,8 @@
 
 {% block css %}
     <link rel="stylesheet" href="{{url_for('static', filename='res/animate.min.css')}}">
+{% endblock %}
+
+{% block jsscript %}
+    <script src="{{url_for('static', filename='js/devices.js')}}"></script>
 {% endblock %}

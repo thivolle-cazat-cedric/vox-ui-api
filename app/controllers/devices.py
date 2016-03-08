@@ -10,10 +10,6 @@ from app.voxity.objects import Device
 DEVICES = Blueprint('DEVICES', __name__)
 
 
-@DEVICES.route('', methods=["GET"])
-@is_auth
-def devices_json():
-    return jsonify({'data': device.get()})
 
 
 @DEVICES.route('view.html', methods=["GET"])
@@ -25,12 +21,6 @@ def devices_view():
     )
 
 
-@DEVICES.route('<device_id>.json', methods=["GET"])
-@is_auth
-def device_json(device_id):
-    return jsonify({'data': device.get_id(device_id)})
-
-
 @DEVICES.route('<device_id>.html', methods=["GET"])
 @is_auth
 def device_view(device_id=None):
@@ -38,3 +28,15 @@ def device_view(device_id=None):
         'devices/id.html',
         device=device.get_id(device_id, ret_object=True)
     )
+
+
+@DEVICES.route('json/', methods=["GET"])
+@is_auth
+def devices_json():
+    return jsonify({'data': device.get()})
+
+
+@DEVICES.route('json/<device_id>', methods=["GET"])
+@is_auth
+def device_json(device_id):
+    return jsonify({'data': device.get_id(device_id)})
