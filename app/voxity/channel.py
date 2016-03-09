@@ -46,7 +46,13 @@ def get_local_filter(ret_object=False, **kwargs):
     for c in channels:
         conditions = list()
         for k in kwargs.keys():
-            conditions.append(str(c[k]).lower() == str(kwargs[k]).lower())
+            if (kwargs[k].count('*') == 2 and
+                kwargs[k][0] == '*' and
+                kwargs[k][-1] == '*' and
+                len(kwargs[k]) > 2):
+                conditions.append(str(c[k]).lower() in str(kwargs[k]).lower())
+            else:
+                conditions.append(str(c[k]).lower() == str(kwargs[k]).lower())
 
         if any(conditions) and ret_object:
             c = Channel(**c)

@@ -35,6 +35,13 @@ class Channel(ObjectBase):
         'protocol'
     ]
 
+    _FA_ICON = {
+        0: 'fa fa-times',
+        5: 'fa fa fa-bell-o',
+        6: 'fa fa-play',
+        11: 'fa fa-pause'
+    }
+
     @staticmethod
     def litst_object_from_dict(lst_dict):
         if isinstance(lst_dict, list):
@@ -49,3 +56,18 @@ class Channel(ObjectBase):
             self.channel_state = int(self.channel_state)
         except Exception:
             raise ValueError('Channel.state : must ben integer')
+
+
+    def is_incomming_call(self):
+        return not self.caller_num == self.exten
+
+
+    def get_icon_stat(self):
+        '''
+        :rettype: str
+        :return: fa icon class
+        '''
+        # try:
+        return self._FA_ICON[self.channel_state]
+        # except Exception:
+            # return ""

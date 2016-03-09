@@ -1,20 +1,65 @@
 {% extends "layout.html" %}
 {% block body %}
-<div class="col-xs-12">
-    <table class="table table-striped">
-        <tbody>
-            <tr>
-                <td colspan="3" class="text-left">
-                    <a href="{{url_for('DEVICES.devices_view')}}" class="btn btn-link btn-block clearfix"><span class="pull-left fa fa-chevron-left"></span></a>
-                </td>
-            </tr>
-            {%for key, value in device.to_dict().iteritems()%}
-            <tr>
-                <td>{{key}}</td>
-                <td>{{value}}</td>
-            </tr>
-            {%endfor%}
-        </tbody>
-    </table>
+
+<div class="col-xs-12 col-md-6">
+    <h2> Inforamtions</h2>
+    <hr>
+    <div class="panel panel-info">
+        <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="panel-title">
+                <i class="{{device.icon_class}} fa-fw"></i> &nbsp; {{device.extension}}
+            </h4>
+        </div>
+        <div>
+            <div class="panel-body">
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <td>Id</td>
+                        <td>{{device.id}}</td>
+                    </tr>
+                    <tr>
+                        <td>State</td>
+                        <td>{{device.state_desc}}</td>
+                    </tr>
+                    <tr>
+                        <td>Last update</td>
+                        <td>{{device.last_update}}</td>
+                    </tr>
+                </tbody>
+            </table>
+               
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="col-xs-12 col-md-6">
+    <h2>Curent Calls <span class="label label-primary pull-right">{{calls|length}}</span></h2>
+    <hr>
+    
+    <ul class="list-group">
+    {% for c in calls %}
+            {%if c.is_incomming_call() %}
+                {% set fa_class='fa-arrow-down'%}
+                {% set direction_class='list-group-item-warning'%}
+                {% set num=c.caller_name%}
+            {% else %}
+                {% set fa_class='fa-arrow-up'%}
+                {% set direction_class='list-group-item-info'%}
+                {% set num=c.callee_num%}
+            {% endif %}
+            <li class="list-group-item {{direction_class}}" id="call-{{c.id}}">
+                 {% if c.get_icon_stat()%}<i class="{{c.get_icon_stat()}}"></i>{% endif %} &nbsp;
+                {{num}}
+                <span class="pull-right">
+                    <sub><i class="fa fa-phone"></i></sub><sup><i class="fa {{fa_class}}"></i></sup>
+                </span>
+            </li>
+    {% endfor %}
+    </ul>
+
 </div>
 {% endblock %}
+
