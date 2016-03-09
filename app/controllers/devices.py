@@ -10,8 +10,6 @@ from app.voxity.objects import Device
 DEVICES = Blueprint('DEVICES', __name__)
 
 
-
-
 @DEVICES.route('view.html', methods=["GET"])
 @is_auth
 def devices_view():
