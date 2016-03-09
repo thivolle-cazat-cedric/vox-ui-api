@@ -32,11 +32,14 @@ def save_token(token):
     )
     session['oauth_token'] = token
     session['try_refresh_token'] = 0
+    session['user'] = self_user()
+
     session.modified = True
 
 
 def bind(**kwargs):
     return OAuth2Session(current_app.config['CLIENT_ID'], **kwargs)
+
 
 def refresh_token():
     '''
