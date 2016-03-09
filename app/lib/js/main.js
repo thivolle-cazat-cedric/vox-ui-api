@@ -141,12 +141,13 @@ $(document).ready(function() {
     });
 
     $(document).keypress(function(event) {
-        var tag = event.target.tagName.toLowerCase();
-        // r
-        if (tag != 'input' && event.charCode == 114 && typeof refreshState == 'function') {refreshState()}
-        // c
-        else if (tag != 'input' && event.charCode == 99) {$('#callModal').modal('show')}
-
+        if (!event.metaKey) {
+            var tag = event.target.tagName.toLowerCase();
+            // r
+            if (tag != 'input' && event.charCode == 114 && typeof refreshState == 'function') {refreshState()}
+            // c
+            else if (tag != 'input' && event.charCode == 99) {$('#callModal').modal('show')}
+        }
     });
 
 });
