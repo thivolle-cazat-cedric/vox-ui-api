@@ -51,8 +51,8 @@
                 {% set num=c.callee_num or c.caller_name%}
             {% endif %}
             <li class="list-group-item {{direction_class}}" id="call-{{c.id}}">
-                 {% if c.get_icon_stat()%}<i class="{{c.get_icon_stat()}}"></i>{% endif %} &nbsp;
-                {{num  | num_clear_format(space=True)}}
+                {% if c.get_icon_stat()%}<i class="{{c.get_icon_stat()}}"></i>{% endif %} &nbsp;
+                <span data-whois-num="{{num}}" data-whois-suf="  -  "></span> {{num | num_clear_format(space=True)}}
                 <span class="pull-right">
                     <sub><i class="fa fa-phone"></i></sub><sup><i class="fa {{fa_class}}"></i></sup>
                 </span>

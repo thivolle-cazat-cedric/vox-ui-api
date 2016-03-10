@@ -126,3 +126,7 @@ body {
 .vox-blf-dashbord .blf-info a{
   display: inline;
 }
+
+span[data-whois-num] {
+  display: none;
+}
