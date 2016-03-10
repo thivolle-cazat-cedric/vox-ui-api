@@ -9,6 +9,9 @@ from requests.models import Response
 from app.voxity.error import ExceptVoxityTokenExpired
 
 
+_DURATION_TOKEN = timedelta(days=7)
+
+
 def check_respons(resp):
     if isinstance(resp, Response):
         if resp.status_code == 401:
@@ -26,10 +29,9 @@ def save_token(token):
     :param dict token: token object
     :retype: None
     '''
-    duration = timedelta(days=7)
-    token['expires_in'] = int(duration.total_seconds())
+    token['expires_in'] = int(_DURATION_TOKEN.total_seconds())
     token['expires_at'] = datetime_to_timestamp(
-        datetime.now() + duration
+        datetime.now() + _DURATION_TOKEN
     )
     session['oauth_token'] = token
     session['try_refresh_token'] = 0
@@ -54,7 +56,7 @@ def refresh_token():
         current_app.config['TOKEN_URL'],
         client_id=current_app.config['CLIENT_ID'],
         client_secret=current_app.config['CLIENT_SECRET'],
-        refresh_token=session['oauth_token']['refresh_token']
+        refresh_token=session['oauth_token']['refresh_token'],
     )
     save_token(token)
 
