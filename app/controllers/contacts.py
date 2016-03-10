@@ -98,6 +98,7 @@ def search():
     c = contact.get(cn=form_value['name'], ret_object=True)
     return render_template(
         'contacts/index.html',
+        container_class='container-fluid',
         contacts=c['list'],
         item="all",
         contact_total=len(c['list']),

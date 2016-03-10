@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, division, unicode_literals
 
-def number_clear(value, space=False):
-    if value[0:3] == "+33":
+def number_clear(value, space=True):
+    if value and len(value) > 3 and value[0:3] == "+33":
         value = '0' + value[3:]
 
     if space:
