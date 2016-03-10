@@ -147,7 +147,14 @@ $(document).ready(function() {
             if (tag != 'input' && event.charCode == 114 && typeof refreshState == 'function') {refreshState()}
             // c
             else if (tag != 'input' && event.charCode == 99) {$('#callModal').modal('show')}
+            // esc
+            else if (tag != 'input' && event.charCode == 27) {
+                if (!$("#callModal").is(':visible') && $("#contact-back-to-list")) {
+                    location.pathname = $(".input-group a.btn:first").attr('href')
+                }
+            }
         }
+
     });
 
 });
