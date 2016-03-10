@@ -26,9 +26,10 @@ def save_token(token):
     :param dict token: token object
     :retype: None
     '''
-    token['expires_in'] = -3000
+    duration = timedelta(days=7)
+    token['expires_in'] = int(duration.total_seconds())
     token['expires_at'] = datetime_to_timestamp(
-        datetime.now() + timedelta(days=7)
+        datetime.now() + duration
     )
     session['oauth_token'] = token
     session['try_refresh_token'] = 0
@@ -38,7 +39,7 @@ def save_token(token):
 
 
 def bind(**kwargs):
-    return OAuth2Session(current_app.config['CLIENT_ID'], **kwargs)
+    return OAuth2Session(client_id=current_app.config['CLIENT_ID'], **kwargs)
 
 
 def refresh_token():
@@ -52,11 +53,13 @@ def refresh_token():
     token = vox_bind.refresh_token(
         current_app.config['TOKEN_URL'],
         client_id=current_app.config['CLIENT_ID'],
-        client_secret=current_app.config['CLIENT_SECRET']
+        client_secret=current_app.config['CLIENT_SECRET'],
+        refresh_token=session['oauth_token']['refresh_token']
     )
     save_token(token)
 
     return connectors()
+
 
 def connectors(**kwargs):
     """
@@ -65,7 +68,14 @@ def connectors(**kwargs):
     """
     token = kwargs.get('token', session.get('oauth_token', None))
     if isinstance(token, dict):
-        return bind(token=token)
+        return bind(
+            token=token,
+            auto_refresh_url=current_app.config['TOKEN_URL'],
+            auto_refresh_kwargs={
+                'client_id': current_app.config['CLIENT_ID'],
+                'client_secret': current_app.config['CLIENT_SECRET']
+            }
+        )
     else:
         return None
 
