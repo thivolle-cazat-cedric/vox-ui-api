@@ -11,6 +11,7 @@ from datetime import datetime
 from app.config import config_loader
 from app import controllers, voxity
 from app.voxity.error import ExceptVoxityTokenExpired
+from app.utils.jinja2_filters import number_clear
 
 
 __VERSION__ = "1.0.0α"
@@ -53,6 +54,8 @@ def create_app(env='prod'):
         controllers.CALLS_LOG,
         url_prefix='/call_log/'
     )
+
+    app.jinja_env.filters['num_clear_format'] = number_clear
 
     app.config['__VERSION__'] = __VERSION__
 
