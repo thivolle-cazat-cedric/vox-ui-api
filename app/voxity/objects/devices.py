@@ -35,7 +35,10 @@ class Device(ObjectBase):
         try:
             self.state = int(self.state)
         except Exception:
-            raise ValueError('Device.state : must ben integer')
+            raise ValueError('Device.state : must ben integer [{0} : {1}]'.format(
+                self.state,
+                type(self.state).__name__
+            ))
         try:
             self.last_update = datetime.strptime(
                 self.last_update, '%Y-%m-%dT%H:%M:%S.%fZ'

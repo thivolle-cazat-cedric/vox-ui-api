@@ -55,7 +55,11 @@ class Channel(ObjectBase):
         try:
             self.channel_state = int(self.channel_state)
         except Exception:
-            raise ValueError('Channel.state : must ben integer')
+            raise ValueError(
+                'Channel.state : must ben integer not [{0} : {1}]'.format(
+                self.channel_state,
+                type(self.channel_state).__name__
+            ))
 
 
     def is_incomming_call(self):
