@@ -8,15 +8,18 @@
  - [-] Authentification
 
 
-#Version 1.0.0 
+#Version 1 
 
 ---
 
-### βeta [:danger: en cours]
+### 1.1 βeta [:danger: en cours]
 
  - [ ] Ajout d'un contact 
  - [ ] Edition d'un contact
  - [ ] Déconnexion
+
+##### 1.0.1
+ - [X] Ajout d'un lien de déconnexion dans la page d'accueil
 
 ### αlpha
 
