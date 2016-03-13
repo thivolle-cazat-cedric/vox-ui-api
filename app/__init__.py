@@ -108,6 +108,12 @@ def create_app(env='prod'):
             return redirect(request.path)
         else:
             session['try_refresh_token'] = 10
+            if 'user' in session:
+                app.logger.error("TOKEN EXPIRED : {0} user".format(
+                    session['user']['name']
+                ))
+            else:
+                app.logger.error("TOKEN EXPIRED : unknow user")
             abort(401)
 
     if not app.config['DEBUG']:
@@ -115,7 +121,7 @@ def create_app(env='prod'):
         @app.errorhandler(Exception)
         def err_except_all(error):
             app.logger.error(
-                "{0} ERROR 500 : {1}".format("#" * 10, error),
+                "{0} ERROR 500 : {1}".format("#" * 10, str(error)),
                 exc_info=error
             )
             return render_template(
@@ -128,7 +134,7 @@ def create_app(env='prod'):
         @app.errorhandler(500)
         def err_500_all(err):
             app.logger.error(
-                "{0} ERROR 500 : {1}".format("#" * 10, err),
+                "{0} ERROR 500 : {1}".format("#" * 10, str(err),),
                 exc_info=err
             )
             return render_template(
