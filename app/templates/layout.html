@@ -107,10 +107,14 @@
                         Devloped by Cedric TC
                     </div>
                     <div class="col-xs-2 text-center">
-                        <img src="{{url_for('static', filename='icon/app/75-icon_app.png')}}" alt="" class="img img-logo-app">
+                        <a href="{{url_for('PUBLIC.index')}}">
+                            <img src="{{url_for('static', filename='icon/app/75-icon_app.png')}}" alt="" class="img img-logo-app">
+                        </a>
                     </div>
                     <div class="col-xs-5 text-right">
-                        Version {{config['__VERSION__']}}
+                        <a href="{{url_for('PUBLIC.changelog')}}">
+                            Version {{config['__VERSION__']}}
+                        </a>
                     </div>
                 </div>
             </div>

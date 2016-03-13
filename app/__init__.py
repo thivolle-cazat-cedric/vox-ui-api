@@ -34,6 +34,10 @@ def create_app(env='prod'):
     config_loader(app.config, env)
 
     app.register_blueprint(
+        controllers.PUBLIC,
+        url_prefix='/'
+    )
+    app.register_blueprint(
         controllers.DEVICES,
         url_prefix='/devices/'
     )
@@ -58,23 +62,6 @@ def create_app(env='prod'):
     app.jinja_env.filters['num_clear_format'] = number_clear
 
     app.config['__VERSION__'] = __VERSION__
-
-    @app.route("/")
-    def index():
-        """Step 1: User Authorization.
-        Redirect the user/resource owner to the OAuth provider (i.e. Github)
-        using an URL with a few key OAuth parameters.
-        """
-
-        if controllers.valide_session() and voxity.connectors() is not None:
-            return redirect(url_for('DEVICES.devices_view'))
-
-        try:
-            voxity.logout()
-        except Exception:
-            controllers.clear_session()
-
-        return redirect(url_for('ACCOUNT.signin'))
 
     @app.route("/favicon.ico")
     def favicon():

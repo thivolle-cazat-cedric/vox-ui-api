@@ -1,0 +1,125 @@
+{% extends "public/layout.html" %}
+
+{% block body %}
+
+<div class="jumbotron jumbotron-home">
+    <img src="{{url_for('static', filename='icon/fav/75-vox-ui-api.png')}}" alt="" class="img img-logo">
+
+    <h1>Vox-ui-api</h1>
+    <p class="lead">
+        Projet public présentant les possibilités d'intégration de l'<abbr title="Application Programming Interface">A.P.I.</abbr> Voxity.
+    </p>
+    <p>
+        Voxity propose une solution de téléphonie IP sur mesure pour toutes les entreprises exigeantes.
+    </p>
+    <br>
+    <div class="row">
+        <div class="col-xs-12 col-sm-4 text-center">
+            <a href="#" class="btn btn-default disabled" target="_blank">
+                <i class="fa fa fa-github-square"></i> Projet
+            </a>
+        </div>
+        <div class="col-xs-12 col-sm-4 text-center">
+            <a href="{{url_for('ACCOUNT.signin')}}" class="btn btn-default" id="btn-get-started">
+                <img src="{{url_for('static', filename='icon/fav/75-vox-ui-api.png')}}" alt="" class="img img-icon">
+                <i class="fa fa-play" style="display: none"></i>
+                Utiliser
+            </a>
+        </div>
+        <div class="col-xs-12 col-sm-4 text-center">
+            <a href="https://voxity.fr/" class="btn btn-default" target="_blank">
+                <img src="{{url_for('static', filename='img/voxity-logo-75.png')}}" alt="voxity-logo" class="img img-icon"> Voxity
+            </a>
+        </div>
+    </div>
+</div>
+
+
+<div class="container" id="available-features">
+    <div class="ombre-t"></div>
+    <div class="row">
+        <div class="col-xs-12 col-md-4">
+            <h2><i class="fa fa-tachometer fa-fw"></i> Tableau de bord</h2>
+            <div class="caption text-justify">
+                Besoin d'informations global sur votre parc téléphonique, qui est en ligne, qui sonne, ou encore quelle poste n'est pas enregistrée à la plate-forme Voxity. L'application intègre un outil de surveillance de votre parc.
+            </div>
+                
+            <hr>
+            <p class="text-center">
+                <a href="#" class="btn btn-default btn-sm">Plus d'informations</a>
+            </p>
+    
+       </div>
+
+        <div class="col-xs-12 col-md-4">
+            <h2><i class="fa fa-bell-o fa-fw"></i> Notifications</h2>
+            <div class="caption text-justify">
+                Des notifications en temps réel. Vous avez un appel entrant sur votre téléphone Voxity, l'application vous le notifiera. Avec les navigateurs les plus récents, pas besoin d'être actif sur la page, il vous suffit d'avoir la page ouverte sur votre ordinateur et les notifications apparaîtrons sur votre bureau.
+            </div>
+            <hr>
+            <p class="text-center">
+                <a href="#" class="btn btn-default btn-sm">Plus d'informations</a>
+            </p>
+        </div>
+
+        <div class="col-xs-12 col-md-4">
+            <h2><i class="fa fa-cogs fa-fw"></i> Autres fonctionnalités</h2>
+            <div class="caption text-justify">
+                <ul>
+                    <li>Click to call &amp; Génération d'appels</li>
+                    <li>Informations sur les lignes en cours</li>
+                    <li>Listing des contacts</li>
+                    <li>Raccourcis clavier</li>
+                </ul>
+                <strong>À venir</strong>
+                <ul>
+                    <li>Gestion des contacts</li>
+                    <li>Journal d'appel</li>
+                </ul>
+            </div>
+            <hr>
+            <p class="text-center">
+                <a href="#" class="btn btn-default btn-sm">Toutes les fonctionnalités</a>
+            </p>
+        </div>
+    </div>
+    <div class="ombre-b"></div>
+
+</div>
+
+<div class="jumbotron jumbotron-home jumbotron-revert">
+    <p>
+        <i class="fa fa-github-square fa-5x"></i>
+    </p>
+    <h1>Projet libre</h1>
+    <p class="lead">
+       L'ensemble du projet est libre, il est disponible sur la plate-forme Github.
+    <p>
+        Si vous souhaitez contribuer à ce projet, l'améliorer, ou proposer des améliorations, ouvrez une issue
+    </p>
+    <p>
+        <a href="{{url_for('PUBLIC.about')}}" class="btn btn-default">à propos</a>
+    </p>
+</div>
+
+
+<div class="container">
+    <div class="ombre-t"></div>
+
+    <div class="row">
+        <div class="col-xs-12 col-md-6">
+            <h2><i class="fa fa-wrench fa-fw"></i> Projet en développement</h2>
+            <p class="text-justify">
+                Le projet est toujours en cours de développement, il vous est proposé dans une version &beta;eta, cela signifie que des fonctions ne sont pas encore implémenté, ou mal. Aucune date de version finalisée n'est encore envisagée.
+            </p>
+        </div>
+        <div class="col-xs-12 col-md-6">
+            <h2><i class="fa fa-stethoscope fa-fw"></i> Maintenance et support</h2>
+            <p class="text-justify">
+                En cas de dysfonctionnement, de bug, il est, en aucun cas, utile de contacter par téléphone ou mail Voxity. Cette application n'est pas développée par l'équipe Voxity.
+            </p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "public/layout.html" %}
+{% block body %}
+
+<div class="container">
+	
+	<div class="row">
+		<div class="col-xs-12" id="markdown">
+			{{changelog|safe}}
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block js %}
+    <script src="{{url_for('static', filename='js/changelog.js')}}"></script>
+{% endblock %}

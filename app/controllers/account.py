@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, division, unicode_literals
-from oauthlib.oauth2 import TokenExpiredError
-from flask import Blueprint, render_template, session, abort, current_app, redirect, request
+from flask import Blueprint, render_template, session, abort, current_app, redirect, request, url_for
 from flask.json import jsonify
 from app.voxity import self_user, logout, bind, oauth_status
 from app.controllers import is_auth, clear_session
@@ -51,7 +50,7 @@ def logout_me():
     except Exception:
         pass
     clear_session()
-    return "ok log out"
+    return redirect(url_for('PUBLIC.index'))
 
 
 @ACCOUNT.route('signin', methods=["GET"])
