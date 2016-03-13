@@ -1,3 +1,13 @@
+var windowsIsActive = true
+
+window.onfocus = function () { 
+  windowsIsActive = true; 
+}; 
+
+window.onblur = function () { 
+  windowsIsActive = false; 
+}; 
+
 function filter_exten(exten){
     return exten.replace(/(\ |\-|\.|\_|\s)/g, '')
 }
