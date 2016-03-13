@@ -14,26 +14,26 @@ function generate_call(exten){
             method: "POST",
             data: {'exten': exten},
             beforeSend : function(){
-                toastr["info"]("your phone will ring.", "Click2 to call", {timeOut: 3500})
+                toastr["info"]("Votre Téléphone va sonner.", "Click2 to call", {timeOut: 3500})
 
             },
             success: function(data, status) {
                 if (data.data.status === 1) {
-                    toastr["success"]("Call in progress to " + exten, "Click to call")
+                    toastr["success"]("Appel en cours ver le " + exten, "Click to call")
                 } else if(data.data.status === 500){
-                    toastr["error"]("You reject call to " + exten, "Click to call")
+                    toastr["error"]("Vous avez rejetté l'appel " + exten, "Click to call")
                 }
             },
             error: function(xhr, state, data){
                 if (xhr.status != 400) {
-                    toastr["warning"]("Unknow error durring click2call (err : "+xhr.status+')', "Error")
+                    toastr["warning"]("Error inconnue durant le click2call (err : "+xhr.status+')', "Click to call")
                 } else {
-                    toastr["warning"]("Click to call error : "+xhr.responseJSON.data.message+')', "Error")
+                    toastr["warning"]("Click to call error : "+xhr.responseJSON.data.message+')', "Click to call")
                 }
             }
         });
     } else {
-        toastr["error"]("The phone number [" + exten +"] is not coorectly formated.", "Error")
+        toastr["error"]("Le numéro de télephone [" + exten +"] est mal formaté", "Click to call")
     }
 }
 
@@ -51,7 +51,7 @@ function whois(number, done){
                 }
             },
             error: function(xhr, state, d){
-                done('No data in responsz' ,d)
+                done('No data in response' ,d)
             }
         });
     } else {

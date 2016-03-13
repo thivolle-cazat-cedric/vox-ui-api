@@ -7,11 +7,11 @@ function getDevices(done){
             if (d.data) {
                 done(d.data)
             } else {
-                toastr["warning"]("Unknow error on refresh devices state")
+                toastr["warning"]("Erreur inatendue durant l'actualisation")
             }
         },
         error: function(xhr, state, data){
-            toastr["warning"]("Unknow error on refresh devices state", "Error " +xhr.status)
+            toastr["warning"]("Réponse inatendue durant l'actualisation", "Error " +xhr.status)
         }
     });
 }

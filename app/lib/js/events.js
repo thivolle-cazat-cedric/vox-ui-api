@@ -13,11 +13,11 @@ $(document).ready(function() {
                     if (!err && contacts[0]) {
                         name = contacts[0]['cn']
                     }
-                    var mess = "from <strong>" + name + "</strong> <"+callObj['caller_num']+">";
+                    var mess = "de <strong>" + name + "</strong> <"+callObj['caller_num']+">";
                     mess += '<br>';
                     mess += getUriIfo(callObj['caller_num'])
-                    toastr["info"](mess, "Icomming Call");
-                    notify.showMessage(callObj['id'], 'Icomming call','from ' + name + ' <'+callObj['caller_num']+'>', getUriIfo(callObj['caller_num']))
+                    toastr["info"](mess, "Appel entrant");
+                    notify.showMessage(callObj['id'], 'Appel entrant','de ' + name + ' <'+callObj['caller_num']+'>', getUriIfo(callObj['caller_num']))
                 });
             }
         })
@@ -32,16 +32,16 @@ $(document).ready(function() {
                 mess += '<br>';
                 mess += getUriIfo(callObj['caller_num'])
                 if (callObj['caller_num'] != myExtension) {        
-                    toastr["success"](mess, "You are communicating with " + callObj['caller_num'])
+                    toastr["success"](mess, "Vous etes en communication avec " + callObj['caller_num'])
                 }
             });
         })
 
         socket.on('channels.hangup', function(data){
             var mess = notify.list[data['id']].message;
-            mess += ' is hangup.';
+            mess += ' est raccroché';
             if (data['caller_num'] != myExtension) {        
-                toastr["error"](mess, "Hangup call");
+                toastr["error"](mess, "Fin d'appel");
             }
             notify.list[data['id']].close();
         })

@@ -13,15 +13,15 @@ function refreshNotify(){
 		notifySettings.btn.addClass('disabled');
 		notifySettings.btn.attr('disabled', 'disabled');
 		notifySettings.icon.removeClass('fa-spinner fa-spin').addClass('fa-times');
-		notifySettings.btn.text("Notification isn't supported")
+		notifySettings.btn.text("Notifications non supporter par ce navigateur")
 		notifySettings.btn.prepend('<i class="fa fa-times fa-fw"></i>  ')
 	} else if(!notify.permited()){
 		notifySettings.btn.removeClass('btn-default').addClass('btn-danger');
-		notifySettings.btn.text("Notification is disabled")
+		notifySettings.btn.text("Notifications désactivé")
 		notifySettings.btn.prepend('<i class="fa fa-square-o fa-fw"></i>  ')
 	}else if(notify.permited()){
 		notifySettings.btn.removeClass('btn-default').addClass('btn-success active');
-		notifySettings.btn.text("Notification is enable")
+		notifySettings.btn.text("Notification Activé")
 		notifySettings.icon.removeClass('fa-spinner fa-spin').addClass('fa-check-square-o');
 		notifySettings.btn.prepend('<i class="fa fa-check-square-o fa-fw"></i>  ')
 	}else{

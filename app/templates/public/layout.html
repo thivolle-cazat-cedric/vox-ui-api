@@ -86,25 +86,7 @@
 
         {% block body %}{% endblock %}
 
-        <footer class="footer">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-5">
-                        Devloped by Cedric TC
-                    </div>
-                    <div class="col-xs-2 text-center">
-                        <a href="{{url_for('PUBLIC.index')}}">
-                            <img src="{{url_for('static', filename='icon/app/75-icon_app.png')}}" alt="" class="img img-logo-app">
-                        </a>
-                    </div>
-                    <div class="col-xs-5 text-right">
-                        <a href="{{url_for('PUBLIC.changelog')}}">
-                            Version {{config['__VERSION__']}}
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </footer>
+        {% include 'footer.html'%}
         <script src="{{url_for('static', filename='res/jquery-1.12.1.min.js')}}"></script>
         <script src="{{url_for('static', filename='res/bootstrap/dist/js/bootstrap.min.js')}}"></script>
         <script src="{{url_for('static', filename='js/public.js')}}"></script>
