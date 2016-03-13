@@ -67,28 +67,6 @@ def create_app(env='prod'):
     def favicon():
         return redirect(url_for('static', filename='icon/fav/vox-ui-api.ico'))
 
-    @app.route("/callback", methods=["GET"])
-    def callback():
-        """
-        Step 3: Retrieving an access token.
-        The user has been redirected back from the provider to your registered
-        callback URL. With this redirection comes an authorization code included
-        in the redirect URL. We will use that to obtain an access token.
-        """
-
-        voxity_bind = voxity.bind(
-            redirect_uri=app.config['REDIRECT_URI']
-        )
-        voxity.save_token(voxity_bind.fetch_token(
-            app.config['TOKEN_URL'],
-            client_secret=app.config['CLIENT_SECRET'],
-            authorization_response=request.url
-        ))
-        if 'next_uri_aft_signin' in session:
-            return redirect(session.pop('next_uri_aft_signin'))
-        else:
-            return redirect(url_for('DEVICES.devices_view'))
-
     @app.errorhandler(401)
     def err_401(e):
         return render_template(

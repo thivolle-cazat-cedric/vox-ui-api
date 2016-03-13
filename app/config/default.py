@@ -12,7 +12,7 @@ TOKEN_URL = BASE_URL + '/oauth/token'
 
 CLIENT_ID = None
 CLIENT_SECRET = None
-REDIRECT_URI = "http://127.0.0.1:6500/callback"
+REDIRECT_URI = "http://127.0.0.1:6500/account/signin-callback"
 SECRET_KEY = "azerty"
 DEBUG = True
 
