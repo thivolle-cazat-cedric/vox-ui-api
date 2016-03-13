@@ -38,9 +38,15 @@ body {
     position: absolute;
     right: 5px;
     top: 5px;
-    background: rgba(250, 250, 250, .1);
     border-color: #fafafa;
     color: #444;
+}
+#user-link .btn{
+    background: rgba(250, 250, 250, .1);
+}
+#user-link .btn > .fa-power-off {
+    padding-top: 7px;
+    padding-bottom: 7px;
 }
 
 div .ombre-t{
@@ -94,7 +100,8 @@ div .ombre-b{
         letter-spacing: -3px;
         text-shadow: -1px 1px 2px rgba(250, 250, 250, .6);
     }
-    .jumbotron-home.jumbotron .btn{
+    .jumbotron-home.jumbotron .btn,
+    .jumbotron-home.jumbotron .btn-group .btn{
         padding: 14px 24px;
         font-size: 21px;
         min-width: 145px;
@@ -105,7 +112,7 @@ div .ombre-b{
     }
     
     .jumbotron-home.jumbotron .btn:hover,
-    #user-link:hover{
+    #user-link .btn:hover{
         background-color: rgba(250, 250, 250, .6)
     }
     .jumbotron-home.jumbotron .btn.btn-success:hover {

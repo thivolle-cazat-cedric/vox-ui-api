@@ -110,9 +110,11 @@ def oauth_status():
 def self_user():
     con = connectors()
     if con is not None:
-        return con.get(
+        resp = con.get(
             current_app.config['BASE_URL'] + '/users/self'
-        ).json()['result']
+        )
+        if check_respons(resp):
+            return resp.json()['result']
 
     return None
 

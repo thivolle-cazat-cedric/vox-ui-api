@@ -27,13 +27,19 @@
     </head>
     <body>
         {% if 'user' in session%}
-        <a href="{{url_for('DEVICES.devices_view')}}" class="btn btn-default" id="user-link">
-            <span data-toggle="tooltip" data-placement="bottom" title="{{session['user']['internalExtension']}}">{{session['user']['name']}}</span> 
-            <span class="fa-stack">
-                <i class="fa fa-square-o fa-stack-2x"></i>
-                <i class="fa fa-user fa-stack-1x"></i>
-            </span>
-        </a>
+        <div class="btn-group" id="user-link">
+            <a href="{{url_for('DEVICES.devices_view')}}" class="btn btn-default">
+                <span data-toggle="tooltip" data-placement="bottom" title="{{session['user']['internalExtension']}}">{{session['user']['name']}}</span> 
+                <span class="fa-stack">
+                    <i class="fa fa-square-o fa-stack-2x"></i>
+                    <i class="fa fa-user fa-stack-1x"></i>
+                </span>
+            </a>
+            <a href="{{url_for('ACCOUNT.logout_me')}}" class="btn btn-default">
+                <i class="fa fa-power-off text-danger"></i>
+            </a>
+        </div>
+            
         {% else %}
         <a href="{{url_for('ACCOUNT.signin')}}" class="btn btn-default" id="user-link">
             <span>Login</span> 
