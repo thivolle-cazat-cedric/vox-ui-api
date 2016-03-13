@@ -40,17 +40,17 @@
                         </ul>
                     </div>
                     {% endif %}
+                    Nom
                 </th>
-                <th class="text-center">Name</th>
-                <th class="text-center">Phone</th>
-                <th class="text-center">Mobile</th>
+                <th class="text-center">Numéro principal</th>
+                <th class="text-center">Numéro secondaire</th>
                 <th class="text-center">Mail</th>
                 <th width="1%"></th>
             </thead>
             <tbody>
                 {% for c in contacts%}
                 <tr>
-                    <td colspan="2">
+                    <td>
                         {{c['cn']}}
                     </td>
                     <td {%if c.telephone_number%}class="callable"{%endif%}{% if c.phone_number_raccourci %} title="click2call - {{c.phone_number_raccourci}}"{% endif %}>
@@ -74,7 +74,7 @@
                 <tr class="active">
                     <td>
                         {% if  item != 'all' %}
-                            <strong>view</strong> : 
+                            <strong>Vue</strong> : 
                             {{(pager['current'] * item ) - item + 1}} - 
                             {% if pager['current'] * item < contact_total%}
                                 {{pager['current'] * item}}
@@ -85,7 +85,7 @@
                         {% endif %}
                     </td>
                     <td colspan="2"></td>
-                    <td colspan="2" class="text-right">
+                    <td colspan="1" class="text-right">
                         <strong>Total</strong>
                     </td>
                     <td>

@@ -46,14 +46,14 @@
                     </button>
                   <ul class="dropdown-menu" aria-labelledby="dd-user">
                     <li {% if url_for('ACCOUNT.me_view') == request.path %}class="active"{% endif %}><a href="{{url_for('ACCOUNT.me_view')}}">
-                        <i class="fa fa-user fa-fw"></i> Account
+                        <i class="fa fa-user fa-fw"></i> Comptes
                     </a></li>
                     <li {% if url_for('ACCOUNT.settings_notify') == request.path %}class="active"{% endif %}><a href="{{url_for('ACCOUNT.settings_notify')}}">
-                        <i class="fa fa-cogs fa-fw"></i> Settings
+                        <i class="fa fa-cogs fa-fw"></i> Paramètres
                     </a></li>
                     <li role="separator" class="divider"></li>
                     <li><a href="{{url_for('ACCOUNT.logout_me')}}">
-                        <i class="fa fa-power-off text-danger fa-fw"></i> Logout
+                        <i class="fa fa-power-off text-danger fa-fw"></i> Déconnexion
                     </a></li>
                   </ul>
                   {% else %}
@@ -66,7 +66,7 @@
                     <li {% if '/'.join((url_for('CALLS_LOG.json_data').split('/')[0:-1])) in request.path %}class="active"{% endif %}>
                         <a href="{{url_for('CALLS_LOG.view', **{'direction':'incoming'})}}">
                             <i class="fa fa-newspaper-o"></i> 
-                             <span class="hidden-sm hidden-xs">Call log</span>
+                             <span class="hidden-sm hidden-xs">Journal</span>
                         </a>
                     </li>
                     <li role="presentation" {% if '/'.join((url_for('CONTACT.view').split('/')[0:-1])) in request.path %}class="active"{% endif %}>
@@ -77,8 +77,8 @@
                     </li>
                     <li role="presentation" {% if url_for('DEVICES.devices_view') in request.path %}class="active"{% endif %}>
                         <a href="{{url_for('DEVICES.devices_view')}}">
-                            <i class="fa fa-group"></i>
-                            <span class="hidden-sm hidden-xs">Internal</span>
+                            <i class="fa fa-dashboard"></i>
+                            <span class="hidden-sm hidden-xs">Tableau de bord</span>
                         </a>
                     </li>
                     <li ><a href="#" data-toggle="modal" data-target="#callModal"><i class="fa fa-phone"></i></a></li>
