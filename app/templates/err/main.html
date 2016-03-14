@@ -10,7 +10,9 @@
         </p>
         <p class="text-center">
             {%if link_to_home%}
-                <a class="btn btn-lg btn-success" href="/" role="button">Go back to Home <i class="fa fa-home"></i></a>
+                <a class="btn btn-lg btn-success" href="{{url_for('ACCOUNT.signin')}}?next={{request.path}}" role="button">Résayer <i class="fa fa-refresh"></i></a>
+                <br>
+                <small class="text-muted">Vous aller actualiser votre authentification</small>
             {%endif%}
             {% block leadlink%}{%endblock%}
         </p>

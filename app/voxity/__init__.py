@@ -101,9 +101,13 @@ def pager_dict(headers):
 def oauth_status():
     con = connectors()
     if con is not None:
-        return con.get(
-            current_app.config['BASE_URL'] + '/oauth/status'
-        ).json()
+        try:
+            return con.get(
+                current_app.config['BASE_URL'] + '/oauth/status'
+            ).json().get('message', 'unknow').lower()
+        except Exception, e:
+            pass
+            
     return None
 
 

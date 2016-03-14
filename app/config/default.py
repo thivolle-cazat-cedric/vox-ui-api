@@ -7,7 +7,7 @@ PERMANENT_SESSION_LIFETIME = 3600 * 24 * 14
 SESSION_COOKIE_NAME = "_vua_s"
 
 BASE_URL = "https://api.voxity.fr/api/v1"
-AUTHORIZATION_BASE_URL = 'https://api.voxity.fr/api/v1/dialog/authorize'
+AUTHORIZATION_BASE_URL = BASE_URL + '/dialog/authorize'
 TOKEN_URL = BASE_URL + '/oauth/token'
 
 CLIENT_ID = None
