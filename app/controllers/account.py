@@ -2,7 +2,7 @@
 from __future__ import absolute_import, division, unicode_literals
 from flask import Blueprint, render_template, session, abort, current_app, redirect, request, url_for
 from flask.json import jsonify
-from app.voxity import self_user, logout, bind, oauth_status, save_token
+from app.voxity import self_user, logout, bind, oauth_status, save_token, refresh_token
 from app.controllers import is_auth, clear_session, valide_session
 
 
@@ -56,11 +56,14 @@ def logout_me():
 
 
 @ACCOUNT.route('signin-check', methods=["GET"])
-def signin_check():
+def signin_check(try_refresh=True):
     if valide_session():
         oauth_s = oauth_status()
-        if oauth_s and oauth_status == 'authenticated':
-            return redirect(request.args.get('next', 'DEVICES.devices_view'))
+        if oauth_s is not None and oauth_s == 'authenticated':
+            return redirect(request.args.get('next', url_for('DEVICES.devices_view')))
+        elif oauth_s is None and try_refresh:
+            refresh_token()
+            return signin_check(try_refresh=False)
         else:
             return redirect(url_for('ACCOUNT.signin'))
     else:
