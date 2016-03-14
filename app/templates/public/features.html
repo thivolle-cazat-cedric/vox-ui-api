@@ -1,0 +1,56 @@
+{% extends "public/layout.html" %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="col-md-3 hidden-sm hidden-xs">
+        <div class="list-group">
+          <a href="#Notifications" class="list-group-item"><i class="fa fa-bell-o fa-fw"></i> Notifications</a>
+          <a href="#Dashboard" class="list-group-item"><i class="fa fa-dashboard fa-fw"></i> Tableau de bord</a>
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-9">
+
+        <div class="features" id="Notifications">
+            <h1 class="head" id="Notifications"> Notifications</h1>
+            <div class="caption">
+                <h4>Notifications local</h4>
+                <p class="caption">
+                    Interne à la page web, lors d'une notification un popup en bas de page s'affichera indiquant la raison de cette aparirion.
+                </p>
+                <h4>Notification de bureau</h4>
+                <p class="caption">
+                    Pour les navigateurs compatibles au notification de bureau <em class="small text-muted">(Chrome, Firefox, Safari)</em>, il vous suffi d'avoir une page ouverte <em class="small text-muted">(pas forcément active dans votre navigateur)</em>, et lors d'une notification elle apparaitra sur votre ordinateur.
+                </p>
+
+                <h4>Quelles-sont les Notifications</h4>
+                <div class="caption">
+                    <h5 >Lors d'une appel entrant</h5>
+                    <p class="caption">
+                        Vous allez connaitre le numéro de l'appelant, et si ce numéro est présent dans votre l'annuaire de l'application, vous connaiterez le nom
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="features" id="Dashboard">
+            <h1 class="head" id="Notifications"> Tableau de bord</h1>
+
+            <div class="caption">
+                Le tableau de bord vous permet d'avoir une vue d'ensemble de votre parc téléphonique Voxity. Vous connaiterez donc l'état des postes
+                <h4>Légende</h4>
+                <p class="cation">
+                    <dl class="dl-horizontal">
+                        <dt><i class="fa fa-2x fa-fw fa-phone-square text-muted"></i></dt>
+                            <dd>Poste non connecté à la plate-forme voxity</dd>
+                        <dt><i class="fa fa-2x fa-fw fa-phone-square text-success"></i></dt>
+                            <dd>Poste connecté et disponible</dd>
+                        <dt><i class="fa fa-2x fa-fw fa-phone-square text-danger animated infinite flash"></i></dt>
+                            <dd></dd>
+                    </dl>
+                </p>
+            </div>
+        </div>
+            
+    </div>
+</div>
+{%endblock%}

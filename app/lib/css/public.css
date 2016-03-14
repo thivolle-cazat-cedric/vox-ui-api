@@ -221,3 +221,19 @@ div .ombre-b{
 .container#available-features
 ###############
 */
+
+
+/*
+###############
+.features
+*/
+.features .caption{
+    padding-left: 35px;
+}
+.features p {
+    text-align: justify;
+}
+/*
+.features
+###############
+*/
