@@ -54,9 +54,9 @@ function whois(number, done){
             method: "GET",
             data: {'number': number},
             success: function(d, status) {
-                if (d.data) {
+                if (d.data && d.data.length) {
                     done(null ,d.data)
-                } else if(data.data.status === 500){
+                } else {
                     done('No data in response' ,d.data)
                 }
             },
