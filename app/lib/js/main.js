@@ -29,9 +29,11 @@ function generate_call(exten){
             },
             success: function(data, status) {
                 if (data.data.status === 1) {
-                    toastr["success"]("Appel en cours ver le " + exten, "Click to call")
+                    toastr["success"]("Appel en cours ver le " + exten, "Click to call");
+                    $('#callModal').modal('hide');
+
                 } else if(data.data.status === 500){
-                    toastr["error"]("Vous avez rejetté l'appel " + exten, "Click to call")
+                    toastr["error"]("Vous avez rejetté l'appel " + exten, "Click to call");
                 }
             },
             error: function(xhr, state, data){
@@ -168,6 +170,8 @@ $(document).ready(function() {
                     location.pathname = $(".input-group a.btn:first").attr('href')
                 }
             }
+            // h
+            else if (tag != 'input' && event.charCode == 104 && window.location.pathname != DASHBOARD_URI) {window.location.pathname = DASHBOARD_URI;}
         }
     });
 
