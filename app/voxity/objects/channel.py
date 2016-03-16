@@ -4,7 +4,6 @@ from __future__ import (
     absolute_import, division, print_function, unicode_literals
 )
 from . import ObjectBase
-from datetime import datetime
 
 
 class Channel(ObjectBase):
@@ -60,14 +59,6 @@ class Channel(ObjectBase):
     transfer_to = None
     transfer_type = None
     protocol = None
-
-    @staticmethod
-    def litst_object_from_dict(lst_dict):
-        if isinstance(lst_dict, list):
-            channels = []
-            for dico in lst_dict:
-                channels.append(Channel(**dico))
-            return channels
 
     def __init__(self, *args, **kwargs):
         super(Channel, self).__init__(*args, **kwargs)

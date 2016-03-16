@@ -5,6 +5,7 @@ from __future__ import (
 from . import ObjectBase
 from datetime import datetime
 
+
 class Device(ObjectBase):
     """
     :param str id: unique id
@@ -44,7 +45,7 @@ class Device(ObjectBase):
     icon_class = None
 
     @staticmethod
-    def litst_object_from_dict(lst_dict, sort_by_extention=False):
+    def litst_obj_from_list(lst_dict, sort_by_extention=False):
         if isinstance(lst_dict, list):
             l = []
             if sort_by_extention:

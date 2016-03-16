@@ -34,18 +34,6 @@ class Contact(ObjectBase):
     phone_number_raccourci = None
     phone_mobile_raccourci = None
 
-    @staticmethod
-    def litst_object_from_dict(lst_dict):
-        if isinstance(lst_dict, list):
-            contacts = []
-            for dico in lst_dict:
-                contacts.append(Contact(**dico))
-            return contacts
-
-    def __init__(self, **kwargs):
-        if kwargs:
-            self.from_dict(kwargs)
-
     def from_dict(self, dico):
         '''
         :param dict dico:

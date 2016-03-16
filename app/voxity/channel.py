@@ -32,7 +32,7 @@ def get(ret_object=False, **kwargs):
             if not ret_object:
                 return ret
             else:
-                return Channel.litst_object_from_dict(ret, **kwargs)
+                return Channel.litst_obj_from_list(ret, **kwargs)
 
     return None
 

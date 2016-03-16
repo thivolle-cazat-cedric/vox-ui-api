@@ -20,7 +20,7 @@ def get(ret_object=False, **kwargs):
         resp = con.get(get_base_url())
         if check_respons(resp):
             ret = resp.json().get('data', [])
-            devices = Device.litst_object_from_dict(ret, **kwargs)
+            devices = Device.litst_obj_from_list(ret, **kwargs)
             if not ret_object:
                 ret = list()
                 for d in devices:

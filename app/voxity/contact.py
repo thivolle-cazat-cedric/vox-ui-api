@@ -28,7 +28,7 @@ def get(ret_object=False, **kwargs):
             data = {}
             data['pager'] = pager_dict(resp.headers)
             if ret_object:
-                data['list'] = Contact.litst_object_from_dict(resp.json()['result'])
+                data['list'] = Contact.litst_obj_from_list(resp.json()['result'])
             else:
                 data['list'] = resp.json()['result']
             return data
@@ -46,7 +46,7 @@ def get_uid(ret_object=False, uid=None):
         resp = con.get(get_base_url() + uid)
         if check_respons(resp):
             if ret_object:
-                return Contact.litst_object_from_dict(resp.json()['result'])
+                return Contact.litst_obj_from_list(resp.json()['result'])
             else:
                 return resp.json()['result']
 

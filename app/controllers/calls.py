@@ -29,7 +29,7 @@ def generate_call():
 @is_auth
 def channels_json():
     filter_query = dict()
-    for k in channel.Channel._DICT_KEYS:
+    for k in channel.Channel.__ATTR__:
         if request.args.get(k, False):
             filter_query[k] = request.args.get(k)
 
