@@ -30,7 +30,8 @@ class Device(ObjectBase):
             'available': 'disponible',
             'ring': 'sonne',
             'ringing': 'sonne',
-            'in-use': 'en communication'
+            'in-use': 'en communication',
+            'unknow': 'iconnue'
         }
     }
     _lang = 'fr'
@@ -60,6 +61,7 @@ class Device(ObjectBase):
                 self.state = int(kwargs.get('state'))
             except Exception:
                 self.state = -1
+                self.state_desc = 'unknow'
             pass
         else:
             raise ValueError('Device : attribut state mendatory')
@@ -92,7 +94,10 @@ class Device(ObjectBase):
         try:
             return self._DESCRIPTION[self._lang][self.state_desc.lower()]
         except Exception:
-            return self.state_desc
+            try:
+                return self._DESCRIPTION[self._lang]['unknow']
+            except Exception, e:
+                return self.state_desc or 'unknow'
 
     def to_dict(self):
         ret = super(Device, self).to_dict()

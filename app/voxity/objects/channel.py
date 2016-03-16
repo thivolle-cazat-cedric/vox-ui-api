@@ -75,6 +75,7 @@ class Channel(ObjectBase):
             self.channel_state = int(self.channel_state)
         except Exception:
             self.channel_state = -1
+            self.channelstatedesc = 'unknow'
 
     def is_incomming_call(self):
         '''
