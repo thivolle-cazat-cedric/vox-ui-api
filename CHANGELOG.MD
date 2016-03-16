@@ -24,6 +24,7 @@
  - Fixe some errors 500, on dashboard when device is on hold
  - Translate state description in french 
  - Add shortcut key to go dashboard
+ - Desktop notification only if windows is not active 
 
 ##### 1.0.1
  - [X] Ajout d'un lien de déconnexion dans la page d'accueil

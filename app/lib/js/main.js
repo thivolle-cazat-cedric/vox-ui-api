@@ -96,7 +96,7 @@ var notify = {
         });
     },
     showMessage: function(id, title, message, uri){
-        if (this.support() && this.permited()){
+        if (this.support() && this.permited() && !windowsIsActive){
             this.list[id] = new Notification(title, {
                 tag: id,
                 icon: document.location.origin + $($('.header .img-logo')[0]).attr('src'),
