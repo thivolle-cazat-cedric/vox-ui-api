@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+from __future__ import (
+    absolute_import, division, print_function, unicode_literals
+)
 from . import ObjectBase
 from datetime import datetime
 
@@ -11,7 +15,7 @@ class Device(ObjectBase):
     :param str state_class: class for html state (color/animation)
     """
 
-    _DICT_KEYS = [
+    __ATTR__ = [
         'id',
         'extension',
         'last_update',
@@ -19,6 +23,24 @@ class Device(ObjectBase):
         'state_desc',
         'icon_class'
     ]
+
+    _DESCRIPTION = {
+        'fr': {
+            'unavailable': "non connecté",
+            'available': 'disponible',
+            'ring': 'sonne',
+            'ringing': 'sonne',
+            'in-use': 'en communication'
+        }
+    }
+    _lang = 'fr'
+
+    id = None
+    extension = None
+    last_update = None
+    state = None
+    state_desc = None
+    icon_class = None
 
     @staticmethod
     def litst_object_from_dict(lst_dict, sort_by_extention=False):
@@ -30,15 +52,18 @@ class Device(ObjectBase):
                 l.append(Device(**dico))
             return l
 
+
     def __init__(self, *args, **kwargs):
         super(Device, self).__init__(*args, **kwargs)
-        try:
-            self.state = int(self.state)
-        except Exception:
-            raise ValueError('Device.state : must ben integer [{0} : {1}]'.format(
-                self.state,
-                type(self.state).__name__
-            ))
+        if 'state' in kwargs:
+            try:
+                self.state = int(kwargs.get('state'))
+            except Exception:
+                self.state = -1
+            pass
+        else:
+            raise ValueError('Device : attribut state mendatory')
+
         try:
             self.last_update = datetime.strptime(
                 self.last_update, '%Y-%m-%dT%H:%M:%S.%fZ'
@@ -59,8 +84,15 @@ class Device(ObjectBase):
         elif self.state == 5:
             icon_class = default + " text-muted"
         else:
-            icon_class = "fa fa-2x fa-fw fa-phone-time text-muted"
+            icon_class = "fa fa-2x fa-fw fa-question-circle text-muted"
         return icon_class
+
+    @property
+    def state_description(self):
+        try:
+            return self._DESCRIPTION[self._lang][self.state_desc.lower()]
+        except Exception:
+            return self.state_desc
 
     def to_dict(self):
         ret = super(Device, self).to_dict()

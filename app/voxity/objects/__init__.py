@@ -7,7 +7,7 @@ from __future__ import (
 class ObjectBase(object):
     """ObjectBase to implémente default methode in object"""
 
-    _DICT_KEYS = []
+    __ATTR__ = []
 
     def __init__(self, *args, **kwargs):
         super(ObjectBase, self).__init__()
@@ -29,13 +29,18 @@ class ObjectBase(object):
         if not isinstance(dico, dict):
             raise ValueError('from_dict : arg1 must be a dict')
 
-        for k in dico.keys():
-            setattr(self, k, dico[k])
+        for k in self.__ATTR__:
+
+            if k in dico:
+                setattr(self, k, dico[k])
+            else:
+                try:
+                    setattr(self, k, None)
+                except Exception:
+                    pass
 
     def to_dict(self):
         d = {}
-        for k in self._DICT_KEYS:
+        for k in self.__ATTR__:
             d[k] = getattr(self, k)
         return d
-
-from .devices import Device

@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, division, unicode_literals
 from flask import current_app
-from .objects import Device
+from .objects.device import Device
 from . import connectors, check_respons
+
 
 def get_base_url():
     return current_app.config['BASE_URL'] + '/devices/'

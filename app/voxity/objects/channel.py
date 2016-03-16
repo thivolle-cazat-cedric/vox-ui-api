@@ -1,3 +1,8 @@
+
+# -*- coding: utf-8 -*-
+from __future__ import (
+    absolute_import, division, print_function, unicode_literals
+)
 from . import ObjectBase
 from datetime import datetime
 
@@ -19,7 +24,7 @@ class Channel(ObjectBase):
     :param str protocol: Protocol og this channel, will be all time SIP.
     """
 
-    _DICT_KEYS = [
+    __ATTR__ = [
         'id',
         'channel_id',
         'channel_state',
@@ -42,6 +47,20 @@ class Channel(ObjectBase):
         11: 'fa fa-pause'
     }
 
+    id = None
+    channel_id = None
+    channel_state = None
+    channelstatedesc = None
+    caller_num = None
+    caller_name = None
+    exten = None
+    originated_by_incomming_call = None
+    is_external_channel = None
+    has_music_onhold = None
+    transfer_to = None
+    transfer_type = None
+    protocol = None
+
     @staticmethod
     def litst_object_from_dict(lst_dict):
         if isinstance(lst_dict, list):
@@ -55,23 +74,21 @@ class Channel(ObjectBase):
         try:
             self.channel_state = int(self.channel_state)
         except Exception:
-            raise ValueError(
-                'Channel.state : must ben integer not [{0} : {1}]'.format(
-                self.channel_state,
-                type(self.channel_state).__name__
-            ))
-
+            self.channel_state = -1
 
     def is_incomming_call(self):
+        '''
+        :rettype: bool
+        :return: true if is incomming call
+        '''
         return not self.caller_num == self.exten
-
 
     def get_icon_stat(self):
         '''
         :rettype: str
         :return: fa icon class
         '''
-        # try:
-        return self._FA_ICON[self.channel_state]
-        # except Exception:
-            # return ""
+        try:
+            return self._FA_ICON[self.channel_state]
+        except Exception:
+            return "fa fa-question-circle"
