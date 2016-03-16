@@ -8,7 +8,7 @@ def number_clear(value, space=True):
     if value and len(value) > 3 and value[0:3] == "+33":
         value = '0' + value[3:]
 
-    if space and EXTERNAL_PHONE_NUM_RE.search(value):
+    if value and space and EXTERNAL_PHONE_NUM_RE.match(value):
         value = " ".join(value[i:i + 2] for i in range(0, len(value), 2))
 
     return value
