@@ -96,14 +96,19 @@ var notify = {
         });
     },
     showMessage: function(id, title, message, uri){
+        var notifMessage = {
+            tag: id,
+            icon: document.location.origin + $($('.header .img-logo')[0]).attr('src'),
+            body: message,
+            onclick: function(evt){evt.preventDefault(); window.open(uri, '_blank')}
+        };
+
         if (this.support() && this.permited() && !windowsIsActive){
-            this.list[id] = new Notification(title, {
-                tag: id,
-                icon: document.location.origin + $($('.header .img-logo')[0]).attr('src'),
-                body: message,
-                onclick: function(evt){evt.preventDefault(); window.open(uri, '_blank')}
-            });
+            this.list[id] = new Notification(title, notifMessage);
             this.list[id].message = message;
+        } else {
+            this.list[id] = notifMessage;
+            this.list[id]['notSend'] = true;
         }
     }
 }
@@ -134,9 +139,9 @@ $(document).ready(function() {
         "hideMethod": "slideUp"
     }
 
-    $('#callModal').on('show.bs.modal',function(elt){$('#callModal form #telValue').val('');});
+    $('#callModal').on('show.bs.modal',function(elt){$('#callModal form #telValue').val(''); $('#btn-callModal').addClass('active')});
     $('#callModal').on('shown.bs.modal',function(elt){$('#callModal form #telValue').focus();});
-    $('#callModal').on('hide.bs.modal',function(elt){$('#callModal form #telValue').blur();});
+    $('#callModal').on('hide.bs.modal',function(elt){$('#callModal form #telValue').blur(); $('#btn-callModal').removeClass('active')});
 
     $('#callModal form').on('submit', function(evt) {
         evt.preventDefault();

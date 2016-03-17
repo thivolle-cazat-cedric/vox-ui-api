@@ -23,6 +23,7 @@ function updateState(deviceId, statusName, iconClass){
 }
 function refreshState() {
     var icon = $("#refresh-dashboard .fa")
+    $("#refresh-dashboard").addClass('active disabled');
     icon.addClass('fa-spin')
     getDevices(function(devices){
         if (typeof devices === 'object'){
@@ -31,6 +32,7 @@ function refreshState() {
             });
         }
         icon.removeClass('fa-spin');
+        $("#refresh-dashboard").removeClass('active disabled');
     })
 }
 $(document).ready(function() {

@@ -38,8 +38,13 @@ $(document).ready(function() {
         })
 
         socket.on('channels.hangup', function(data){
-            var mess = notify.list[data['id']].message;
-            mess += ' est raccroché';
+            if (notify.list[data['id']] && !notify.list[data['id']]['notSend']) {
+                var mess = notify.list[data['id']].message;
+                mess += ' est raccroché';    
+            } else {
+                var mess = "Fin d'appel avec " + callObj['caller_num']
+            }
+            
             if (data['caller_num'] != myExtension) {        
                 toastr["error"](mess, "Fin d'appel");
             }

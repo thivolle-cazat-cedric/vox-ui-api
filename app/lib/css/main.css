@@ -53,6 +53,8 @@ body {
 }
 .header h3 img.img-logo{
   margin-right: 15px;
+  margin-top: -5px;
+  margin-bottom: 5px;
 }
 
 .nav.nav-pills .divider{

@@ -8,8 +8,8 @@
 
 <div class="col-xs-12 col-sm-6">
     <ul class="list-group vox-blf-dashbord">
-    {% for d in devices[0:end]%}
-        <li id="{{d.id}}" class="list-group-item  {%if session['user']['internalExtension'] == d.extension%}info{%endif%}">
+    {% for d in devices%}
+        <li id="{{d.id}}" class="list-group-item  {%if session['user']['internalExtension'] == d.extension%}info{%endif%} {%if loop.index > end%}visible-xs{%endif%}">
             <div class="row">
                 <div class="col-xs-2 icon-blf-state">
                     <i class="{{d.icon_class}}" data-toggle="tooltip" title="{{d.state_description}}"></i>
@@ -27,7 +27,7 @@
 </div>
 
 <div class="col-xs-12 col-sm-6">
-    <ul class="list-group vox-blf-dashbord">
+    <ul class="list-group vox-blf-dashbord hidden-xs">
     {% for d in devices[end:]%}
         <li id="{{d.id}}" class="list-group-item  {%if session['user']['internalExtension'] == d.extension%}info{%endif%}">
             <div class="row">
