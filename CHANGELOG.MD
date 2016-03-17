@@ -25,6 +25,7 @@
  - Translate state description in french 
  - Add shortcut key to go dashboard
  - Desktop notification only if windows is not active 
+ - Improvement dashboard *(3 columns on lg screen, 2 on médium and single for small)*
 
 ##### 1.0.1
  - [X] Ajout d'un lien de déconnexion dans la page d'accueil

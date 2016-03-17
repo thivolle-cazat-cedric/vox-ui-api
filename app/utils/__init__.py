@@ -2,6 +2,7 @@ from time import mktime
 from datetime import datetime
 import string
 import random as master_random
+from math import ceil
 
 def datetime_to_timestamp(dt):
     if isinstance(dt, datetime):
@@ -45,3 +46,7 @@ def random_string(min_size=10, max_size=None, alpha=True, uppercase=True, lowerc
             return rdm_str
     else:
         raise AttributeError('string_func :  min_size can be most important than max_size')
+
+
+def roundup(x):
+    return int(ceil(x))

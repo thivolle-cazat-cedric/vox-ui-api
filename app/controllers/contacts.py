@@ -4,15 +4,10 @@ from flask import Blueprint, render_template, request, abort
 from flask.json import jsonify
 from app.voxity import contact
 from app.controllers import is_auth
-from math import ceil
 from app.utils import value_or_zero
 
 CONTACT = Blueprint('CONTACT', __name__)
 LIST_AVAILABLE = [5, 10, 25, 50, 100]
-
-
-def roundup(x):
-    return int(ceil(x))
 
 
 @CONTACT.route('all.json', methods=["GET"])
