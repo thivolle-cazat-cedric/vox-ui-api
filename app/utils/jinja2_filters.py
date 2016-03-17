@@ -11,4 +11,4 @@ def number_clear(value, space=True):
     if value and space and EXTERNAL_PHONE_NUM_RE.match(value):
         value = " ".join(value[i:i + 2] for i in range(0, len(value), 2))
 
-    return value
+    return value or ''
