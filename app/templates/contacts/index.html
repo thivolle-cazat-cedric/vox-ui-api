@@ -61,7 +61,9 @@
                         {{c.mobile |num_clear_format}}
                     </td>
                     <td>
+                        {% if c.mail%}
                         <a href="mailto:{{c.mail}}">{{c.mail}}</a>
+                        {%endif%}
 
                     </td>
                     <td>
