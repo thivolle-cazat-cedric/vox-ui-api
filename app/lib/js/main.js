@@ -171,7 +171,7 @@ $(document).ready(function() {
             else if (tag != 'input' && event.charCode == 99) {$('#callModal').modal('show')}
             // esc
             else if (tag != 'input' && event.charCode == 27) {
-                if (!$("#callModal").is(':visible') && $("#contact-back-to-list")) {
+                if (!$("#callModal").is(':visible') && $("#contact-back-to-link").length > 0) {
                     location.pathname = $(".input-group a.btn:first").attr('href')
                 }
             }

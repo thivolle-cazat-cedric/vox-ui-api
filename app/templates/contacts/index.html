@@ -10,7 +10,7 @@
           <div class="input-group">
                 {% if search_mode%}
                 <span class="input-group-btn">
-                    <a class="btn btn-default" role="button" href="{{url_for('CONTACT.view')}}" id="contact-back-to-list"><i class="fa fa-times text-danger"></i></a>
+                    <a class="btn btn-default" role="button" href="{{url_for('CONTACT.view')}}" id="contact-back-to-link"><i class="fa fa-times text-danger"></i></a>
                 </span>
                 {%endif%}
                 <input type="text" class="form-control" placeholder="Search for by name" name="name" {%if search_mode%}value="{{form_value['name']}}"{%endif%}>
