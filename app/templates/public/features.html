@@ -15,9 +15,14 @@
         </div>
     </div>
     <div class="col-xs-12 col-md-9">
+        <p class="text-center">
+            Retrouvez toute les fonctionnalités disponible de cette application sur cette page. Pour connaitre toutes les denières fonctionnalités et correctif de bug regarder le <a href="{{url_for('PUBLIC.changelog')}}" class="btn btn-link">changelog</a> de l'application
+        </p>
+        
+        <hr>
 
         <div class="features" id="Notifications">
-            <h1 class="head" id="Notifications"> Notifications</h1>
+            <h1 class="head" id="Notifications">Notifications</h1>
             <div class="caption">
                 <h4>Notifications local</h4>
                 <p class="caption">
@@ -32,7 +37,7 @@
                 <div class="caption">
                     <h5 >Lors d'une appel entrant</h5>
                     <p class="caption">
-                        Vous allez connaitre le numéro de l'appelant, et si ce numéro est présent dans votre l'annuaire de l'application, vous connaiterez le nom.
+                        Vous allez connaitre le numéro de l'appelant, et si ce numéro est présent dans votre l'annuaire de l'application, vous connaîtrez le nom.
                     </p>
                 </div>
             </div>
@@ -41,19 +46,19 @@
         <hr>
 
         <div class="features" id="Dashboard">
-            <h1 class="head" id="Notifications"> Tableau de bord</h1>
+            <h1 class="head" id="Notifications">Tableau de bord</h1>
 
             <div class="caption">
-                Le tableau de bord vous permet d'avoir une vue d'ensemble de votre parc téléphonique Voxity. Vous connaiterez donc l'état des postes
+                Le tableau de bord vous permet d'avoir une vue d'ensemble de votre parc téléphonique Voxity. Vous connaîtrez donc l'état des postes
                 <h4>Légende</h4>
                 <p class="cation">
                     <dl class="dl-horizontal">
                         <dt><i class="fa fa-2x fa-fw fa-phone-square text-muted"></i></dt>
-                            <dd>Poste non connecté à la plate-forme voxity</dd>
+                            <dd>Poste non connecté à la plate-forme Voxity</dd>
                         <dt><i class="fa fa-2x fa-fw fa-phone-square text-success"></i></dt>
                             <dd>Poste connecté et disponible</dd>
                         <dt><i class="fa fa-2x fa-fw fa-phone-square text-danger animated infinite flash"></i></dt>
-                            <dd>Le poste est en train de sonné, ou est en train de lancer un appel</dd>
+                            <dd>Le poste est en train de sonner, ou est en train de lancer un appel</dd>
                         <dt><i class="fa fa-2x fa-fw fa-phone-square text-danger"></i></dt>
                             <dd>Poste en ligne</dd>
                         <dt><i class="fa fa-2x fa-fw fa-question-circle text-muted"></i></dt>
@@ -61,7 +66,7 @@
                     </dl>
                 </p>
                 <p>
-                    Lorsque vous cliquez sur une extension, vous généré un clik2call, si vous cliqué sur la fléche <button class="btn-link btn" type="button"><i class="fa fa-chevron-right"></i></button>, vous aurez le détail du poste ainsi que ces lignes en cours <em class="small text-muted">(dans le cas ou vous etes administrateur)</em>
+                    Lorsque vous cliquez sur une extension, vous généré un clik2call, si vous cliquez sur l'icône <button class="btn-link btn" type="button"><i class="fa fa-chevron-right"></i></button>, vous aurez le détail du poste ainsi que ces lignes en cours <em class="small text-muted">(dans le cas où vous êtes administrateur)</em>
                 </p>
             </div>
         </div>
@@ -73,11 +78,11 @@
             <div class="caption">
                 <h4>Click2call</h4>
                 <p class="caption">
-                    Retrouvez la même fonctionnalité que l'application client.voxity.fr, chaque numéros soulignés vous permez de générer une appel. Cliquer sur le numéro, votre poste sonnera, si vous répondez, l'appel sera propagé et vous serez mis en relation avec votre corespondant
+                    Retrouvez la même fonctionnalité que l'application client.voxity.fr, chaque numéro souligné vous permet de générer un appel. Cliqué sur le numéro, votre poste sonnera, si vous répondez, l'appel sera propagé et vous serez mis en relation avec votre correspondant
                 </p>
                 <h4>Génération d'appel</h4>
                 <p class="caption">
-                    Vous pouvez également composer un numéro depuis l'interface. cliquer sur l'icon <button class="btn btn-link"><i class="fa fa-phone"></i></button> <em class="small text-muted">en haut de la page</em>, ou appuyer sur votre touche <kbd>c</kbd>. Un formulaire aparaitera, entrez le numéro et généré vottre appel en cliquant sur <button class="btn btn-success btn-xs"><i class="fa fa-chevron-right"></i></button>. <br>
+                    Vous pouvez également composer un numéro depuis l'interface. Cliquer sur l'icône <button class="btn btn-link"><i class="fa fa-phone"></i></button> <em class="small text-muted">en haut de la page</em>, ou appuyer sur votre touche <kbd>c</kbd>. Un formulaire apparaîtra, entrez le numéro et généré vottre appel en cliquant sur <button class="btn btn-success btn-xs"><i class="fa fa-chevron-right"></i></button>. <br>
                     La suite est la même pour que le click2call, l'appel sera émit seulement si vous répondez à l'appel
                 </p>
             </div>
@@ -89,7 +94,7 @@
             <h1>Contacts</h1>
 
             <div class="caption">
-                Vous retrouverez l'ensemble de vos contacts dans stocker dans l'annuaire partagé Voxity. Vous porrez donc chercher des contacts. C'est grace a cette annuaire que les notifications affiche un nom en plus du numéro. 
+                Vous retrouverez l'ensemble de vos contacts stocké dans l'annuaire partagé Voxity. Vous pourrez donc chercher des contacts. C'est grâce à cet annuaire que les notifications affichent un nom en plus du numéro. 
             </div>
         </div>
 
@@ -100,17 +105,17 @@
 
             <div class="caption">
                 <p>
-                    Dans toutes les page vous disposez de raccourcie clavier.
+                    Dans toutes les pages, vous disposez de raccourcie clavier.
                 </p>
                 <dl class="dl-horizontal">
                     <dt><kbd>r</kbd></dt>
-                        <dd>Sur le dashbord, permet de rafréchire l'état des postes</dd>
+                        <dd>Sur la page du tableau de bord, permet de rafraîchir l'état des postes</dd>
                     <dt><kbd>c</kbd></dt>
                         <dd>Affiche la fenêtre pour composer un numéro</dd>
                     <dt><kbd>h</kbd></dt>
                         <dd>Retour au tableau de bord</dd>
                     <dt><kbd>esc</kbd></dt>
-                        <dd>Retrir les filtres de recherche <em class="small-text-muted">lors d'une recherche de contact</em></dd>
+                        <dd>Retire les filtres de recherche <em class="small-text-muted">lors d'une recherche de contact</em></dd>
                 </dl>
                 
             </div>

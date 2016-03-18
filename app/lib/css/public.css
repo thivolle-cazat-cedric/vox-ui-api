@@ -176,6 +176,8 @@ div .ombre-b{
         margin-right: 15px;
         max-height: 35px;
         width: auto;
+        margin-top: -5px;
+        margin-bottom: 5px;
     }
 
     .header .nav.nav-pills a {
