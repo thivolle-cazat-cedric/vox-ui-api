@@ -89,7 +89,7 @@ div .ombre-b{
         background-position: center 100%;
         background-size: 100% auto;
     }
-    .jumbotron-home.jumbotron-revert.jumbotron-revert .fa-github-square{
+    .jumbotron-home.jumbotron-revert .fa-github-square{
         color: #fff;
         opacity: .7;
         text-shadow: 0 0 2px #795547;
@@ -130,7 +130,12 @@ div .ombre-b{
         color: #000
     }
     @media all and (max-width: 768px) {
-        .jumbotron-home.jumbotron {
+        .jumbotron-home.jumbotron,
+        .jumbotron-home.jumbotron-revert{
+            background-size: auto 100%;
+        }
+        .jumbotron-home.jumbotron-revert.jumbotron-revert{
+            background-position: bottom; 100%;
             background-size: auto 100%;
         }
     }
