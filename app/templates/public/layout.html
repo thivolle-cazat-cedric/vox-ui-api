@@ -58,8 +58,8 @@
 
             <nav>
                 <ul class="nav nav-pills pull-left">
-                    <li class="disabled">
-                        <a href="#">
+                    <li {% if url_for('PUBLIC.features') == request.path %}class="active"{% endif %}>
+                        <a href="{{url_for('PUBLIC.features')}}">
                             <i class="fa fa-cogs fa-fw"></i> 
                              <span class="hidden-sm hidden-xs">Fonctionnalités</span>
                         </a>

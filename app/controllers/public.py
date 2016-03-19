@@ -9,13 +9,6 @@ PUBLIC = Blueprint('PUBLIC', __name__)
 @PUBLIC.route("")
 @PUBLIC.route("index.html")
 def index():
-    # if controllers.valide_session() and voxity.connectors() is not None:
-    #     return redirect(url_for('DEVICES.devices_view'))
-
-    # try:
-    #     voxity.logout()
-    # except Exception:
-    #     controllers.clear_session()
     return render_template('public/index.html')
 
 
@@ -29,7 +22,9 @@ def changelog():
 
 @PUBLIC.route('about.html', methods=["GET"])
 def about():
-    return render_template(
-        'public/about.html',
-        changelog=markdown(render_template('changelog.md'))
-    )
+    return render_template('public/about.html')
+
+
+@PUBLIC.route('features.html', methods=["GET"])
+def features():
+    return render_template('public/features.html')
