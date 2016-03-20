@@ -35,6 +35,8 @@ function updateStateRegistration(deviceObject){
         var title = "Poste déconnecté!"
         toastr["error"](mess, title);
         notify.showMessage(deviceObject['id'], title, mess, 'SUPPOERT_LEVEL1_LINK_commingSoon')
+    } else if(deviceObject.state == 0 && deviceObject.extension == myExtension){
+        notify.remove(deviceObject['id']);
     }
 }
 
@@ -88,7 +90,7 @@ $(document).ready(function() {
             if (data['caller_num'] != myExtension) {        
                 toastr["error"](mess, "Fin d'appel");
             }
-            notify.list[data['id']].close();
+            notify.remove(data['id']);
         })
 
         socket.on("devices.status.available", updateStateRegistration);

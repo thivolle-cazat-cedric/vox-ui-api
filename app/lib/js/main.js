@@ -110,6 +110,14 @@ var notify = {
             this.list[id] = notifMessage;
             this.list[id]['notSend'] = true;
         }
+    },
+    remove: function(id){
+        if (this.list[id] && !this.list[id].notSend) {
+            this.list[id].close();
+        }
+        if (this.list[id]) {
+            delete this.list[id];
+        }
     }
 }
 
