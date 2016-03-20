@@ -2,9 +2,9 @@
 
 ---
 
-##### curent bug
+##### Bug*(s)* connu*(s)*
 
- - [ ] Journal d'appel *(non fonctionel)*
+ - [ ] Journal d'appel *(non-fonctionnel)*
  - [-] Authentification
 
 
@@ -15,17 +15,17 @@
 ### 1.1 βeta [:danger: en cours]
 
  - [ ] Ajout d'un contact 
- - [ ] Edition d'un contact
+ - [ ] Édition d'un contact
  - [ ] Déconnexion
 
 ### 1.0 βeta
 
 ##### 1.0.2
- - Fixe some errors 500, on dashboard when device is on hold
- - Translate state description in french 
- - Add shortcut key to go dashboard
- - Desktop notification only if windows is not active 
- - Improvement dashboard *(3 columns on lg screen, 2 on médium and single for small)*
+ - Résolution du bug sur le tableau de bord quand un poste est en attente
+ - Traduction des états de post en français  
+ - Ajout d'un raccourci *h* pour retourner au tableau de bord à tous moment
+ - Désactivation des notifications de bureau dans le cas ou la page est active
+ - Amélioration du tableau de bord *(3 colonnes pour les écrans large, 2 pour les écrans moyens et 1 pour les petits écrans)*
 
 ##### 1.0.1
  - [X] Ajout d'un lien de déconnexion dans la page d'accueil
@@ -33,12 +33,12 @@
 ### αlpha
 
 ---
-##### Features :
+##### Fonctionnalités :
 
- - [X] Liste des téléphone avec états du poste
- - [X] Notifications lors d'un appel entrant *(desktop notification)*
- - [X] Liste des contacts présent dans l'annuaire
+ - [X] Liste des téléphones avec états du poste
+ - [X] Notifications lors d'un appel entrant *(notification de bureau)*
+ - [X] Liste des contacts présents dans l'annuaire
  - [X] Click to Call
  - [X] Génération d'appel
- - [X] Remplacement des numéros connus par un nom *(si présnet dans l'annuaire)*
+ - [X] Remplacement des numéros connus par un nom *(si présent dans l'annuaire)*
  - [X] Recherche de contact
