@@ -20,6 +20,10 @@
 
 ### 1.0 βeta
 
+##### 1.0.3
+ - Résolution de problème de notification de bureau sur certains navigateurs
+ - Ajout d'une notification si votre poste se déconnecte de la plate-forme Voxity
+
 ##### 1.0.2
  - Résolution du bug sur le tableau de bord quand un poste est en attente
  - Traduction des états de post en français  

@@ -31,7 +31,7 @@ function updateStateRegistration(deviceObject){
         }
     }
     if (deviceObject.state == 5 && deviceObject.extension == myExtension) {
-        var mess = "Votre poste est déconnecté de la platforme Voxity";
+        var mess = "Votre poste est déconnecté de la plate-forme Voxity";
         var title = "Poste déconnecté!"
         toastr["error"](mess, title);
         notify.showMessage(deviceObject['id'], title, mess, 'SUPPOERT_LEVEL1_LINK_commingSoon')
