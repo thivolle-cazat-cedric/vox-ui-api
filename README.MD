@@ -1,13 +1,13 @@
-# Projet d'interface simplifé
+# Projet d'interface simplifié
 
-Basé sur [l'API Voxity](https://client.voxity.fr/doc). Cette interface vous permet de :
- - [X] Lister vos contacts
- - [X] Lister vos numéro interne & connaitre leurs état d'enregistrement
- - [X] Génerer des appels
- - [-] Voir votre journal d'appel
- - [X] Notification de bureau
- - [ ] Révocation du token
- - [ ] Ajouter un contact
+Basé sur [l'API Voxity](https://api.voxity.fr/doc). Cette interface vous permet de :
+
+ - Lister et rechercher vos contacts
+ - Lister les postes & connaitre leurs états
+ - Générer des appels
+ - Notification de bureau *lors d'appels entrants*
+
+Retrouvez le site démonstration : [vox-ui-api](http://vox-ui-api.webstartapp.fr)
 
 -----
 
@@ -16,16 +16,16 @@ Basé sur [l'API Voxity](https://client.voxity.fr/doc). Cette interface vous per
  - Virtualenv
  - Acces au site client.voxity.fr pour générer ces CLIENT_ID/CLIENT_SECRET
 
-# Instalation
+# Installation
 
-## Création des acces à l'API
+## Création des accès à l'API
 
 
  1. Aller sur le site [votre compte voxity](https://client.voxity.fr/voxity-api/configuration)
- 2. cliquer sur **+**
-    - non : test ui api
+ 2. Cliquer sur **+**
+    - Non : test ui api
     - Url de redirection : http://127.0.0.1:6500/callback
- 3. Récuperer votre client_id et votre client_secret
+ 3. Récupérer votre client_id et votre client_secret
 
 ## Installation du projet
 
@@ -35,10 +35,11 @@ $ cd voxity-ui-api
 $ virtualenv venv
 $ source venv/bin/activate
 (venv) $ pip install -r requirement.txt
-(venv) $ echo "# -*- coding: utf-8 -*-
+(venv) $ key=`./manage.py generate_key`
+(venv) $ echo "
 CLIENT_ID = '<your_client_id>
 CLIENT_SECRET = '<your_client_secret>'
-SECRET_KEY = '<randum>'
+SECRET_KEY = '$key'
 " > app/config/env/prod.py
 ```
 
@@ -47,6 +48,7 @@ SECRET_KEY = '<randum>'
 # Lancement de l'Application
 
 ```
-(venv) $ ./manage.py runserver
+(venv) $ ./manage.py runserver -p 6500
 ```
-Aller sur 127.0.0.1:6500
+
+L'appliaction est lancer sur l'uri [127.0.0.1:6500](http://127.0.0.1:6500)
