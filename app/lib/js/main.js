@@ -106,6 +106,7 @@ var notify = {
         if (this.support() && this.permited() && !windowsIsActive){
             this.list[id] = new Notification(title, notifMessage);
             this.list[id].message = message;
+            this.list[id].show();
         } else {
             this.list[id] = notifMessage;
             this.list[id]['notSend'] = true;

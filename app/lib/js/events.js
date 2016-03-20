@@ -10,7 +10,7 @@ function updateStateRegistration(deviceObject){
     }
     
     if (updateState !== undefined) {
-        if ($('#' + deviceObject.id).length == 1 && (self.state == 0 || self.state == 5)) {
+        if ($('#' + deviceObject.id).length == 1 && (deviceObject.state == 0 || deviceObject.state == 5)) {
             var iconState = $('#' + deviceObject.id + " .icon-blf-state>i");
             if (DEVICE_CLASS[deviceObject.state]) {
                 iconState.attr('class', DEVICE_CLASS[deviceObject.state]);
