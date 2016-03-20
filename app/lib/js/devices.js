@@ -1,4 +1,13 @@
 
+var DEVICE_CLASS = {
+    0: "fa fa-2x fa-fw fa-phone-square text-success",
+    2: "fa fa-2x fa-fw fa-phone-square text-danger animated infinite flash",
+    3: "fa fa-2x fa-fw fa-phone-square text-danger",
+    5: "fa fa-2x fa-fw fa-phone-square text-muted",
+    default: "fa fa-2x fa-fw fa-question-circle text-muted"
+}
+
+
 function getDevices(done){
     $.ajax({
         url: "/devices/json/",

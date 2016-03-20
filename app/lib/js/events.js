@@ -1,3 +1,43 @@
+function updateStateRegistration(deviceObject){
+    
+    if (STATES_TRANSLATE !== undefined) {
+        var stateDesc = STATES_TRANSLATE['fr']['unknow'];
+        if (STATES_TRANSLATE['fr'][deviceObject.state_desc]) {
+            stateDesc = STATES_TRANSLATE['fr'][deviceObject.state_desc];
+        }
+    } else {
+        var stateDesc = deviceObject.state_desc;
+    }
+    
+    if (updateState !== undefined) {
+        if ($('#' + deviceObject.id).length == 1 && (self.state == 0 || self.state == 5)) {
+            var iconState = $('#' + deviceObject.id + " .icon-blf-state>i");
+            if (DEVICE_CLASS[deviceObject.state]) {
+                iconState.attr('class', DEVICE_CLASS[deviceObject.state]);
+            } else {
+                iconState.attr('class', DEVICE_CLASS.default);
+            }
+            
+            iconState.attr('title', stateDesc);
+            iconState.attr('data-original-title', stateDesc);
+            iconState.tooltip({container: 'body'})
+
+        } else if($('#' + deviceObject.id).length > 1) {
+            console.error('Can update device, multiple id for : ' + deviceObject.id)
+        } else if ($('#' + deviceObject.id).length < 1) {
+            if (refreshState !== undefined) {
+                refreshState();
+            }
+        }
+    }
+    if (deviceObject.state == 5 && deviceObject.extension == myExtension) {
+        var mess = "Votre poste est déconnecté de la platforme Voxity";
+        var title = "Poste déconnecté!"
+        toastr["error"](mess, title);
+        notify.showMessage(deviceObject['id'], title, mess, 'SUPPOERT_LEVEL1_LINK_commingSoon')
+    }
+}
+
 $(document).ready(function() {
     var socket = io.connect('https://api.voxity.fr/', {
         path:'/event/v1',
@@ -50,8 +90,11 @@ $(document).ready(function() {
             }
             notify.list[data['id']].close();
         })
+
+        socket.on("devices.status.available", updateStateRegistration);
+        socket.on("devices.status.unavailable", updateStateRegistration);
     })
-    
+
     // to show all event
     // socket.onevent = function (packet) {
     //     console.log(packet)

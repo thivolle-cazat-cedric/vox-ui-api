@@ -93,5 +93,14 @@
 {% endblock %}
 
 {% block jsscript %}
+    <script>
+        {%if devices|length%}
+        var STATES_TRANSLATE ={ {%for lg in devices[0]._DESCRIPTION.keys() %}
+            '{{lg}}':{ 
+                {%for k in devices[0]._DESCRIPTION[lg].keys() %}'{{k}}': "{{devices[0]._DESCRIPTION[lg][k]}}",{%endfor%}
+            },{%endfor%}
+        {%endif%}
+        }
+    </script>
     <script src="{{url_for('static', filename='js/devices.js')}}"></script>
 {% endblock %}
