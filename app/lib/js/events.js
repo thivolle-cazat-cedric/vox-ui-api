@@ -84,7 +84,7 @@ $(document).ready(function() {
                 var mess = notify.list[data['id']].message;
                 mess += ' est raccroché';    
             } else {
-                var mess = "Fin d'appel avec " + callObj['caller_num']
+                var mess = "Fin d'appel avec " + data['caller_num']
             }
             
             if (data['caller_num'] != myExtension) {        
