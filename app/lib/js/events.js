@@ -67,8 +67,8 @@ $(document).ready(function() {
         socket.on('channels.up', function(callObj){
             whois(callObj['caller_num'], function(err, callerNameList){
                 var name = callObj['caller_name'] 
-                if (!err && contacts[0]) {
-                    name = contacts[0]['cn']
+                if (!err && callerNameList[0]) {
+                    name = callerNameList[0]['cn']
                 }
                 var mess = "<strong>" + name + "</strong> <"+callObj['caller_num']+">";
                 mess += '<br>';

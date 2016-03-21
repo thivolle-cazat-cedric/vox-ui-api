@@ -22,6 +22,7 @@
 
 ##### 1.0.4
  - Correction d'un bug lors d'un racrocché *lorsque que vous etes actif sur la page*
+ - Correction d'un bug lors d'un appel déccroché
  
 ##### 1.0.3
  - Résolution de problème de notification de bureau sur certains navigateurs
