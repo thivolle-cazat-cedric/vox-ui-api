@@ -20,6 +20,9 @@
 
 ### 1.0 βeta
 
+##### 1.0.4
+ - Correction d'un bug lors d'un racrocché *lorsque que vous etes actif sur la page*
+ 
 ##### 1.0.3
  - Résolution de problème de notification de bureau sur certains navigateurs
  - Ajout d'une notification si votre poste se déconnecte de la plate-forme Voxity
