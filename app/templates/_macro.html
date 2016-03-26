@@ -1,0 +1,31 @@
+{% macro input_text(field, success='', errors='', show_label=1, addon_icon='', placeholder='', error_list='') %}
+{%if not show_label and not placeholder[0]%}
+    {% set placeholder = field.label.text%}
+{%endif%}
+{%if errors%}
+    {% set class_form_group = 'has-error'%}
+{%elif success%}
+    {% set class_form_group = 'has-success'%}
+{%else%}
+    {% set class_form_group = ''%}
+{%endif%}
+{%if field.data and not errors%}
+    {% set class_form_group = 'has-success'%}
+{%endif%}
+<div class="form-group {{class_form_group}}">
+    {%if show_label%}{{field.label(class="control-label")}}{%endif%}
+    {%if addon_icon%}
+    <div class="input-group">
+        <span class="input-group-addon"><i class="{{addon_icon}}"></i></span>
+        {{field(class="form-control", placeholder=placeholder)}}
+    </div>
+    {%else%}{{field(class="form-control", placeholder=placeholder)}}{%endif%}
+    {%if errors%}
+    <span class="help-block small text-danger">
+        <ul>{%for e in errors%}
+            <li>{{e}}</li>
+        {%endfor%}</ul>
+    </span>
+    {%endif%}
+</div>
+{% endmacro %}

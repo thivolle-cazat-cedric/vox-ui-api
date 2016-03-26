@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, division, unicode_literals
-from flask import Blueprint, render_template, request, abort
+from flask import Blueprint, render_template, request, abort, redirect, url_for, session
 from flask.json import jsonify
 from app.voxity import contact
 from app.controllers import is_auth
 from app.utils import value_or_zero
+from app.voxity.objects.contact import ContactForm
+
 
 CONTACT = Blueprint('CONTACT', __name__)
 LIST_AVAILABLE = [5, 10, 25, 50, 100]
@@ -19,11 +21,15 @@ def json_data():
 @CONTACT.route('', methods=["GET"])
 @CONTACT.route('index.html', methods=["GET"])
 @is_auth
-def view():
+def view(new_contact=None):
 
     item = request.args.get('item', 25)
     page = request.args.get('page', 1)
     pager = dict()
+    new_contact = session.get('new_contact', None)
+    if new_contact is not None:
+        new_contact = contact.Contact(**new_contact)
+        session.pop('new_contact', None)
 
     if item != 'all':
         contacts = contact.get(page=page, limit=item, ret_object=True)
@@ -61,7 +67,8 @@ def view():
         item=item,
         items=LIST_AVAILABLE,
         contact_total=contact_total,
-        search_mode=False
+        search_mode=False,
+        new_contact=new_contact
     ).encode('utf-8')
 
 
@@ -135,3 +142,31 @@ def whois():
             name_list.append(elt)
 
     return jsonify({'data': name_list})
+
+
+@CONTACT.route('add.html', methods=['GET'])
+@is_auth
+def get_add(error_form=None, api_errors=None):
+    return render_template(
+        'contacts/add.html',
+        form=error_form or ContactForm(),
+        api_errors=api_errors
+    ).encode('utf-8')
+
+
+@CONTACT.route('add.html', methods=['POST'])
+@is_auth
+def post_add():
+    api_errors = None
+    form = ContactForm(request.form)
+    form.strip_value()
+    if form.validate():
+        c = form.get_object(contact.Contact)
+        resp = contact.add_contact(**c.to_dict(is_query=True))
+        if resp.get('status', False) == 200 and resp.get('result', {}).get('uid', False):
+            session['new_contact'] = c.to_dict()
+            return redirect(url_for('.view'))
+        else:
+            api_errors = resp.get('error', {'internal': 'Error inconnue'})
+
+    return get_add(error_form=form, api_errors=api_errors)

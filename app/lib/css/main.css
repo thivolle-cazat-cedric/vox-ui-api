@@ -135,3 +135,7 @@ body {
 span[data-whois-num] {
   display: none;
 }
+
+.form-group .help-block ul{
+  padding-left:20px; 
+}

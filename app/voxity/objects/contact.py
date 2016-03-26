@@ -2,7 +2,14 @@
 from __future__ import (
     absolute_import, division, print_function, unicode_literals
 )
+from wtforms.fields import StringField
+from wtforms.fields.html5 import EmailField, TelField
+from wtforms.validators import InputRequired, optional, Email, Length
 from . import ObjectBase
+from .validators import (
+    BaseForm, MandatoryOrOther, PhoneNumberFormat, MandatoryIfField, NotEqual
+)
+from .validators.contact import ShortcutTelFormat
 
 
 class Contact(ObjectBase):
@@ -34,6 +41,14 @@ class Contact(ObjectBase):
     phone_number_raccourci = None
     phone_mobile_raccourci = None
 
+    def __init__(self, *args, **kwargs):
+        super(Contact, self).__init__(*args, **kwargs)
+        for k in [' ', '-', '_', '.', '/']:
+            if self.telephone_number and k in self.telephone_number:
+                self.telephone_number = self.telephone_number.replace(k, '')
+            if self.mobile and k in self.mobile:
+                self.mobile = self.mobile.replace(k, '')
+
     def from_dict(self, dico):
         '''
         :param dict dico:
@@ -48,3 +63,43 @@ class Contact(ObjectBase):
         self.mail = dico.get('mail', None)
         self.phone_number_raccourci = dico.get('phone_number_raccourci', dico.get('phoneNumberRaccourci', None))
         self.phone_mobile_raccourci = dico.get('phone_mobile_raccourci', dico.get('employeeNumber', None))
+
+    def to_dict(self, is_query=False):
+        dico = super(Contact, self).to_dict()
+        if is_query:
+            dico['telephoneNumber'] = dico.pop('telephone_number', '')
+            dico['phonenumberraccourci'] = dico.pop('phone_number_raccourci', '')
+            dico['employeenumber'] = dico.pop('phone_mobile_raccourci', '')
+
+        return dico
+
+
+class ContactForm(BaseForm):
+
+    cn = StringField('Prénom, nom', validators=[
+        InputRequired('Nom obligatoire'),
+        Length(min=1, max=64, message="Minimum %(min) caractères, Maximum %(max)")
+    ])
+    telephone_number = TelField('Téléphone principal', validators=[
+        MandatoryOrOther('mobile', 'Numéro obligatoire'),
+        PhoneNumberFormat('Erreur de format, minimum 3 chiffres'),
+        MandatoryIfField('phone_number_raccourci', 'Obligatoire si vous souhaitez un raccourci')
+    ])
+    mobile = TelField('Téléphone secondaire', validators=[
+        MandatoryIfField('phone_mobile_raccourci', 'Obligatoire si vous souhaitez un raccourci'),
+        PhoneNumberFormat('Error de format, minimum 3 chiffres')
+    ])
+    mail = EmailField('mail', validators=[
+        optional(),
+        Email('Adresse email invalide')
+    ])
+    phone_number_raccourci = StringField('Raccourci', validators=[
+        optional(),
+        ShortcutTelFormat("Raccourcie invalide.\n ex: *1234"),
+        NotEqual('phone_mobile_raccourci', message='Les raccourcies ne peuvent être égales')
+    ])
+    phone_mobile_raccourci = StringField('Raccourci', validators=[
+        optional(),
+        ShortcutTelFormat("Raccourcie invalide.\n ex: *1234"),
+        NotEqual('phone_number_raccourci', message="Les raccourcies ne peuvent être égales")
+    ])

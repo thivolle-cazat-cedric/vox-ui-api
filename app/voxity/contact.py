@@ -53,7 +53,7 @@ def get_uid(ret_object=False, uid=None):
         return None
 
 
-def add_contacts(**kwargs):
+def add_contact(**kwargs):
     """
     :param str cn: name **mandatory**
     :param str telephoneNumber: first phone number **mandatory**
@@ -62,11 +62,20 @@ def add_contacts(**kwargs):
     :retype: list
     :return: contact list
     """
+    kwargs.pop('uid', None)
+
+    for k in kwargs.keys():
+        if not kwargs[k]:
+            kwargs.pop(k, None)
+
     con = connectors()
     if con is not None:
-        return con.post(
+        resp = con.post(
             current_app.config['BASE_URL'] + '/contacts/',
-            params=kwargs
-        ).json()
+            json=kwargs,
+            headers={'Content-Type': 'application/json'}
+        )
+        if check_respons(resp, esc_bad_resp=False):
+            return resp.json()
 
-    return None
+    return {'errors': {'no_response': 'unexpended error'}}

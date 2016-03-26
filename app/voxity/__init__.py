@@ -12,14 +12,16 @@ from app.voxity.error import ExceptVoxityTokenExpired
 _DURATION_TOKEN = timedelta(days=7)
 
 
-def check_respons(resp):
+def check_respons(resp, esc_bad_resp=True):
     if isinstance(resp, Response):
         if resp.status_code == 401:
             session['try_refresh_token'] = 0
             session.modified = True
             raise ExceptVoxityTokenExpired()
-        if resp.status_code >= 400:
+        if esc_bad_resp and resp.status_code >= 400:
             abort(resp.status_code)
+        if not esc_bad_resp and resp.status_code > 400:
+            pass
         return True
     return False
 
