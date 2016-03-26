@@ -1,4 +1,4 @@
-{% macro input_text(field, success='', errors='', show_label=1, addon_icon='', placeholder='', error_list='') %}
+{% macro input_text(field, success='', errors='', show_label=1, addon_icon='', placeholder='', error_list='', validate='') %}
 {%if not show_label and not placeholder[0]%}
     {% set placeholder = field.label.text%}
 {%endif%}
@@ -9,7 +9,7 @@
 {%else%}
     {% set class_form_group = ''%}
 {%endif%}
-{%if field.data and not errors%}
+{%if validate and field.data and not errors%}
     {% set class_form_group = 'has-success'%}
 {%endif%}
 <div class="form-group {{class_form_group}}">

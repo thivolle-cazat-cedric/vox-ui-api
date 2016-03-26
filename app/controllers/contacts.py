@@ -21,15 +21,21 @@ def json_data():
 @CONTACT.route('', methods=["GET"])
 @CONTACT.route('index.html', methods=["GET"])
 @is_auth
-def view(new_contact=None):
+def view():
 
     item = request.args.get('item', 25)
     page = request.args.get('page', 1)
     pager = dict()
     new_contact = session.get('new_contact', None)
+    update_contact = session.get('update_contact', None)
+
     if new_contact is not None:
         new_contact = contact.Contact(**new_contact)
         session.pop('new_contact', None)
+
+    if update_contact:
+        update_contact = contact.Contact(**update_contact)
+        session.pop('update_contact', None)
 
     if item != 'all':
         contacts = contact.get(page=page, limit=item, ret_object=True)
@@ -68,14 +74,10 @@ def view(new_contact=None):
         items=LIST_AVAILABLE,
         contact_total=contact_total,
         search_mode=False,
-        new_contact=new_contact
+        new_contact=new_contact,
+        update_contact=update_contact
     ).encode('utf-8')
 
-
-@CONTACT.route('<uid>.html', methods=["GET"])
-@is_auth
-def test_view(uid=None):
-    return "Not developed"
 
 @CONTACT.route('<uid>.json', methods=["GET"])
 @is_auth
@@ -146,11 +148,15 @@ def whois():
 
 @CONTACT.route('add.html', methods=['GET'])
 @is_auth
-def get_add(error_form=None, api_errors=None):
+def get_add(form=None, api_errors=None):
+    validate_state = False
+    if form:
+        validate_state = True
     return render_template(
         'contacts/add.html',
-        form=error_form or ContactForm(),
-        api_errors=api_errors
+        form=form or ContactForm(),
+        api_errors=api_errors,
+        validate_state=validate_state
     ).encode('utf-8')
 
 
@@ -162,11 +168,61 @@ def post_add():
     form.strip_value()
     if form.validate():
         c = form.get_object(contact.Contact)
-        resp = contact.add_contact(**c.to_dict(is_query=True))
+        resp = contact.add(**c.to_dict(is_query=True))
         if resp.get('status', False) == 200 and resp.get('result', {}).get('uid', False):
             session['new_contact'] = c.to_dict()
             return redirect(url_for('.view'))
         else:
             api_errors = resp.get('error', {'internal': 'Error inconnue'})
 
-    return get_add(error_form=form, api_errors=api_errors)
+    return get_add(form=form, api_errors=api_errors)
+
+
+@CONTACT.route('<uid>.html', methods=["GET"])
+@is_auth
+def edit(uid=None):
+    c = contact.get_uid(uid=uid, ret_object=True)
+    if c:
+        c_form = ContactForm(**c.to_dict())
+        return render_template(
+            'contacts/add.html',
+            form=c_form,
+            edit_mode=True
+        ).encode('utf-8')
+    else:
+        abort(404)
+
+
+@CONTACT.route('<uid>.html', methods=["POST"])
+@is_auth
+def edit_save(uid=None):
+    c = contact.get_uid(uid=uid, ret_object=True)
+    if not c:
+        abort(404)
+
+    if request.form['uid'] != uid:
+        abort(400)
+
+    c_form = ContactForm(request.form)
+    c_form.strip_value()
+    if c_form.validate():
+        c = c_form.get_object(contact.Contact)
+        resp = contact.update(**c.to_dict(is_query=True))
+        if resp and resp.get('result') and resp.get('result').get('uid', None) == uid and not resp.get('errors'):
+            session['update_contact'] = c.to_dict()
+            return redirect(url_for('.view', **{'update_contact': c.to_dict()}))
+        else:
+            return render_template(
+                'contacts/add.html',
+                form=c_form,
+                edit_mode=True,
+                api_errors=resp.get('error', {}),
+                validate_state=True
+            ).encode('utf-8') 
+    else:
+        return render_template(
+            'contacts/add.html',
+            form=c_form,
+            edit_mode=True,
+            validate_state=True
+        ).encode('utf-8')

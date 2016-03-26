@@ -2,7 +2,7 @@
 from __future__ import (
     absolute_import, division, print_function, unicode_literals
 )
-from wtforms.fields import StringField
+from wtforms.fields import StringField, HiddenField
 from wtforms.fields.html5 import EmailField, TelField
 from wtforms.validators import InputRequired, optional, Email, Length
 from . import ObjectBase
@@ -75,7 +75,9 @@ class Contact(ObjectBase):
 
 
 class ContactForm(BaseForm):
-
+    uid = HiddenField('uid', validators=[
+        optional()
+    ])
     cn = StringField('Prénom, nom', validators=[
         InputRequired('Nom obligatoire'),
         Length(min=1, max=64, message="Minimum %(min) caractères, Maximum %(max)")

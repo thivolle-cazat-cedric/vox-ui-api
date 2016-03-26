@@ -36,7 +36,7 @@ def get(ret_object=False, **kwargs):
         return None
 
 
-def get_uid(ret_object=False, uid=None):
+def get_uid(uid=None, ret_object=False):
     """
     :retyp: dict|Contact
     """
@@ -45,23 +45,17 @@ def get_uid(ret_object=False, uid=None):
     if con is not None:
         resp = con.get(get_base_url() + uid)
         if check_respons(resp):
-            if ret_object:
-                return Contact.litst_obj_from_list(resp.json()['result'])
-            else:
-                return resp.json()['result']
+            try:
+                if ret_object:
+                    return Contact(**resp.json()['result'][0])
+                else:
+                    return resp.json()['result'][0]
+            except Exception:
+                return None
+    return None
 
-        return None
 
-
-def add_contact(**kwargs):
-    """
-    :param str cn: name **mandatory**
-    :param str telephoneNumber: first phone number **mandatory**
-    :param str mobile: mobile phone number
-    :param str mail: mail adresse
-    :retype: list
-    :return: contact list
-    """
+def add(**kwargs):
     kwargs.pop('uid', None)
 
     for k in kwargs.keys():
@@ -71,7 +65,24 @@ def add_contact(**kwargs):
     con = connectors()
     if con is not None:
         resp = con.post(
-            current_app.config['BASE_URL'] + '/contacts/',
+            get_base_url(),
+            json=kwargs,
+            headers={'Content-Type': 'application/json'}
+        )
+        if check_respons(resp, esc_bad_resp=False):
+            return resp.json()
+
+    return {'errors': {'no_response': 'unexpended error'}}
+
+
+def update(**kwargs):
+    if not 'uid' in kwargs:
+        raise ValueError('contact.update : args [uid] is missing')
+
+    con = connectors()
+    if con is not None:
+        resp = con.put(
+            get_base_url() + kwargs.pop('uid'),
             json=kwargs,
             headers={'Content-Type': 'application/json'}
         )

@@ -1,12 +1,17 @@
 {% extends "layout.html" %}
 {% block body %}
 <div class="col-xs-12 col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
-    {% if new_contact%}
+    {% if new_contact or update_contact%}
     <div class="alert alert-success alert-dismissible fade in" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true" class="close"></span></button>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"></span><i class="fa fa-times"></i></button>
         <i class="fa fa-check fa-fw"></i>
-        Contact <strong>{{new_contact.cn}}</strong> est ajouté. <br>
-        <a href="{{url_for('CONTACT.search', name=new_contact.cn)}}" class="btn btn-xs btn-success"><i class="fa fa-search"></i></a>
+        {% if new_contact%}
+        Contact <strong>{{new_contact.cn}}</strong> est ajouté.
+        <a href="{{url_for('CONTACT.search', name=new_contact.cn)}}" class="btn btn-xs btn-success pull-right"><i class="fa fa-search"></i></a>
+        {%else%}
+        Contact <strong>{{update_contact.cn}}</strong> mis à jour.
+        <a href="{{url_for('CONTACT.search', name=update_contact.cn)}}" class="btn btn-xs btn-success pull-right"><i class="fa fa-search"></i></a>
+        {%endif%}
     </div>
     {%endif%}
     <p class="text-right">
@@ -75,7 +80,7 @@
 
                     </td>
                     <td>
-                        <button class="btn btn-default" disabled="disabled"><i class="fa fa-edit"></i></button>
+                        <a href="{{url_for('CONTACT.edit', **{'uid':c.uid})}}" class="btn btn-default"><i class="fa fa-edit"></i></a>
                     </td>
                 </tr>
                 {% endfor %}
