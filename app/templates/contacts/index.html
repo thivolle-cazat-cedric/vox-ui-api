@@ -1,17 +1,32 @@
 {% extends "layout.html" %}
 {% block body %}
 <div class="col-xs-12 col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
-    {% if new_contact or update_contact%}
+    {% if 'new_contact' in session or 'update_contact' in session%}
     <div class="alert alert-success alert-dismissible fade in" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"></span><i class="fa fa-times"></i></button>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"></span>&times;</button>
         <i class="fa fa-check fa-fw"></i>
-        {% if new_contact%}
-        Contact <strong>{{new_contact.cn}}</strong> est ajouté.
-        <a href="{{url_for('CONTACT.search', name=new_contact.cn)}}" class="btn btn-xs btn-success pull-right"><i class="fa fa-search"></i></a>
+        {% if 'new_contact' in session%}
+        Contact <strong>{{session['new_contact']['cn']}}</strong> est ajouté.
+        <a href="{{url_for('CONTACT.search', name=session['new_contact']['cn'])}}" class="btn btn-xs btn-success pull-right"><i class="fa fa-search"></i></a>
+        {%set tmp = session.pop('new_contact')%}
         {%else%}
-        Contact <strong>{{update_contact.cn}}</strong> mis à jour.
-        <a href="{{url_for('CONTACT.search', name=update_contact.cn)}}" class="btn btn-xs btn-success pull-right"><i class="fa fa-search"></i></a>
+        Contact <strong>{{session['update_contact']['cn']}}</strong> mis à jour.
+        <a href="{{url_for('CONTACT.search', name=session['update_contact']['cn'])}}" class="btn btn-xs btn-success pull-right"><i class="fa fa-search"></i></a>
+        {%set tmp = session.pop('update_contact')%}
         {%endif%}
+    </div>
+    {%endif%}
+    {% if 'remove_contact' in session%}
+    <div class="alert alert-danger" id="alr-remoce-{{session['remove_contact'].pop('uid', None)}}">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"></span>&times;</button>
+        <i class="fa fa-trash fa-fw"></i> Contact <strong>{{session['remove_contact'].cn}}</strong> supprimé.
+        <form action="{{url_for('CONTACT.post_add')}}" method="POST" class="pull-right">
+            {%for k in session['remove_contact'].keys()%}
+                <input type="hidden" name="{{k}}" value="{{session['remove_contact'][k]}}">
+            {%endfor%}
+            <button class="btn btn-danger btn-xs" type="submit" data-toggle="tooltip" title="annuler"><i class="fa fa-undo"></i></button>
+        </form>
+        {%set tmp = session.pop('remove_contact')%}
     </div>
     {%endif%}
     <p class="text-right">
@@ -58,7 +73,7 @@
                 <th class="text-center">Numéro principal</th>
                 <th class="text-center">Numéro secondaire</th>
                 <th class="text-center">Mail</th>
-                <th width="1%"></th>
+                <th style="min-width:50px; max-width:50px"></th>
             </thead>
             <tbody>
                 {% for c in contacts%}
@@ -79,8 +94,11 @@
                         {%endif%}
 
                     </td>
-                    <td>
-                        <a href="{{url_for('CONTACT.edit', **{'uid':c.uid})}}" class="btn btn-default"><i class="fa fa-edit"></i></a>
+                    <td class="text-center">
+                        <div class="btn-group btn-group-xs">
+                            <a href="{{url_for('CONTACT.edit', **{'uid':c.uid})}}" class="btn btn-default btn-xs"><i class="fa fa-edit"></i></a>
+                            <a href="{{url_for('CONTACT.remove_warning', **{'uid':c.uid})}}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+                        </div>
                     </td>
                 </tr>
                 {% endfor %}

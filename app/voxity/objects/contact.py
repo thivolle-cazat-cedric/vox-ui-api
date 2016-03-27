@@ -62,11 +62,11 @@ class Contact(ObjectBase):
 
         self.uid = dico.get('uid', None)
         self.cn = dico.get('cn', None)
-        self.telephone_number = dico.get('telephone_number', dico.get('telephoneNumber', None))
-        self.mobile = dico.get('mobile', None)
-        self.mail = dico.get('mail', None)
-        self.phone_number_raccourci = dico.get('phone_number_raccourci', dico.get('phoneNumberRaccourci', None))
-        self.phone_mobile_raccourci = dico.get('phone_mobile_raccourci', dico.get('employeeNumber', None))
+        self.telephone_number = dico.get('telephone_number', dico.get('telephoneNumber', ''))
+        self.mobile = dico.get('mobile', '')
+        self.mail = dico.get('mail', '')
+        self.phone_number_raccourci = dico.get('phone_number_raccourci', dico.get('phoneNumberRaccourci', ''))
+        self.phone_mobile_raccourci = dico.get('phone_mobile_raccourci', dico.get('employeeNumber', ''))
 
     def to_dict(self, is_query=False):
         dico = super(Contact, self).to_dict()

@@ -90,3 +90,14 @@ def update(**kwargs):
             return resp.json()
 
     return {'errors': {'no_response': 'unexpended error'}}
+
+
+def remove(uid):
+
+    con = connectors()
+    if con is not None:
+        resp = con.delete(get_base_url() + uid)
+        if check_respons(resp, esc_bad_resp=False) and resp.status_code == 200:
+            return True
+
+    return False

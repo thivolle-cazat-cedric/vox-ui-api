@@ -29,14 +29,6 @@ def view():
     new_contact = session.get('new_contact', None)
     update_contact = session.get('update_contact', None)
 
-    if new_contact is not None:
-        new_contact = contact.Contact(**new_contact)
-        session.pop('new_contact', None)
-
-    if update_contact:
-        update_contact = contact.Contact(**update_contact)
-        session.pop('update_contact', None)
-
     if item != 'all':
         contacts = contact.get(page=page, limit=item, ret_object=True)
         contact_total = int(value_or_zero(contacts['pager']['total_item']))
@@ -74,8 +66,6 @@ def view():
         items=LIST_AVAILABLE,
         contact_total=contact_total,
         search_mode=False,
-        new_contact=new_contact,
-        update_contact=update_contact
     ).encode('utf-8')
 
 
@@ -226,3 +216,33 @@ def edit_save(uid=None):
             edit_mode=True,
             validate_state=True
         ).encode('utf-8')
+
+
+@CONTACT.route('remove-<uid>.html', methods=["GET"])
+@is_auth
+def remove_warning(uid):
+    c = contact.get_uid(uid=uid, ret_object=True)
+    if not c:
+        abort(404)
+
+    return render_template(
+        'contacts/remove.html',
+        contact=c
+    ).encode('utf-8')
+
+
+@CONTACT.route('remove-<uid>.html', methods=["POST"])
+@is_auth
+def remove(uid):
+    c = contact.get_uid(uid=uid, ret_object=True)
+    if not c:
+        abort(404)
+
+    if request.form['uid'] != uid:
+        abort(400)
+
+    if contact.remove(uid):
+        session['remove_contact'] = c.to_dict()
+        return redirect(url_for('.view'))
+    else:
+        abort(500)
