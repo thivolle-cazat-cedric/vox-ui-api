@@ -153,7 +153,7 @@ def get_add(form=None, api_errors=None):
     if form:
         validate_state = True
     return render_template(
-        'contacts/add.html',
+        'contacts/form.html',
         form=form or ContactForm(),
         api_errors=api_errors,
         validate_state=validate_state
@@ -185,7 +185,7 @@ def edit(uid=None):
     if c:
         c_form = ContactForm(**c.to_dict())
         return render_template(
-            'contacts/add.html',
+            'contacts/form.html',
             form=c_form,
             edit_mode=True
         ).encode('utf-8')
@@ -210,18 +210,18 @@ def edit_save(uid=None):
         resp = contact.update(**c.to_dict(is_query=True))
         if resp and resp.get('result') and resp.get('result').get('uid', None) == uid and not resp.get('errors'):
             session['update_contact'] = c.to_dict()
-            return redirect(url_for('.view', **{'update_contact': c.to_dict()}))
+            return redirect(url_for('.view'))
         else:
             return render_template(
-                'contacts/add.html',
+                'contacts/form.html',
                 form=c_form,
                 edit_mode=True,
                 api_errors=resp.get('error', {}),
                 validate_state=True
-            ).encode('utf-8') 
+            ).encode('utf-8')
     else:
         return render_template(
-            'contacts/add.html',
+            'contacts/form.html',
             form=c_form,
             edit_mode=True,
             validate_state=True
