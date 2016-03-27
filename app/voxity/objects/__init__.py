@@ -44,12 +44,16 @@ class ObjectBase(object):
 
         for k in self.__ATTR__:
             try:
-                setattr(self, k, dico.get(k, None))
+                value = dico.get(k, '')
+                if isinstance(value, str) and value:
+                    value = value.strip()
+
+                setattr(self, k, value)
             except Exception:
                 pass
 
     def to_dict(self):
         d = {}
         for k in self.__ATTR__:
-            d[k] = getattr(self, k)
+            d[k] = getattr(self, k or None)
         return d

@@ -56,6 +56,10 @@ class Contact(ObjectBase):
         if not isinstance(dico, dict):
             raise AttributeError('voxity.object.Contact : from_dict : args 1 must be dict instance')
 
+        for k in self.__ATTR__ + ['phoneNumberRaccourci', 'employeeNumber']:
+            if k in dico and isinstance(dico[k], type('')):
+                dico[k] = dico[k].strip()
+
         self.uid = dico.get('uid', None)
         self.cn = dico.get('cn', None)
         self.telephone_number = dico.get('telephone_number', dico.get('telephoneNumber', None))
@@ -67,9 +71,9 @@ class Contact(ObjectBase):
     def to_dict(self, is_query=False):
         dico = super(Contact, self).to_dict()
         if is_query:
-            dico['telephoneNumber'] = dico.pop('telephone_number', '')
-            dico['phonenumberraccourci'] = dico.pop('phone_number_raccourci', '')
-            dico['employeenumber'] = dico.pop('phone_mobile_raccourci', '')
+            dico['telephoneNumber'] = dico.pop('telephone_number', None)
+            dico['phonenumberraccourci'] = dico.pop('phone_number_raccourci', None)
+            dico['employeenumber'] = dico.pop('phone_mobile_raccourci', None)
 
         return dico
 
