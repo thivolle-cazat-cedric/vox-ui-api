@@ -14,7 +14,7 @@ from app.voxity.error import ExceptVoxityTokenExpired
 from app.utils.jinja2_filters import number_clear
 
 
-__VERSION__ = "1.0.3β"
+__VERSION__ = "1.0.4β"
 
 
 def create_app(env='prod'):
