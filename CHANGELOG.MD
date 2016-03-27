@@ -14,16 +14,16 @@
 
 ### 1.1 βeta [:danger: en cours]
 
- - [ ] Ajout d'un contact 
- - [ ] Édition d'un contact
+ - [X] Ajout d'un contact 
+ - [X] Édition d'un contact
  - [ ] Déconnexion
 
 ### 1.0 βeta
 
 ##### 1.0.4
- - Correction d'un bug lors d'un racrocché *lorsque que vous etes actif sur la page*
- - Correction d'un bug lors d'un appel déccroché
- - Gestion des contact *(ajout, modification)*
+ - Correction d'un bug lors d'un raccroché *lorsque que vous êtes actif sur la page*
+ - Correction d'un bug lors d'un appel décroché
+ - Gestion des contacts *(ajout, modification, suppression)*
  
 ##### 1.0.3
  - Résolution de problème de notification de bureau sur certains navigateurs
