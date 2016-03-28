@@ -76,6 +76,12 @@
                             <span class="hidden-sm hidden-xs">Contacts</span>
                         </a>
                     </li>
+                    <li role="presentation" {% if request.blueprint == "SMS" %}class="active"{% endif %}>
+                        <a href="{{url_for('SMS.index')}}">
+                            <i class="fa fa-comment-o"></i>
+                            <span class="hidden-sm hidden-xs">SMS</span>
+                        </a>
+                    </li>
                     <li role="presentation" {% if url_for('DEVICES.devices_view').split('/')[1] in request.path %}class="active"{% endif %}>
                         <a href="{{url_for('DEVICES.devices_view')}}">
                             <i class="fa fa-dashboard"></i>

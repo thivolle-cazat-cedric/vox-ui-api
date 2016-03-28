@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="col-xs-12">
+        <p class="text-right">
+            <a href="{{url_for('SMS.new')}}" class="btn btn-lg btn-link">Nouveau message <i class="fa fa-pencil-square-o"></i></a>
+        </p>
+        <hr>
+        <div class="row" id="sms-tabs">
+            <div class="col-xs-12 col-sm-4">
+                <ul class="nav nav-pills nav-stacked" role="tablist">
+                    {%for num in sms.keys()%}<li>
+                        <a href="#{{num|num_clear_format(space=False)}}" aria-controls="{{num|num_clear_format(space=False)}}" role="tab" data-toggle="tab">
+                            <span data-whois-num="{{num|num_clear_format(space=False)}}" data-whois-suf="  -  "></span> {{num|num_clear_format}}
+                            <span class="badge pull-right">{{sms[num]|length}}</span>
+                        </a>
+                    </li>{%endfor%}
+                </ul>
+            </div>
+
+            <div class="col-xs-12 col-sm-8 tab-content">
+                <hr class="visible-xs">
+                {%for num in sms.keys()%}
+                <div role="tabpanel" class="tab-pane" id="{{num|num_clear_format(space=False)}}">
+                    {%for s in sms[num]%}
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                {{s.content}}
+                            </div>
+                            <div class="panel-footer">
+                                <div class="row">
+                                    <div class="col-xs-1 text-left">
+                                        {% if s.status == 'PENDING' %}
+                                            {% set label = 'warning'%}
+                                        {%elif s.status == 'DELIVERED'%}
+                                            {% set label = 'success'%}
+                                        {%elif s.status == 'ERROR'%}
+                                            {% set label = 'danger'%}
+                                        {%else%}
+                                            {% set label = 'default'%}
+                                        {% endif %}
+                                        <span class="label label-{{label}}" data-toggle="tooltip" title="{{s.code_message_local}}">{{s.status_local.lower()}}</span>
+                                    </div>
+                                    <div class="col-xs-8">
+                                    </div>
+                                    <div class="col-xs-3 text-right small text-muted">
+                                    {#  #}
+                                        {{s.send_date.strftime('%d %b %y %H:%M')}}
+                                    </div>
+                                </div>    
+                            </div>
+                        </div>
+                    {%endfor%}
+                </div>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+
+        
+{% endblock %}
+{% block jsscript %}
+    <script>
+        $('#sms-tabs a:first').tab('show')
+    </script>
+{% endblock %}

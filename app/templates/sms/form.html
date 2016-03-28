@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block body %}
+    <h3>Envoi d'un nouveau sms</h3>
+    <hr>
+    {%if api_errors%}
+        <div class="alert alert-danger">
+            {%for k in api_errors.keys()%}
+                <strong>{{k}}</strong> : {{api_errors[k]}}<br>
+            {%endfor%}
+        </div>
+    {%endif%}
+    <form action="" method="POST" class="col-xs-12">
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                {{input_text(form['phone_number'], errors=form.errors.get('phone_number', None), addon_icon='fa fa-phone', validate=validate_state)}}
+                <p id="destnum-label">
+                    
+                </p>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                {{input_text(form['emitter'], errors=form.errors.get('phone_number', None), addon_icon='fa fa-user', validate=validate_state)}}
+            </div>
+        </div>
+        <hr>
+        <p>
+            <div class="form-group clearfix">
+                {{form['content'](class="form-control resize-vertical", rows=5)}}
+                <small class="help-block text-muted pull-right" id="content-length"></small>
+            </div>
+        </p>
+        <hr>
+        <p class="text-center">
+            <button class="btn btn-success" type="submit">Envoyer <i class="fa fa fa-paper-plane-o"></i></button>
+        </p>
+        
+    </form>
+{% endblock %}
+{% block jsscript %}
+    <script src="{{url_for('static', filename='js/sms.js')}}"></script>
+{% endblock %}

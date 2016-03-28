@@ -58,6 +58,10 @@ def create_app(env='prod'):
         controllers.CALLS_LOG,
         url_prefix='/call_log/'
     )
+    app.register_blueprint(
+        controllers.SMS,
+        url_prefix='/sms/'
+    )
 
     app.jinja_env.filters['num_clear_format'] = number_clear
 
