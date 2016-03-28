@@ -19,16 +19,16 @@
                 </p>
             </div>
             <div class="col-xs-12 col-sm-6">
-                {{input_text(form['emitter'], errors=form.errors.get('phone_number', None), addon_icon='fa fa-user', validate=validate_state)}}
+                {{input_text(form['emitter'], errors=form.errors.get('emitter', None), addon_icon='fa fa-user', validate=validate_state)}}
             </div>
         </div>
         <hr>
-        <p>
+        <div class="form-group {%if form.errors.get('content')%}has-error{%endif%}">
             <div class="form-group clearfix">
                 {{form['content'](class="form-control resize-vertical", rows=5)}}
                 <small class="help-block text-muted pull-right" id="content-length"></small>
             </div>
-        </p>
+        </div>
         <hr>
         <p class="text-center">
             <button class="btn btn-success" type="submit">Envoyer <i class="fa fa fa-paper-plane-o"></i></button>

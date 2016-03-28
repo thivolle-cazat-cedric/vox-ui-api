@@ -9,6 +9,9 @@ from wtforms.fields import StringField, TextAreaField
 from wtforms.fields.html5 import TelField
 from wtforms.validators import InputRequired, Length, Regexp
 from app.voxity.objects.validators.fields import ListField
+from app.voxity.objects.validators.sms import PhoneNumberList
+from re import IGNORECASE
+
 
 class Sms(ObjectBase):
     """
@@ -154,6 +157,16 @@ class SmsRespons(ObjectBase):
 
 
 class SmsForm(BaseForm):
+    def strip_value(self):
+        for field in self._fields:
+            if field != 'phone_number':
+                self._fields[field].data = self._fields[field].data.strip()
+
+            if self.phone_number.data:
+                striped_list = []
+                for num in self.phone_number.data:
+                    striped_list.append(num.strip())
+                self.phone_number.data = striped_list
 
     content = TextAreaField('Message', validators=[
         InputRequired('Obligatoire'),
@@ -161,9 +174,9 @@ class SmsForm(BaseForm):
     ])
     phone_number = ListField('Destinataire', validators=[
         InputRequired('Obligatoire'),
-        Regexp('^\d{10}$', message="Le numéro doit être au format 0605040302"),
+        PhoneNumberList(message="Le(s) numéro(s) doit(vent) être(s) au(x) format 0605040302 et séparer par ',' pour un envoie multiple"),
     ])
     emitter = StringField('Non de l\'émétteur', validators=[
         InputRequired('Obligatoire'),
-        Regexp('^\w{4,10}$', message="Doit contenir entre 4 et 10 caractères [a-Z]")
+        Regexp('^[a-z]{4,10}$', flags=IGNORECASE, message="Doit contenir entre 4 et 10 caractères [a-Z]")
     ])
