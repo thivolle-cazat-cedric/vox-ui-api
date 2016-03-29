@@ -29,22 +29,23 @@
                             <div class="panel-footer">
                                 <div class="row">
                                     <div class="col-xs-1 text-left">
+                                        {%set tooltip_mess = s.code_message_local%}
                                         {% if s.status == 'PENDING' %}
                                             {% set label = 'warning'%}
                                         {%elif s.status == 'DELIVERED'%}
                                             {% set label = 'success'%}
+                                            {%set tooltip_mess = s.delivery_date.strftime('%d/%m/%y %H:%M')%}
                                         {%elif s.status == 'ERROR'%}
                                             {% set label = 'danger'%}
                                         {%else%}
                                             {% set label = 'default'%}
                                         {% endif %}
-                                        <span class="label label-{{label}}" data-toggle="tooltip" title="{{s.code_message_local}}">{{s.status_local.lower()}}</span>
+                                        <span class="label label-{{label}}" data-toggle="tooltip" title="{{tooltip_mess}}">{{s.status_local.lower()}}</span>
                                     </div>
                                     <div class="col-xs-8">
                                     </div>
                                     <div class="col-xs-3 text-right small text-muted">
-                                    {#  #}
-                                        {{s.send_date.strftime('%d %b %y %H:%M')}}
+                                        {{s.send_date.strftime('%d/%m/%y %H:%M')}}
                                     </div>
                                 </div>    
                             </div>
