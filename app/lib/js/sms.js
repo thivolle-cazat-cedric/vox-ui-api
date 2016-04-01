@@ -78,7 +78,7 @@ function initLabelField(){
             });
         }
     })
-    refreshLabelList()
+    refreshLabelList();
 }
 
 function refreshLabelList(){
@@ -95,9 +95,24 @@ function refreshLabelList(){
         });
         $('#destnum-label').html(content);
         $("form #phone_number").val(destList.join(','));
+    } else {$("form #phone_number").val('');}
+    refreshSmsLength();
+}
+
+function refreshSmsLength(){
+    var smsLengthTxt = '';
+    var smsLength = $('#destnum-label .label').length;
+    if (smsLength) {
+        smsLengthTxt += smsLength + ' message';
+        if (smsLength > 1) {
+            smsLengthTxt += 's';
+        }
+        $("#sms-length").text(smsLengthTxt);
+        $("#sms-length").fadeIn();
     } else {
-        $("form #phone_number").val('');
+        $("#sms-length").fadeOut();
     }
+       
 }
 
 function addNum(num, name){
@@ -112,6 +127,7 @@ function addNum(num, name){
     }
     content += labelRemovable(num, name);
     $('#destnum-label').html(content);
+    refreshSmsLength();
 }
 
 $(document).ready(function() {
@@ -129,6 +145,7 @@ $(document).ready(function() {
         $('form #phone_number').val(nums.join(','));
         $('#destnum-label').html(content);
         $('#tagsnum').tagsinput('remove', {num:num})
+        refreshSmsLength();
     });
 
     $('form #content').keyup(function(){
