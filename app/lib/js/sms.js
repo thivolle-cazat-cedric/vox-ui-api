@@ -133,7 +133,17 @@ function addNum(num, name){
 $(document).ready(function() {
 
     $('form #phone_number').blur(refreshLabelList);
-    $('#contactListModal').on('shown.bs.modal', function (e) {$('#tagsnum').tagsinput('focus')})
+    $('#contactListModal').on('shown.bs.modal', function (e) {
+        $('#tagsnum').tagsinput('focus');
+        $('[data-target="#contactListModal"]').addClass('active');
+    })
+    $('#contactListModal').on('hide.bs.modal', function (e) {$('[data-target="#contactListModal"]').removeClass('active');})
+
+    $('form[method="POST"] [type="submit"]').click(function(){
+        $(this).attr('disabled', 'disabled');
+        $('form[method="POST"] [type="submit"] .fa').removeClass('fa-paper-plane-o').addClass('fa-spinner fa-spin');
+        $('form[method="POST"]').submit();
+    })
 
     $(document).on('click', '.label-tel > .fa', function() {
         var num = $(this).parent().attr('data-telnum');
