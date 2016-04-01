@@ -36,6 +36,11 @@
                 {%endif%}
             </div>
         </div>
+        <p class="alert alert-info small">
+            <strong>Attenion !</strong> <br>
+            Par défaut, les SMS ne sont pas compris dans votre offre Voxity, chaque SMS est facturé 0.10€. <br>
+            Lors d'un envoi groupé <em>(plusieurs destinataires)</em>, chaque destinataire correspond à un envoi.
+        </p>
         <hr>
         <p class="text-center">
             <button class="btn btn-success" type="submit">Envoyer <i class="fa fa fa-paper-plane-o"></i></button>
@@ -49,9 +54,12 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="contactListModalLabel">Contacs</h4>
+                        <h4 class="modal-title" id="contactListModalLabel">Contacts</h4>
                     </div>
                     <div class="modal-body">
+                        <small class="text-muted">
+                            Retrouvez tous les contacts présents dans votre annuaire.
+                        </small>
                         <input type="text" name="test" id="tagsnum" styl="width:100%">
                     </div>
                     <div class="modal-footer">

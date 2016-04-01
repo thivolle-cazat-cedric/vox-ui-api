@@ -6,7 +6,6 @@ from . import ObjectBase
 from datetime import datetime
 from .validators import BaseForm
 from wtforms.fields import StringField, TextAreaField
-from wtforms.fields.html5 import TelField
 from wtforms.validators import InputRequired, Length, Regexp
 from app.voxity.objects.validators.fields import ListField
 from app.voxity.objects.validators.sms import PhoneNumberList
@@ -43,7 +42,8 @@ class Sms(ObjectBase):
         'statut',
         'libelle',
         'code_erreur',
-        'operateur'
+        'operateur',
+        'emitter'
     ]
 
     _STATUS = {
@@ -73,6 +73,9 @@ class Sms(ObjectBase):
         },
     }
 
+    def __str__(self):
+        return 'sms : from {0} to {1}'.format(self.emitter, self.phone_number)
+
     @staticmethod
     def litst_obj_from_list(lst_dict, sort_by_send_date=True):
         if isinstance(lst_dict, list):
@@ -88,19 +91,27 @@ class Sms(ObjectBase):
         :param dict dico:
         """
         super(Sms, self).from_dict(dico)
-        try:
-            self.nb_sms = int(self.nb_sms)
-        except Exception:
-            raise ValueError('Sms.nb_sms must be integer not {0}'.format(
-                type(self.nb_sms).__name__)
-            )
+        if self.nb_sms == '':
+            self.nb_sms = None
 
-        try:
-            self.code = int(self.code)
-        except Exception:
-            raise ValueError('Sms.code must be integer not {0}'.format(
-                type(self.nb_sms).__name__)
-            )
+        if self.nb_sms is not None:
+            try:
+                self.nb_sms = int(self.nb_sms)
+            except Exception:
+                raise ValueError('Sms.nb_sms must be integer not {0}'.format(
+                    type(self.nb_sms).__name__)
+                )
+
+        if self.code == '':
+            self.code = None
+
+        if self.code is not None:
+            try:
+                self.code = int(self.code)
+            except Exception:
+                raise ValueError('Sms.code must be integer not {0}'.format(
+                    type(self.nb_sms).__name__)
+                )
 
         try:
             if self.delivery_date:
@@ -167,6 +178,16 @@ class SmsForm(BaseForm):
                 for num in self.phone_number.data:
                     striped_list.append(num.strip())
                 self.phone_number.data = striped_list
+
+    def get_object(self, Sms_obj):
+        smss = []
+        for num in self.phone_number.data:
+            smss.append(Sms(
+                phone_number=num,
+                emitter=self.emitter.data,
+                content=self.content.data
+            ))
+        return smss
 
     content = TextAreaField('Message', validators=[
         InputRequired('Contenue du message obligatoire'),
