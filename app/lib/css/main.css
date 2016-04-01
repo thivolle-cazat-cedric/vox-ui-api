@@ -148,3 +148,7 @@ span[data-whois-num] {
   cursor: pointer;
   margin-right: 5px;
 }
+
+.bootstrap-tagsinput{
+  width: 100%
+}
