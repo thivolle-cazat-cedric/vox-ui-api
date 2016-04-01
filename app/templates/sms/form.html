@@ -27,6 +27,13 @@
             <div class="form-group clearfix">
                 {{form['content'](class="form-control resize-vertical", rows=5)}}
                 <small class="help-block text-muted pull-right" id="content-length"></small>
+                {%if form['content'].errors%}
+                <span class="help-block small text-danger">
+                    <ul>{%for e in form['content'].errors%}
+                        <li>{{e}}</li>
+                    {%endfor%}</ul>
+                </span>
+                {%endif%}
             </div>
         </div>
         <hr>

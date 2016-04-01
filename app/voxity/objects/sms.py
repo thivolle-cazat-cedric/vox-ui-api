@@ -169,7 +169,7 @@ class SmsForm(BaseForm):
                 self.phone_number.data = striped_list
 
     content = TextAreaField('Message', validators=[
-        InputRequired('Obligatoire'),
+        InputRequired('Contenue du message obligatoire'),
         Length(min=1, max=160, message="Le message doit contenir au Minimum %(min) caractère et au Maximum %(max) caractères")
     ])
     phone_number = ListField('Destinataire', validators=[
