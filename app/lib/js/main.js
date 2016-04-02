@@ -191,7 +191,7 @@ $(document).ready(function() {
         }
     });
 
-    if ($('[data-whois-num]').length > 6) {
+    if ($('[data-whois-num]').length > 2) {
         $.ajax({
         url: "/contacts/all.json",
         method: "GET",
