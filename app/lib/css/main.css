@@ -148,6 +148,9 @@ span[data-whois-num] {
   cursor: pointer;
   margin-right: 5px;
 }
+.label-tel > .fa{
+  margin-left: 6px;
+}
 
 .bootstrap-tagsinput{
   width: 100%
