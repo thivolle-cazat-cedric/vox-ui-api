@@ -1,10 +1,54 @@
 {% extends "layout.html" %}
 {% block body %}
     <div class="col-xs-12">
+        {%if 'new_sms_list' in session %}
+        <div class="alert alert-success alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"></span>&times;</button>
+            <i class="fa fa-check fa-fw"></i>
+            {% if session['new_sms_list']['phone_numbers']|length > 1 %}
+                {{session['new_sms_list']['phone_numbers']|length}} messages envoyés
+                {%set tite_modal = 'Information des {0} messages envoyés'.format(session['new_sms_list']['phone_numbers']|length) %}
+            {% else %}
+                {{session['new_sms_list']['phone_numbers']|length}} message envoyé
+                {%set tite_modal = 'Information du message envoyé' %}
+            {% endif %}
+            <button type="button" class="btn btn-success btn-xs pull-right" data-toggle="modal" data-target="#sms-send-detail"><i class="fa fa-search"></i></button>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="sms-send-detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">{{tite_modal}}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <dl class="dl-horizontal">
+                            <dt>À</dt>
+                            <dd>
+                                {%for num in session['new_sms_list']['phone_numbers']%} <span class="label label-default"><span data-whois-num="{{num|num_clear_format(space=False)}}" data-whois-suf="  -  "></span>{{num | num_clear_format}}</span> {%endfor%}
+                            </dd>
+                            <dt>De </dt>
+                            <dd>
+                                {{session['new_sms_list']['emitter']}}
+                            </dd>
+                        </dl>
+                        <hr>
+                        <pre class="well well-sm">{{session['new_sms_list']['content']|safe}}</pre>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {%set tmp = session.pop('new_sms_list')%}
+        {% endif %}
         <p class="text-right">
             <a href="{{url_for('SMS.new')}}" class="btn btn-lg btn-link">Nouveau message <i class="fa fa-pencil-square-o"></i></a>
         </p>
         <hr>
+        {%if sms%}
         <div class="row" id="sms-tabs">
             <div class="col-xs-12 col-sm-4">
                 <ul class="nav nav-pills nav-stacked" role="tablist">
@@ -55,6 +99,11 @@
                 {%endfor%}
             </div>
         </div>
+        {%else%}
+        <div class="alert alert-info">
+            Vous n'avez envoyé aucun sms
+        </div>
+        {%endif%}
     </div>
 
         

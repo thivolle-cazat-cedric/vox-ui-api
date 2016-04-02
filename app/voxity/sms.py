@@ -319,7 +319,7 @@ def get(ret_object=False):
     if con:
         resp = con.get(get_base_url())
         if check_respons(resp):
-            resp._content = SAMPLES
+            print(resp.text)
             ret = resp.json().get('result', [])
             sms_list = Sms.litst_obj_from_list(ret)
             if not ret_object:
@@ -347,3 +347,31 @@ def get_group_by_dest(ret_object=False, **kwargs):
         return ret
     else:
         return None
+
+
+def send(message):
+    if isinstance(message, Sms):
+        message = message.to_dict()
+    elif isinstance(message, dict):
+        raise ValueError('sms.send : arg1 must be sms instance or dict representation')
+
+    con = connectors()
+    data = {}
+    data['phone_number'] = message['phone_number']
+    data['content'] = message['content']
+    data['emitter'] = message['emitter']
+
+    if con is not None:
+        resp = con.post(
+            get_base_url(),
+            json=data,
+            headers={'Content-Type': 'application/json'}
+        )
+        if check_respons(resp, esc_bad_resp=False) and resp.status_code == 200:
+            message = resp.json().get('result', None)
+            if message is not None:
+                return Sms(**message)
+            else:
+                return Sms(**message)
+
+    return None
