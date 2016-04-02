@@ -20,6 +20,9 @@
 
 ### 1.0 βeta
 
+##### 1.0.5
+ - Intégration des SMS, listing et envoi unique ou multiple *(/!\\ sur-coût)*
+
 ##### 1.0.4
  - Correction d'un bug lors d'un raccroché *lorsque que vous êtes actif sur la page*
  - Correction d'un bug lors d'un appel décroché
