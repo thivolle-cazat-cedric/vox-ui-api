@@ -22,6 +22,7 @@ def sms_gp_by():
     return jsonify({'data': sms.get_group_by_dest()})
 
 
+@SMS.route('', methods=["GET"])
 @SMS.route('index.html', methods=["GET"])
 @is_auth
 def index():
