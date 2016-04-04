@@ -5,9 +5,11 @@ from markdown2 import markdown
 
 PUBLIC = Blueprint('PUBLIC', __name__)
 
-DESC = "Projet public d'application web présentant les possibilités d'intégration de"
-DESC += " l'A.P.I. Voxity. Click2call, notification d'appels, consultation de l'état'"
-DESC += " des postes, envoie de SMS."
+DESC = "Projet libre d'application web présentant les possibilités "
+DESC += "d'intégration de l'API Voxity. Click2call, notification "
+DESC += "d'appels, envoie de SMS, gestion des contacts. Un tableau"
+DESC += " de bord pour visualiser l'état de votre parc téléphonique"
+DESC += " type BLF."
 TAGS = [
     "Voxity",
     "API",
