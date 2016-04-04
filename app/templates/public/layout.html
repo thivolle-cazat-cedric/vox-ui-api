@@ -5,10 +5,16 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="author" content="THIVOLLE-CAZAT Cédric">
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        {% if meta_desc%}
+        <meta name="description" content="{{meta_desc|safe}}">
+        {%endif%}
+        {% if meta_keywords_list%}
+        <meta name="keywords" content="{{meta_keywords_list |join(',')|safe}}">
+        {%endif%}
+
+
         <title>vox-ui-api{%if page_title%} - {{page_title}}{%endif%}</title>
 
-        <!-- Bootstrap -->
         <link rel="stylesheet" href="{{url_for('static', filename='res/bootstrap/dist/css/bootstrap.min.css')}}">
         <link rel="stylesheet" href="{{url_for('static', filename='res/toastr/build/toastr.min.css')}}">
         <link rel="stylesheet" href="{{url_for('static', filename='res/Font-Awesome/css/font-awesome.min.css')}}">
