@@ -29,3 +29,37 @@
     {%endif%}
 </div>
 {% endmacro %}
+
+{% macro input_text_button(field, success='', errors='', show_label=1, addon_icon='', placeholder='', error_list='', validate='', btn_content='OK', btn_attr='')%}
+{%if not show_label and not placeholder[0]%}
+    {% set placeholder = field.label.text%}
+{%endif%}
+{%if errors%}
+    {% set class_form_group = 'has-error'%}
+{%elif success%}
+    {% set class_form_group = 'has-success'%}
+{%else%}
+    {% set class_form_group = ''%}
+{%endif%}
+{%if validate and field.data and not errors%}
+    {% set class_form_group = 'has-success'%}
+{%endif%}
+<div class="form-group {{class_form_group}}">
+    {%if show_label%}{{field.label(class="control-label")}}{%endif%}
+    <div class="input-group">
+        <span class="input-group-addon"><i class="{{addon_icon}}"></i></span>
+        {{field(class="form-control", placeholder=placeholder)}}
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="button" {{btn_attr|safe}}>{{btn_content|safe}}</button>
+        </span>
+      </span>
+    </div>
+    {%if errors%}
+    <span class="help-block small text-danger">
+        <ul>{%for e in errors%}
+            <li>{{e}}</li>
+        {%endfor%}</ul>
+    </span>
+    {%endif%}
+</div>
+{% endmacro %}

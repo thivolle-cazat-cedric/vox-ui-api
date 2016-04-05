@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+{% block body %}
+    <h3>Envoi d'un nouveau sms</h3>
+    <hr>
+    {%if api_errors%}
+        <div class="alert alert-danger">
+            {%for k in api_errors.keys()%}
+                <strong>{{k}}</strong> : {{api_errors[k]}}<br>
+            {%endfor%}
+        </div>
+    {%endif%}
+
+    <form action="" method="POST" class="col-xs-12">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                {{input_text_button(form['phone_number'], errors=form.errors.get('phone_number', None), addon_icon='fa fa-phone', validate=validate_state, btn_attr='data-toggle="modal" data-target="#contactListModal"', btn_content='<i class="fa fa-book"></i>')}}
+                <p id="destnum-label">
+                    
+                </p>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                {{input_text(form['emitter'], errors=form.errors.get('emitter', None), addon_icon='fa fa-user', validate=validate_state)}}
+            </div>
+        </div>
+        <hr>
+        <div class="form-group {%if form.errors.get('content')%}has-error{%endif%}">
+            <div class="form-group clearfix">
+                {{form['content'](class="form-control resize-vertical", rows=5)}}
+                <small class="help-block text-muted pull-right" id="content-length"></small>
+                {%if form['content'].errors%}
+                <span class="help-block small text-danger">
+                    <ul>{%for e in form['content'].errors%}
+                        <li>{{e}}</li>
+                    {%endfor%}</ul>
+                </span>
+                {%endif%}
+            </div>
+        </div>
+        <p class="alert alert-info small">
+            <strong>Attenion !</strong> <br>
+            Par défaut, les SMS ne sont pas compris dans votre offre Voxity, chaque SMS est facturé 0.10€. <br>
+            Lors d'un envoi groupé <em>(plusieurs destinataires)</em>, chaque destinataire correspond à un envoi.
+        </p>
+        <hr>
+        <p class="text-center">
+            <button class="btn btn-success" type="submit">Envoyer <i class="fa fa fa-paper-plane-o"></i></button> <br>
+            <small class="text-muted small" id="sms-length"></small>
+        </p>
+        
+    </form>
+
+    <!-- Modal -->
+        <div class="modal fade" id="contactListModal" tabindex="-1" role="dialog" aria-labelledby="contactListModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="contactListModalLabel">Contacts</h4>
+                    </div>
+                    <div class="modal-body">
+                        <small class="text-muted">
+                            Retrouvez tous les contacts présents dans votre annuaire.
+                        </small>
+                        <input type="text" name="test" id="tagsnum" styl="width:100%">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+{% block css %}
+        <link rel="stylesheet" href="{{url_for('static', filename='res/bootstrap-tagsinput/dist/bootstrap-tagsinput.css')}}">
+{% endblock %}
+
+{% block jsscript %}
+    <script src="{{url_for('static', filename='res/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js')}}"></script>
+    <script src="{{url_for('static', filename='res/typeahead.js/bloodhound.min.js')}}"></script>
+    <script src="{{url_for('static', filename='res/typeahead.js/typeahead.jquery.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/sms.js')}}"></script>
+{% endblock %}

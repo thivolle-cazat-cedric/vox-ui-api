@@ -174,22 +174,24 @@ $(document).ready(function() {
     $(document).keypress(function(event) {
         if (!event.metaKey) {
             var tag = event.target.tagName.toLowerCase();
-            // r
-            if (tag != 'input' && event.charCode == 114 && typeof refreshState == 'function') {refreshState()}
-            // c
-            else if (tag != 'input' && event.charCode == 99) {$('#callModal').modal('show')}
-            // esc
-            else if (tag != 'input' && event.charCode == 27) {
-                if (!$("#callModal").is(':visible') && $("#contact-back-to-link").length > 0) {
-                    location.pathname = $(".input-group a.btn:first").attr('href')
+            if (tag != 'input' && tag != 'textarea') {
+                  // r
+                if (event.charCode == 114 && typeof refreshState == 'function') {refreshState()}
+                // c
+                else if (event.charCode == 99) {$('#callModal').modal('show')}
+                // esc
+                else if (event.charCode == 27) {
+                    if (!$("#callModal").is(':visible') && $("#contact-back-to-link").length > 0) {
+                        location.pathname = $(".input-group a.btn:first").attr('href')
+                    }
                 }
+                // h
+                else if (tag != 'input' && event.charCode == 104 && window.location.pathname != DASHBOARD_URI) {window.location.pathname = DASHBOARD_URI;}
             }
-            // h
-            else if (tag != 'input' && event.charCode == 104 && window.location.pathname != DASHBOARD_URI) {window.location.pathname = DASHBOARD_URI;}
         }
     });
 
-    if ($('[data-whois-num]').length > 6) {
+    if ($('[data-whois-num]').length > 2) {
         $.ajax({
         url: "/contacts/all.json",
         method: "GET",
@@ -215,10 +217,11 @@ $(document).ready(function() {
                     });
                     $('[data-whois-num]').each(function() {
                         var num = $(this).attr('data-whois-num');
+                        var elt = this;
                         if (contacts[num]) {
                             var t = contacts[num][0]
                             if ($(elt).attr('data-whois-suf')) {
-                                t = $(elt).attr('data-whois-suf')
+                                t += $(elt).attr('data-whois-suf');
                             }
                             $(this).text(t)
                             $(this).attr('style', 'display:inline');
@@ -236,10 +239,10 @@ $(document).ready(function() {
         $('[data-whois-num]').each(function() {
             var elt = this;
             whois($(this).attr('data-whois-num'), function(err, names){
-                if (!err){
+                if (!err && names[0]){
                     var t = names[0].cn
                     if ($(elt).attr('data-whois-suf')) {
-                        t += $(elt).attr('data-whois-suf')
+                        t += $(elt).attr('data-whois-suf');
                     }
                     $(elt).text(t)
                     $(elt).attr('style', 'display:inline');

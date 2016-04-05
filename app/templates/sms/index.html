@@ -1,0 +1,115 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="col-xs-12">
+        {%if 'new_sms_list' in session %}
+        <div class="alert alert-success alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"></span>&times;</button>
+            <i class="fa fa-check fa-fw"></i>
+            {% if session['new_sms_list']['phone_numbers']|length > 1 %}
+                {{session['new_sms_list']['phone_numbers']|length}} messages envoyés
+                {%set tite_modal = 'Information des {0} messages envoyés'.format(session['new_sms_list']['phone_numbers']|length) %}
+            {% else %}
+                {{session['new_sms_list']['phone_numbers']|length}} message envoyé
+                {%set tite_modal = 'Information du message envoyé' %}
+            {% endif %}
+            <button type="button" class="btn btn-success btn-xs pull-right" data-toggle="modal" data-target="#sms-send-detail"><i class="fa fa-search"></i></button>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="sms-send-detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">{{tite_modal}}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <dl class="dl-horizontal">
+                            <dt>À</dt>
+                            <dd>
+                                {%for num in session['new_sms_list']['phone_numbers']%} <span class="label label-default"><span data-whois-num="{{num|num_clear_format(space=False)}}" data-whois-suf="  -  "></span>{{num | num_clear_format}}</span> {%endfor%}
+                            </dd>
+                            <dt>De </dt>
+                            <dd>
+                                {{session['new_sms_list']['emitter']}}
+                            </dd>
+                        </dl>
+                        <hr>
+                        <pre class="well well-sm">{{session['new_sms_list']['content']|safe}}</pre>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {%set tmp = session.pop('new_sms_list')%}
+        {% endif %}
+        <p class="text-right">
+            <a href="{{url_for('SMS.new')}}" class="btn btn-lg btn-link">Nouveau message <i class="fa fa-pencil-square-o"></i></a>
+        </p>
+        <hr>
+        {%if sms%}
+        <div class="row" id="sms-tabs">
+            <div class="col-xs-12 col-sm-4">
+                <ul class="nav nav-pills nav-stacked" role="tablist">
+                    {%for num in sms.keys()%}<li>
+                        <a href="#{{num|num_clear_format(space=False)}}" aria-controls="{{num|num_clear_format(space=False)}}" role="tab" data-toggle="tab">
+                            <span data-whois-num="{{num|num_clear_format(space=False)}}" data-whois-suf="  -  "></span> {{num|num_clear_format}}
+                            <span class="badge pull-right">{{sms[num]|length}}</span>
+                        </a>
+                    </li>{%endfor%}
+                </ul>
+            </div>
+
+            <div class="col-xs-12 col-sm-8 tab-content">
+                <hr class="visible-xs">
+                {%for num in sms.keys()%}
+                <div role="tabpanel" class="tab-pane" id="{{num|num_clear_format(space=False)}}">
+                    {%for s in sms[num]%}
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                {{s.content}}
+                            </div>
+                            <div class="panel-footer">
+                                <div class="row">
+                                    <div class="col-xs-1 text-left">
+                                        {%set tooltip_mess = s.code_message_local%}
+                                        {% if s.status == 'PENDING' %}
+                                            {% set label = 'warning'%}
+                                        {%elif s.status == 'DELIVERED'%}
+                                            {% set label = 'success'%}
+                                            {%set tooltip_mess = s.delivery_date.strftime('%d/%m/%y %H:%M')%}
+                                        {%elif s.status == 'ERROR'%}
+                                            {% set label = 'danger'%}
+                                        {%else%}
+                                            {% set label = 'default'%}
+                                        {% endif %}
+                                        <span class="label label-{{label}}" data-toggle="tooltip" title="{{tooltip_mess}}">{{s.status_local.lower()}}</span>
+                                    </div>
+                                    <div class="col-xs-8">
+                                    </div>
+                                    <div class="col-xs-3 text-right small text-muted">
+                                        {{s.send_date.strftime('%d/%m/%y %H:%M')}}
+                                    </div>
+                                </div>    
+                            </div>
+                        </div>
+                    {%endfor%}
+                </div>
+                {%endfor%}
+            </div>
+        </div>
+        {%else%}
+        <div class="alert alert-info">
+            Vous n'avez envoyé aucun sms
+        </div>
+        {%endif%}
+    </div>
+
+        
+{% endblock %}
+{% block jsscript %}
+    <script>
+        $('#sms-tabs a:first').tab('show');
+    </script>
+{% endblock %}

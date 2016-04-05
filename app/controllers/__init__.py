@@ -43,3 +43,4 @@ from app.controllers.calls import CALLS
 from app.controllers.account import ACCOUNT
 from app.controllers.calls_log import CALLS_LOG
 from app.controllers.public import PUBLIC
+from app.controllers.sms import SMS

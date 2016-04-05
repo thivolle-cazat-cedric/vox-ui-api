@@ -139,3 +139,19 @@ span[data-whois-num] {
 .form-group .help-block ul{
   padding-left:20px; 
 }
+
+.resize-vertical{ 
+  resize: vertical
+}
+
+.label-tel {
+  cursor: pointer;
+  margin-right: 5px;
+}
+.label-tel > .fa{
+  margin-left: 6px;
+}
+
+.bootstrap-tagsinput{
+  width: 100%
+}
