@@ -5,7 +5,7 @@
 ##### Bug*(s)* connu*(s)*
 
  - [ ] Journal d'appel *(non-fonctionnel)*
- - [-] Authentification
+ - [-] Authentification *l'application peut parfois vous retourner des erreurs 401 sans raison valable*
 
 
 #Version 1 
@@ -16,13 +16,14 @@
 
  - [X] Ajout d'un contact 
  - [X] Édition d'un contact
- - [ ] Déconnexion
+ - [ ] Déconnexion *(la déconnexion n'est pas fonctionnelle, il faut ce déconnecter via l'API directement)*
 
 ### 1.0 βeta
 
 ##### 1.0.5
  - Intégration des SMS, listing et envoi unique ou multiple
  - Mise à jour du fichier de déploiment sur apache2 *(redémarrage automatique lors de la modification d'un fichier)*
+ - Amélioration de l'affichage des boutons **édition** et **suppression** des contacts
 
 ##### 1.0.4
  - Correction d'un bug lors d'un raccroché *lorsque que vous êtes actif sur la page*
