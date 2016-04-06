@@ -73,7 +73,7 @@
                 <th class="text-center">Numéro principal</th>
                 <th class="text-center">Numéro secondaire</th>
                 <th class="text-center">Mail</th>
-                <th style="min-width:70px; max-width:70px; width:70px"></th>
+                <th style="min-width:110px; max-width:110px; width:110px"></th>
             </thead>
             <tbody>
                 {% for c in contacts%}
@@ -96,7 +96,8 @@
                     </td>
                     <td class="text-center">
                         <div class="btn-group btn-group-xs">
-                            <a href="{{url_for('CONTACT.edit', **{'uid':c.uid})}}" class="btn btn-default btn-xs"><i class="fa fa-edit"></i></a>
+                            <a href="{{url_for('CONTACT.view_uid', **{'uid':c.uid})}}" class="btn btn-default btn-xs"><i class="fa fa-eye"></i></a>
+                            <a href="{{url_for('CONTACT.edit', **{'uid':c.uid})}}" class="btn btn-info btn-xs"><i class="fa fa-edit"></i></a>
                             <a href="{{url_for('CONTACT.remove_warning', **{'uid':c.uid})}}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
                         </div>
                     </td>

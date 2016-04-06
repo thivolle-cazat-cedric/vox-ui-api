@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block body %}
+    <h3>Détail du contact</h3>
+    <hr>
+    <div class="col-xs-12">
+        <table class="table table-hover">
+            <tr>
+                <td class="text-center minimal"><i class="fa fa-user"></i></td>
+                <td class="text-right"><strong>Nom</strong></td>
+                <td>{{contact.cn}}</td>
+            </tr>
+            <tr>
+                <td class="text-center minimal"><i class="fa fa-phone"></i></td>
+                <td class="text-right "><strong>Téléphone principal</strong></td>
+                {%set val = contact.telephone_number|val_or_label("N/A") %}
+                <td {%if val == contact.telephone_number%}class="callable"{%endif%}>{{val}}</td>
+            </tr>
+            <tr>
+                <td class="text-center minimal"><i class="fa fa-keyboard-o"></i></td>
+                <td class="text-right"><strong>raccourcie</strong> &nbsp; <i class="fa fa-angle-up"></i></td>
+                <td>{{contact.phone_number_raccourci|val_or_label("N/A")}}</td>
+            </tr>
+            <tr>
+                <td class="text-center minimal"><i class="fa fa-phone"></i></td>
+                <td class="text-right"><strong>Téléphone secondair</strong></td>
+                {%set val = contact.mobile|val_or_label("N/A") %}
+                <td {%if val == contact.mobile%}class="callable"{%endif%}>{{val}}</td>
+            </tr>
+            <tr>
+                <td class="text-center minimal"><i class="fa fa-keyboard-o"></i></td>
+                <td class="text-right"><strong>raccourcie</strong> &nbsp; <i class="fa fa-angle-up"></i></td>
+                <td>{{contact.phone_mobile_raccourci|val_or_label("N/A")}}</td>
+            </tr>
+            <tr>
+                <td class="text-center minimal"><i class="fa fa-envelope"></i></td>
+                <td class="text-right"><strong>Adresse mail</strong> &nbsp; <i class="fa fa-angle-up"></i></td>
+                <td>{{contact.mail|val_or_label("N/A")}}</td>
+            </tr>
+        </table>
+    </div>
+{% endblock %}

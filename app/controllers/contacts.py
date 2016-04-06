@@ -170,6 +170,19 @@ def post_add():
 
 @CONTACT.route('<uid>.html', methods=["GET"])
 @is_auth
+def view_uid(uid):
+    c = contact.get_uid(uid=uid, ret_object=True)
+    if not c:
+        abort(404)
+
+    return render_template(
+        'contacts/view.html',
+        contact=c,
+    ).encode('utf-8')
+
+
+@CONTACT.route('edit/<uid>.html', methods=["GET"])
+@is_auth
 def edit(uid=None):
     c = contact.get_uid(uid=uid, ret_object=True)
     if c:
@@ -183,7 +196,7 @@ def edit(uid=None):
         abort(404)
 
 
-@CONTACT.route('<uid>.html', methods=["POST"])
+@CONTACT.route('edit/<uid>.html', methods=["POST"])
 @is_auth
 def edit_save(uid=None):
     c = contact.get_uid(uid=uid, ret_object=True)

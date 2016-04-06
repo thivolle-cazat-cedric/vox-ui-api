@@ -7,6 +7,12 @@ body {
   margin-bottom: 60px;
 }
 
+.table td.minimal {
+  min-width: 1%;
+  width: 1%;
+  max-width: 1%;
+}
+
 .footer {
   padding-top: 19px;
   color: #777;
