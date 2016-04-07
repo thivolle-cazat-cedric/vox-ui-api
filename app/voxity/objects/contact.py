@@ -2,6 +2,7 @@
 from __future__ import (
     absolute_import, division, print_function, unicode_literals
 )
+import re
 from wtforms.fields import StringField, HiddenField
 from wtforms.fields.html5 import EmailField, TelField
 from wtforms.validators import InputRequired, optional, Email, Length
@@ -10,6 +11,15 @@ from .validators import (
     BaseForm, MandatoryOrOther, PhoneNumberFormat, MandatoryIfField, NotEqual
 )
 from .validators.contact import ShortcutTelFormat
+from app.utils.jinja2_filters import number_clear
+
+
+def is_mobile(number):
+    mobile_regex = re.compile(ur'^0[67]\d{8}$')
+    if number and mobile_regex.match(number_clear(number, space=False)):
+        return True
+    else:
+        return False
 
 
 class Contact(ObjectBase):
@@ -76,6 +86,15 @@ class Contact(ObjectBase):
             dico['employeenumber'] = dico.pop('phone_mobile_raccourci', None)
 
         return dico
+
+    def have_mobile(self):
+        mobiles = []
+        if is_mobile(self.telephone_number):
+            mobiles.append(self.telephone_number)
+        if is_mobile(self.mobile):
+            mobiles.append(self.mobile)
+
+        return mobiles
 
 
 class ContactForm(BaseForm):

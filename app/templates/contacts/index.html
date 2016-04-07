@@ -75,7 +75,16 @@
                 <th class="text-center">Numéro principal</th>
                 <th class="text-center">Numéro secondaire</th>
                 <th class="text-center">Mail</th>
-                <th style="min-width:110px; max-width:110px; width:110px"></th>
+                <th style="min-width:110px; max-width:110px; width:110px">
+                    <div class="btn-group btn-group-xs">
+                        <button class="btn btn-default btn-xs" data-toggle="tooltip" title="Détail"><i class="fa fa-eye"></i></button>
+                        <button class="btn btn-success btn-xs" data-toggle="tooltip" title="Envoyer un SMS"><i class="fa fa-comment-o"></i></button>
+                        {%if is_admin()%}
+                        <button class="btn btn-info btn-xs" data-toggle="tooltip" title="Modifier"><i class="fa fa-edit"></i></button>
+                        <button class="btn btn-danger btn-xs" data-toggle="tooltip" title="Suprimer"><i class="fa fa-trash-o"></i></button>
+                        {%endif%}
+                    </div>
+                </th>
             </thead>
             <tbody>
                 {% for c in contacts%}
@@ -96,9 +105,14 @@
                         {%endif%}
 
                     </td>
-                    <td class="text-center">
+                    <td class="text-right">
                         <div class="btn-group btn-group-xs">
                             <a href="{{url_for('CONTACT.view_uid', **{'uid':c.uid})}}" class="btn btn-default btn-xs"><i class="fa fa-eye"></i></a>
+                            {%if c.have_mobile()%}
+                            <a href="{{url_for('SMS.new', phone_number=c.have_mobile()[0])}}" class="btn btn-success btn-xs"><i class="fa fa-comment-o"></i></a>
+                            {# {%else%}
+                            <button class="btn btn-success btn-xs disabled" disabled><i class="fa fa-comment-o"></i></button>#}
+                            {%endif%}
                             {%if is_admin()%}
                             <a href="{{url_for('CONTACT.edit', **{'uid':c.uid})}}" class="btn btn-info btn-xs"><i class="fa fa-edit"></i></a>
                             <a href="{{url_for('CONTACT.remove_warning', **{'uid':c.uid})}}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>

@@ -38,14 +38,14 @@ def index():
 def new():
     return render_template(
         'sms/form.html',
-        form=SmsForm()
+        form=SmsForm(request.args)
     )
 
 
 @SMS.route('new.html', methods=["POST"])
 @is_auth
 def send():
-    sms_form = SmsForm(request.form)
+    sms_form = SmsForm(request.args)
     sms_form.strip_value()
     if sms_form.validate():
         save_to_session = {}
