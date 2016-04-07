@@ -97,8 +97,10 @@
                     <td class="text-center">
                         <div class="btn-group btn-group-xs">
                             <a href="{{url_for('CONTACT.view_uid', **{'uid':c.uid})}}" class="btn btn-default btn-xs"><i class="fa fa-eye"></i></a>
+                            {%if session['user']['is_admin']%}
                             <a href="{{url_for('CONTACT.edit', **{'uid':c.uid})}}" class="btn btn-info btn-xs"><i class="fa fa-edit"></i></a>
                             <a href="{{url_for('CONTACT.remove_warning', **{'uid':c.uid})}}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+                            {%endif%}
                         </div>
                     </td>
                 </tr>
