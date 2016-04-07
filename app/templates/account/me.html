@@ -3,7 +3,7 @@
 <div class="col-xs-12">
     <div class="btn-group btn-group-justified" role="group">
         <a href="https://client.voxity.fr/" class="btn btn-warning" role="button" target="_blank">Interface client</a>
-        <a href="https://octoptus.voxity.fr" class="btn btn-warning" role="button" target="_blank">Administation des lignes</a>
+        {%if is_admin()%}<a href="https://octoptus.voxity.fr" class="btn btn-warning" role="button" target="_blank">Administation des lignes</a>{%endif%}
     </div>
     <h2>{{session['user']['name']}}</h2>
 

@@ -11,7 +11,7 @@ from datetime import datetime
 from app.config import config_loader
 from app import controllers, voxity
 from app.voxity.error import ExceptVoxityTokenExpired
-from app.utils.jinja2_filters import number_clear, val_or_label
+from app.utils.jinja2_filters import number_clear, val_or_label, is_admin
 
 
 __VERSION__ = "1.0.5β"
@@ -65,6 +65,7 @@ def create_app(env='prod'):
 
     app.jinja_env.filters['num_clear_format'] = number_clear
     app.jinja_env.filters['val_or_label'] = val_or_label
+    app.jinja_env.globals['is_admin'] = is_admin
 
     app.config['__VERSION__'] = __VERSION__
 
