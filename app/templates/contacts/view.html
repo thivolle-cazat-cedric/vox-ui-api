@@ -7,34 +7,44 @@
             <tr>
                 <td class="text-center minimal"><i class="fa fa-user"></i></td>
                 <td class="text-right"><strong>Nom</strong></td>
-                <td>{{contact.cn}}</td>
+                <td colspan="2">{{contact.cn}}</td>
             </tr>
             <tr>
                 <td class="text-center minimal"><i class="fa fa-phone"></i></td>
                 <td class="text-right "><strong>Téléphone principal</strong></td>
                 {%set val = contact.telephone_number|val_or_label("N/A") %}
                 <td {%if val == contact.telephone_number%}class="callable"{%endif%}>{{val}}</td>
+                <td class="minimal">
+                    {%if is_mobile(contact.telephone_number)%}
+                    <a href="{{url_for('SMS.new', phone_number=contact.have_telephone_number()[0])}}" class="btn btn-success"><i class="fa fa-comment-o"></i></a>
+                    {%endif%}
+                </td>
             </tr>
             <tr>
                 <td class="text-center minimal"><i class="fa fa-keyboard-o"></i></td>
                 <td class="text-right"><strong>raccourcie</strong> &nbsp; <i class="fa fa-angle-up"></i></td>
-                <td>{{contact.phone_number_raccourci|val_or_label("N/A")}}</td>
+                <td colspan="2">{{contact.phone_number_raccourci|val_or_label("N/A")}}</td>
             </tr>
             <tr>
                 <td class="text-center minimal"><i class="fa fa-phone"></i></td>
                 <td class="text-right"><strong>Téléphone secondair</strong></td>
                 {%set val = contact.mobile|val_or_label("N/A") %}
                 <td {%if val == contact.mobile%}class="callable"{%endif%}>{{val}}</td>
+                <td class="minimal">
+                    {%if is_mobile(contact.mobile)%}
+                    <a href="{{url_for('SMS.new', phone_number=contact.have_mobile()[0])}}" class="btn btn-success"><i class="fa fa-comment-o"></i></a>
+                    {%endif%}
+                </td>
             </tr>
             <tr>
                 <td class="text-center minimal"><i class="fa fa-keyboard-o"></i></td>
                 <td class="text-right"><strong>raccourcie</strong> &nbsp; <i class="fa fa-angle-up"></i></td>
-                <td>{{contact.phone_mobile_raccourci|val_or_label("N/A")}}</td>
+                <td colspan="2">{{contact.phone_mobile_raccourci|val_or_label("N/A")}}</td>
             </tr>
             <tr>
                 <td class="text-center minimal"><i class="fa fa-envelope"></i></td>
-                <td class="text-right"><strong>Adresse mail</strong> &nbsp; <i class="fa fa-angle-up"></i></td>
-                <td>{{contact.mail|val_or_label("N/A")}}</td>
+                <td class="text-right"><strong>Adresse mail</strong></td>
+                <td colspan="2">{{contact.mail|val_or_label("N/A")}}</td>
             </tr>
         </table>
     </div>
