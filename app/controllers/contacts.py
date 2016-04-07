@@ -3,7 +3,7 @@ from __future__ import absolute_import, division, unicode_literals
 from flask import Blueprint, render_template, request, abort, redirect, url_for, session
 from flask.json import jsonify
 from app.voxity import contact
-from app.controllers import is_auth
+from app.controllers import is_auth, is_admin
 from app.utils import value_or_zero
 from app.voxity.objects.contact import ContactForm
 
@@ -26,8 +26,6 @@ def view():
     item = request.args.get('item', 25)
     page = request.args.get('page', 1)
     pager = dict()
-    new_contact = session.get('new_contact', None)
-    update_contact = session.get('update_contact', None)
 
     if item != 'all':
         contacts = contact.get(page=page, limit=item, ret_object=True)
@@ -135,9 +133,9 @@ def whois():
 
     return jsonify({'data': name_list})
 
-
 @CONTACT.route('add.html', methods=['GET'])
 @is_auth
+@is_admin
 def get_add(form=None, api_errors=None):
     validate_state = False
     if form:
@@ -152,6 +150,7 @@ def get_add(form=None, api_errors=None):
 
 @CONTACT.route('add.html', methods=['POST'])
 @is_auth
+@is_admin
 def post_add():
     api_errors = None
     form = ContactForm(request.form)
@@ -183,6 +182,7 @@ def view_uid(uid):
 
 @CONTACT.route('edit/<uid>.html', methods=["GET"])
 @is_auth
+@is_admin
 def edit(uid=None):
     c = contact.get_uid(uid=uid, ret_object=True)
     if c:
@@ -198,6 +198,7 @@ def edit(uid=None):
 
 @CONTACT.route('edit/<uid>.html', methods=["POST"])
 @is_auth
+@is_admin
 def edit_save(uid=None):
     c = contact.get_uid(uid=uid, ret_object=True)
     if not c:
@@ -233,6 +234,7 @@ def edit_save(uid=None):
 
 @CONTACT.route('remove-<uid>.html', methods=["GET"])
 @is_auth
+@is_admin
 def remove_warning(uid):
     c = contact.get_uid(uid=uid, ret_object=True)
     if not c:
@@ -246,6 +248,7 @@ def remove_warning(uid):
 
 @CONTACT.route('remove-<uid>.html', methods=["POST"])
 @is_auth
+@is_admin
 def remove(uid):
     c = contact.get_uid(uid=uid, ret_object=True)
     if not c:
