@@ -60,6 +60,21 @@ class MandatoryOrOther(object):
                 raise StopValidation(self.message)
 
 
+class ValidatorIfFiedlf(object):
+
+    def __init__(self, field_name, validator_obj, *args, **kwargs):
+        self.field_name = field_name
+        self._validator = validator_obj
+
+    def __call__(self, form, field):
+
+        other_field = form._fields.get(self.field_name, None)
+        if other_field is None:
+            raise Exception('no field named "%s" in form' % self.field_name)
+        if bool(other_field.data):
+            self._validator.__call__(form, field)
+
+
 class PhoneNumberFormat(object):
     """
     :param str message:

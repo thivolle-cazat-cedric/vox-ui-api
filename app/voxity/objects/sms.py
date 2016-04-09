@@ -5,10 +5,11 @@ from __future__ import (
 from . import ObjectBase
 from datetime import datetime
 from .validators import BaseForm
-from wtforms.fields import StringField, TextAreaField
+from wtforms.fields import StringField, TextAreaField, BooleanField
 from wtforms.validators import InputRequired, Length, Regexp
 from app.voxity.objects.validators.fields import ListField
 from app.voxity.objects.validators.sms import PhoneNumberList
+from app.voxity.objects.validators import MandatoryIfField, ValidatorIfFiedlf
 from re import IGNORECASE
 
 
@@ -168,10 +169,18 @@ class SmsRespons(ObjectBase):
 
 
 class SmsForm(BaseForm):
+    def __init__(self,*args, **kwargs):
+        super(SmsForm, self).__init__(*args, **kwargs)
+        if not self._fields['custom_emitter'].data:
+            self._fields['emitter'].data = ''
+
     def strip_value(self):
         for field in self._fields:
-            if field != 'phone_number':
-                self._fields[field].data = self._fields[field].data.strip()
+            if field not in ['phone_number', 'custom_emitter']:
+                try:
+                    self._fields[field].data = self._fields[field].data.strip()
+                except Exception:
+                    pass
 
             if self.phone_number.data:
                 striped_list = []
@@ -198,6 +207,9 @@ class SmsForm(BaseForm):
         PhoneNumberList(message="Le(s) numéro(s) doit(vent) être(s) au(x) format 0605040302 et séparer par ',' pour un envoie multiple"),
     ])
     emitter = StringField('Non de l\'émétteur', validators=[
-        InputRequired('Obligatoire'),
-        Regexp('^[a-z]{4,10}$', flags=IGNORECASE, message="Doit contenir entre 4 et 10 caractères [a-Z]")
+        MandatoryIfField('custom_emitter', message="Obligatoire", strip_whitespace=False),
+        ValidatorIfFiedlf('custom_emitter',
+            Regexp('^[a-z]{4,10}$', flags=IGNORECASE, message="Doit contenir entre 4 et 10 caractères [a-Z]")
+        )
     ])
+    custom_emitter = BooleanField(false_values='False')

@@ -18,8 +18,21 @@
                     
                 </p>
             </div>
-            <div class="col-xs-12 col-sm-6">
-                {{input_text(form['emitter'], errors=form.errors.get('emitter', None), addon_icon='fa fa-user', validate=validate_state)}}
+            <div class="col-xs-12 col-sm-6 form-group {%if form.errors['emitter']%}has-error{%endif%}">
+                {{form['custom_emitter'].label(class="control-label")}}
+                <div class="input-group">
+                    <span class="input-group-addon" id="btn-custom-emitter">
+                        {{form['custom_emitter']()}}
+                    </span>
+                    {{form['emitter'](class="form-control")}}
+                </div>
+                {%if form.errors['emitter']%}
+                <span class="help-block small text-danger">
+                    <ul>{%for e in form.errors['emitter']%}
+                        <li>{{e}}</li>
+                    {%endfor%}</ul>
+                </span>
+                {%endif%}
             </div>
         </div>
         <hr>
