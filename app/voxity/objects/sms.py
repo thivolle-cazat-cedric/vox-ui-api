@@ -192,7 +192,7 @@ class SmsForm(BaseForm):
     def __init__(self,*args, **kwargs):
         super(SmsForm, self).__init__(*args, **kwargs)
         if not self._fields['custom_emitter'].data:
-            self._fields['emitter'].data = ''
+            self._fields['emitter'].data = None
 
     def strip_value(self):
         for field in self._fields:

@@ -55,14 +55,16 @@ def get_group_by_dest(ret_object=False, **kwargs):
 def send(message):
     if isinstance(message, Sms):
         message = message.to_dict()
-    elif isinstance(message, dict):
+    elif not isinstance(message, dict):
         raise ValueError('sms.send : arg1 must be sms instance or dict representation')
 
     con = connectors()
     data = {}
     data['phone_number'] = message['phone_number']
     data['content'] = message['content']
-    data['emitter'] = message['emitter']
+    data['emitter'] = message.get('emitter', None)
+    if not data['emitter']:
+        data.pop('emitter', None)
 
     if con is not None:
         resp = con.post(
@@ -70,6 +72,7 @@ def send(message):
             json=data,
             headers={'Content-Type': 'application/json'}
         )
+        print(resp.text)
         if check_respons(resp, esc_bad_resp=False) and resp.status_code == 200:
             message = resp.json().get('result', None)
             if message is not None:
