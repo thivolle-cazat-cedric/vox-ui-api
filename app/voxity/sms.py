@@ -72,7 +72,6 @@ def send(message):
             json=data,
             headers={'Content-Type': 'application/json'}
         )
-        print(resp.text)
         if check_respons(resp, esc_bad_resp=False) and resp.status_code == 200:
             message = resp.json().get('result', None)
             if message is not None:
