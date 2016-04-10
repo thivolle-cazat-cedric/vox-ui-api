@@ -23,7 +23,6 @@ def get(ret_object=False):
     if con:
         resp = con.get(get_url())
         if check_respons(resp):
-            print(resp.text)
             ret = resp.json().get('result', [])
             sms_list = Sms.litst_obj_from_list(ret)
             if not ret_object:
