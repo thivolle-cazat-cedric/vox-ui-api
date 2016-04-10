@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 SMS_GET_RESP = """{
     "status" : 200,
     "result" : [
@@ -294,6 +296,19 @@ SMS_GET_RESP = """{
             "operateur": "ORAN",
             "code_erreur": "000",
             "deleted": "0"
+        }
+    ]
+}"""
+
+SMS_GET_RESPONSE_RESP = """{
+    "status" : 200,
+    "result" : [
+        {
+            "id": "re33f4d6c0-9c62-11e5-b5d3-815b17ebb0b8",
+            "id_sms_sent": "sm58d616f0-fa88-11e5-be88-51ff0b15ffa9",
+            "send_date": "2016-04-04 18:00:09",
+            "phone_number": "+33666951941",
+            "content": "La réponse imaginaire !"
         }
     ]
 }"""

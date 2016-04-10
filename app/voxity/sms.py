@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, division, unicode_literals
 from flask import current_app
-from .objects.sms import Sms
+from .objects.sms import Sms, SmsRespons
 from . import connectors, check_respons
 
 
-def get_base_url():
-    return current_app.config['BASE_URL'] + '/sms/'
+def get_url(additional=None):
+    ret = current_app.config['BASE_URL'] + '/sms/'
+    if additional:
+        ret += additional
+
+    return ret
 
 
 def get(ret_object=False):
@@ -17,7 +21,7 @@ def get(ret_object=False):
 
     con = connectors()
     if con:
-        resp = con.get(get_base_url())
+        resp = con.get(get_url())
         if check_respons(resp):
             print(resp.text)
             ret = resp.json().get('result', [])
@@ -63,7 +67,7 @@ def send(message):
 
     if con is not None:
         resp = con.post(
-            get_base_url(),
+            get_url(),
             json=data,
             headers={'Content-Type': 'application/json'}
         )
@@ -73,5 +77,25 @@ def send(message):
                 return Sms(**message)
             else:
                 return Sms(**message)
+
+    return None
+
+
+def get_responses(ret_object=False, **kwargs):
+    con = connectors()
+    if con is not None:
+        resp = con.get(get_url('responses'))
+
+        if check_respons(resp):
+            responses = resp.json().get('result', None)
+            ret = []
+            if responses:
+                for response in responses:
+                    response = SmsRespons(**response)
+                    if ret_object:
+                        ret.append(response)
+                    else:
+                        ret.append(response.to_dict())
+            return ret
 
     return None

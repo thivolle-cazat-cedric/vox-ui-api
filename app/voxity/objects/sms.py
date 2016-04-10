@@ -167,6 +167,26 @@ class SmsRespons(ObjectBase):
         'content'
     ]
 
+    def from_dict(self, dico):
+        """
+        :param dict dico:
+        """
+        super(SmsRespons, self).from_dict(dico)
+        try:
+            if self.send_date:
+                self.send_date = datetime.strptime(
+                    self.send_date, '%Y-%m-%d %H:%M:%S'
+                )
+        except ValueError:
+            pass
+
+    def to_dict(self):
+        dico = super(SmsRespons, self).to_dict()
+        if isinstance(self.send_date, datetime):
+            dico['send_date'] = self.send_date.strftime('%d/%m/%y %H:%M')
+
+        return dico
+
 
 class SmsForm(BaseForm):
     def __init__(self,*args, **kwargs):
