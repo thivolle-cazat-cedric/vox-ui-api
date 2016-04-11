@@ -20,11 +20,13 @@
 
 ### 1.0 βeta
 
-##### 1.0.5
+##### 1.0.6
  - Envoie de SMS, vous n'êtes plus obligé de renseigner un nom d'emetteur.
  - Ajout d'une notion de droit dans l'application. Un nom administrateur ne peut pas ajouter, modifier, supprimer un contact.
  - Lorsqu'un contact possède un numéro de mobile, vous avez un lien direct pour lui envoyer un SMS.
  - Lapplication permet de visualiser les réponses de SMS.
+ - Correction d'un bug lors de l'affichage de tous le journal d'appel.
+ - Ajout d'une corespondance nom/numéro dans le journal d'appel.
 
 ##### 1.0.5
  - Intégration des SMS, listing et envoi unique ou multiple
