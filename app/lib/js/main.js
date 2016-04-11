@@ -9,7 +9,7 @@ window.onblur = function () {
 }; 
 
 function filter_exten(exten){
-    return exten.replace(/(\ |\-|\.|\_|\s)/g, '')
+    return exten.replace(/(\-|\.|\_|\s|\/)/g, '').trim();
 }
 
 function generate_call(exten){
@@ -166,8 +166,13 @@ $(document).ready(function() {
     })
 
     $(document).on('click', '.callable', function(event){
-        if (filter_exten($(this).text()).length > 1) {
-            generate_call($(this).text());
+        if ($(this).attr('data-number')) {
+            var num = filter_exten($(this).attr('data-number'));
+        } else {
+            var num = filter_exten($(this).text());
+        }
+        if (num && num.length > 1) {
+            generate_call(num);
         };
     });
 
