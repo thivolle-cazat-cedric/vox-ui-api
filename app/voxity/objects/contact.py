@@ -43,6 +43,13 @@ class Contact(ObjectBase):
         'phone_mobile_raccourci'
     ]
 
+    LOCAL_EXTEN = {
+        '8500': 'Messagerie',
+        '8501': 'Messagerie',
+        '0': 'Iconnue',
+        '#8600': 'Enregistrement de fichier'
+    }
+
     uid = None
     cn = None
     telephone_number = None

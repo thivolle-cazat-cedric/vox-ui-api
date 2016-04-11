@@ -15,7 +15,13 @@ LIST_AVAILABLE = [5, 10, 25, 50, 100]
 @CONTACT.route('all.json', methods=["GET"])
 @is_auth
 def json_data():
-    return jsonify({'data': contact.get().get('list', []) or []})
+    resp = contact.get().get('list', [])
+    for num in contact.Contact.LOCAL_EXTEN.keys():
+        resp.append({
+            'telephoneNumber': num,
+            'cn': contact.Contact.LOCAL_EXTEN[num]
+        })
+    return jsonify({'data': resp})
 
 
 @CONTACT.route('', methods=["GET"])
@@ -82,7 +88,7 @@ def contact_uid(uid=None):
 def search():
     c = list()
     form_value = dict()
-    if not request.args.get('name', ''):
+    if not request.args.get('name', None):
         abort(400)
     else:
         form_value['name'] = "{0}".format(request.args.get('name', ''))
@@ -124,7 +130,13 @@ def whois():
         request.args.get('number')
     ).replace(' ', '').replace('.', '').replace('-', '')
 
-    c += contact.get()['list']
+    if number in contact.Contact.LOCAL_EXTEN:
+        c.append({
+            'telephoneNumber': number,
+            'cn': contact.Contact.LOCAL_EXTEN[number]
+        })
+    else:
+        c += contact.get()['list']
 
     for elt in c:
         if elt.get('mobile', '') == number or \
@@ -132,6 +144,7 @@ def whois():
             name_list.append(elt)
 
     return jsonify({'data': name_list})
+
 
 @CONTACT.route('add.html', methods=['GET'])
 @is_auth
