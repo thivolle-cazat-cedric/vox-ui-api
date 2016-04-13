@@ -106,7 +106,6 @@ function getLinkBtnIcommingCall(callObject, whoisResp){
             uri +=  '</a>';
         }
     }
-    console.log(uri)
     return uri;
 }
 
