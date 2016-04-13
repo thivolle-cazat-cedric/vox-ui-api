@@ -47,15 +47,15 @@
                 {% for c in log%}
                 <tr>
                     <td colspan="2">
-                        {{c['call_date']}}
+                        {{c['calldate']}}
                     </td>
                     {%if url_for('CALLS_LOG.view', **{'direction':'incoming'}) == request.path%}
-                        <td {%if c['src_phonenumber']%}class="callable" data-number="{{c['src_phonenumber']}}"{%endif%}>
-                            <span data-whois-num="{{c['src_phonenumber']}}" data-whois-suf="  -  "></span> {{c['src_phonenumber'] | num_clear_format(space=True)}}
+                        <td {%if c['source']%}class="callable" data-number="{{c['source']}}"{%endif%}>
+                            <span data-whois-num="{{c['source']}}" data-whois-suf="  -  "></span> {{c['source'] | num_clear_format(space=True)}}
                         </td>
                     {%else%}
-                        <td {%if c['dst_phonenumber']%}class="callable" data-number="{{c['dst_phonenumber']}}"{%endif%}>
-                            <span data-whois-num="{{c['dst_phonenumber']|num_clear_format(space=False)}}" data-whois-suf="  -  "></span>{{c['dst_phonenumber']| num_clear_format(space=True)}}
+                        <td {%if c['destination']%}class="callable" data-number="{{c['destination']}}"{%endif%}>
+                            <span data-whois-num="{{c['destination']|num_clear_format(space=False)}}" data-whois-suf="  -  "></span>{{c['destination']| num_clear_format(space=True)}}
                         </td>
                     {%endif%}
                     <td>
