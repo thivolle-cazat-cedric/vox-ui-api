@@ -71,13 +71,43 @@ function whois(number, done){
     }
     
 }
+function getUriIfo(){
+    return ''
+}
 
-function getUriIfo(num){
+function getUriIncommingCall(callObject, whoisResp){
+    var uri = location.origin;
+    if (!whoisResp instanceof Array || whoisResp.length == 0) {
+        return ""
+    } else {
+        if(whoisResp.length == 1){
+            uri += '/contacts/' + whoisResp[0].uid + '.html';
+        } else {
+            uri += '/contacts/whois.html?number=' + callObject.caller_num;
+        }
+    }
+    return uri;
+}
 
-    var dom = '<a href="https://www.google.fr/#q='+num+'" target="_blank" class="btn btn-link">';
-    dom += '<i class="fa fa-share-square-o fa-fw"></i> Google search : '+num;
-    dom += '</a>';
-    return dom
+function getLinkBtnIcommingCall(callObject, whoisResp){
+    var uri = '';
+    if (!whoisResp instanceof Array || whoisResp.length == 0) {
+        return ""
+    } else {
+        if(whoisResp.length == 1){
+            uri =  '<a class="btn btn-link" href="'+getUriIncommingCall(callObject, whoisResp)+'">';
+                uri += '<i class="fa fa-user fa-fw"></i> ';
+                uri += whoisResp[0].cn;
+            uri += '</a>';
+        } else {
+            uri =  '<a class="btn btn-link" href="'+getUriIncommingCall(callObject, whoisResp)+'">';
+                uri += '<i class="fa fa-users fa-fw"></i> ';
+                uri += callObject.caller_num;
+            uri +=  '</a>';
+        }
+    }
+    console.log(uri)
+    return uri;
 }
 
 var notify = {
