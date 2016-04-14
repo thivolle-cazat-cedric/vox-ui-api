@@ -120,7 +120,11 @@ var notify = {
             tag: id,
             icon: document.location.origin + $($('.header .img-logo')[0]).attr('src'),
             body: message,
-            onclick: function(evt){evt.preventDefault(); window.open(uri, '_blank')}
+            onclick: function(evt){
+                window.focus();
+                window.location = uri;
+                this.cancel();
+            }
         };
 
         if (this.support() && this.permited() && !windowsIsActive){
