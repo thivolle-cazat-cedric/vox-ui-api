@@ -57,3 +57,8 @@ def about():
 @PUBLIC.route('features.html', methods=["GET"])
 def features():
     return render_template('public/features.html', page_title="fonctionalités")
+
+
+@PUBLIC.route('sitemap.xml', methods=["GET"])
+def sitemap():
+    return render_template('sitemap.xml'), 200, {'Content-Type': 'text/xml; charset=utf-8'}
