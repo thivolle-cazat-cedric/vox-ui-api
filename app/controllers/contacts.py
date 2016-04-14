@@ -146,6 +146,46 @@ def whois():
     return jsonify({'data': name_list})
 
 
+@CONTACT.route('whois.html', methods=['GET'])
+@is_auth
+def whois_view():
+
+    if not request.args.get('number', ''):
+        abort(400)
+
+    c = list()
+    name_list = list()
+
+    number = '{0}'.format(
+        request.args.get('number')
+    ).replace(' ', '').replace('.', '').replace('-', '')
+
+    if number in contact.Contact.LOCAL_EXTEN:
+        c.append({
+            'telephoneNumber': number,
+            'cn': contact.Contact.LOCAL_EXTEN[number]
+        })
+    else:
+        c += contact.get(ret_object=True)['list']
+
+    for elt in c:
+        if elt.mobile == number or \
+           elt.telephone_number == number:
+            name_list.append(elt)
+
+    if len(name_list) == 1:
+        return redirect(url_for('.view_uid', uid=name_list[0].uid))
+    else:
+        return render_template(
+            'contacts/index.html',
+            container_class='container-fluid',
+            contacts=name_list,
+            item="all",
+            contact_total=len(name_list),
+            whois_mode=True
+        ).encode('utf-8')
+
+
 @CONTACT.route('add.html', methods=['GET'])
 @is_auth
 @is_admin
