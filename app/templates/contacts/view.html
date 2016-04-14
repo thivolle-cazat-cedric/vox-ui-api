@@ -47,5 +47,18 @@
                 <td colspan="2">{{contact.mail|val_or_label("N/A")}}</td>
             </tr>
         </table>
+        <hr>
+        {% if not read_only and is_admin()%}
+        <div class="btn-group btn-group-justified" role="group">
+            <a href="{{url_for('CONTACT.edit', uid=contact.uid)}}" class="btn btn-info">
+                <i class="fa fa-edit"></i>
+                Modifier
+            </a>
+            <a href="{{url_for('CONTACT.remove_warning', uid=contact.uid)}}" class="btn btn-danger">
+                <i class="fa fa-trash-o"></i>
+                Supprimer
+            </a>
+        </div>
+        {% endif %}
     </div>
 {% endblock %}

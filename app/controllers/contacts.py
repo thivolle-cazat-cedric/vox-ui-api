@@ -161,10 +161,13 @@ def whois_view():
     ).replace(' ', '').replace('.', '').replace('-', '')
 
     if number in contact.Contact.LOCAL_EXTEN:
-        c.append({
-            'telephoneNumber': number,
-            'cn': contact.Contact.LOCAL_EXTEN[number]
-        })
+        c.append(
+            contact.Contact(
+                uid='local-' + number,
+                telephoneNumber=number,
+                cn=contact.Contact.LOCAL_EXTEN[number]
+            )
+        )
     else:
         c += contact.get(ret_object=True)['list']
 
@@ -218,6 +221,22 @@ def post_add():
             api_errors = resp.get('error', {'internal': 'Error inconnue'})
 
     return get_add(form=form, api_errors=api_errors)
+
+
+@CONTACT.route('local-<num>.html', methods=["GET"])
+@is_auth
+def view_local(num):
+    c = contact.Contact(
+        uid='local-' + num,
+        telephoneNumber=num,
+        cn=contact.Contact.LOCAL_EXTEN[num]
+    )
+
+    return render_template(
+        'contacts/view.html',
+        contact=c,
+        read_only=True
+    ).encode('utf-8')
 
 
 @CONTACT.route('<uid>.html', methods=["GET"])
