@@ -59,7 +59,7 @@ $(document).ready(function() {
                     mess += '<br>';
                     mess += getLinkBtnIcommingCall(callObj, contacts)
                     toastr["info"](mess, "Appel entrant");
-                    notify.showMessage(callObj['id'], 'Appel entrant','de ' + name + ' <'+callObj['caller_num']+'>', getUriIncommingCall(callObj, contacts))
+                    notify.showMessage(callObj['id'], 'Appel entrant','de ' + name + ' <'+callObj['caller_num']+'>', getUriIncommingCall(callObj))
                 });
             }
         })
