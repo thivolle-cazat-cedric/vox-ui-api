@@ -53,26 +53,26 @@ def view(direction='incoming'):
     log = get_log(**params)
 
     try:
-        item = int(item)
-        pager['current'] = int(value_or_zero(log['pager']['curent']))
-        pager['max'] = int(value_or_zero(log['pager']['max_page']))
-        pager['min'] = 1
-        pager['start'] = 1
-        pager['end'] = pager['max']
+        if item != "all":
+            item = int(item)
+            pager['current'] = int(value_or_zero(log['pager']['curent']))
+            pager['max'] = int(value_or_zero(log['pager']['max_page']))
+            pager['min'] = 1
+            pager['start'] = 1
+            pager['end'] = pager['max']
 
-        if pager['end'] - pager['start'] > 10:
-            pager['start'] = pager['current'] - 5
-            if pager['start'] < 1:
-                pager['start'] = 1
+            if pager['end'] - pager['start'] > 10:
+                pager['start'] = pager['current'] - 5
+                if pager['start'] < 1:
+                    pager['start'] = 1
 
-            pager['end'] = pager['start'] + 10
-            if pager['end'] > pager['max']:
-                pager['end'] = pager['max']
-                pager['start'] = pager['end'] - 10
+                pager['end'] = pager['start'] + 10
+                if pager['end'] > pager['max']:
+                    pager['end'] = pager['max']
+                    pager['start'] = pager['end'] - 10
 
-    except Exception, e:
+    except Exception as e:
         raise e
-        abort(500)
 
     return render_template(
         'calls_log/index.html',

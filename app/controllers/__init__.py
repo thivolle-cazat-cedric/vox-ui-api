@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, division, unicode_literals
 from functools import wraps
-from flask import session, url_for, redirect, abort
+from flask import session, abort
 from app.voxity import self_user
 
 
@@ -36,6 +36,19 @@ def is_auth(function):
 
         return function(*args, **kwargs)
     return try_is_authenticate
+
+
+def is_admin(function):
+    @wraps(function)
+    def is_adm(*args, **kwargs):
+        if not isinstance(session.get('user', None), dict):
+            abort(401)
+
+        if not session['user'].get('is_admin', False):
+            abort(403)
+
+        return function(*args, **kwargs)
+    return is_adm
 
 from app.controllers.devices import DEVICES
 from app.controllers.contacts import CONTACT

@@ -9,7 +9,7 @@ window.onblur = function () {
 }; 
 
 function filter_exten(exten){
-    return exten.replace(/(\ |\-|\.|\_|\s)/g, '')
+    return exten.replace(/(\-|\.|\_|\s|\/)/g, '').trim();
 }
 
 function generate_call(exten){
@@ -72,12 +72,32 @@ function whois(number, done){
     
 }
 
-function getUriIfo(num){
+function getUriIncommingCall(callObject){
+    if (!(callObject instanceof Object) || callObject.caller_num === undefined) {
+        return "";
+    } else {
+        return location.origin + '/contacts/whois.html?number=' + callObject.caller_num;
+    }
+}
 
-    var dom = '<a href="https://www.google.fr/#q='+num+'" target="_blank" class="btn btn-link">';
-    dom += '<i class="fa fa-share-square-o fa-fw"></i> Google search : '+num;
-    dom += '</a>';
-    return dom
+function getLinkBtnIcommingCall(callObject, whoisResp){
+    var uri = '';
+    if (!whoisResp instanceof Array || whoisResp.length == 0) {
+        return ""
+    } else {
+        if(whoisResp.length == 1){
+            uri =  '<a class="btn btn-link" href="'+getUriIncommingCall(callObject)+'">';
+                uri += '<i class="fa fa-user fa-fw"></i> ';
+                uri += whoisResp[0].cn;
+            uri += '</a>';
+        } else {
+            uri =  '<a class="btn btn-link" href="'+getUriIncommingCall(callObject)+'">';
+                uri += '<i class="fa fa-users fa-fw"></i> ';
+                uri += callObject.caller_num;
+            uri +=  '</a>';
+        }
+    }
+    return uri;
 }
 
 var notify = {
@@ -100,7 +120,11 @@ var notify = {
             tag: id,
             icon: document.location.origin + $($('.header .img-logo')[0]).attr('src'),
             body: message,
-            onclick: function(evt){evt.preventDefault(); window.open(uri, '_blank')}
+            onclick: function(evt){
+                window.focus();
+                window.location = uri;
+                this.cancel();
+            }
         };
 
         if (this.support() && this.permited() && !windowsIsActive){
@@ -166,8 +190,13 @@ $(document).ready(function() {
     })
 
     $(document).on('click', '.callable', function(event){
-        if (filter_exten($(this).text()).length > 1) {
-            generate_call($(this).text());
+        if ($(this).attr('data-number')) {
+            var num = filter_exten($(this).attr('data-number'));
+        } else {
+            var num = filter_exten($(this).text());
+        }
+        if (num && num.length > 1) {
+            generate_call(num);
         };
     });
 

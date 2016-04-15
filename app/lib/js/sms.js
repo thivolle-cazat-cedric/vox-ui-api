@@ -1,5 +1,6 @@
 var MAX_CONTENT_LENGTH = 160;
-var  MOBILE_LIST = [];
+var MOBILE_LIST = [];
+var IS_INITIALIZED = false;
 
 /**
  * Retrun
@@ -97,6 +98,8 @@ function init() {
             toastr["warning"]("Réponse innatendu lors du chargement des contact", "Chargement des contacts")
         }
     });
+    customEmitterDisplay();
+    IS_INITIALIZED = true;
 }
 
 function refreshLabelList(){
@@ -122,6 +125,9 @@ function refreshLabelList(){
         $("form #phone_number").val(destList.join(','));
     } else {$("form #phone_number").val('');}
     refreshSmsLength();
+    if ($('#btn-custom-emitter').parents('.form-group').hasClass('has-error')) {
+        $('#btn-custom-emitter .btn').removeClass('btn-default').addClass('btn-danger')
+    }
 }
 
 function refreshSmsLength(){
@@ -166,6 +172,29 @@ function removeNum(num){
     
 }
 
+function customEmitterDisplay(evt){
+    if(evt){
+        evt.stopPropagation();
+    }
+    var customEmitter = $('#custom_emitter');
+    // if(customEmitter.is(':visible')){
+    //     customEmitter.hide();
+    //     customEmitter.parent().append('<i class="fa"></i>');
+    // }
+    var checkRepr = customEmitter.parent().children('.fa');
+    if (customEmitter.is(':checked')) {
+        $("#emitter").removeAttr('disabled');
+        if (IS_INITIALIZED) {
+            $("#emitter").focus()
+        }
+        // checkRepr.removeClass('fa-square-o').addClass('fa-check-square');
+    } else {
+        // checkRepr.removeClass('fa-check-square').addClass('fa-square-o');
+        $("#emitter").attr('disabled', 'disabled');
+        $("#emitter").val('');
+    }
+}
+
 $(document).ready(function() {
 
     $('form #phone_number').blur(refreshLabelList);
@@ -179,7 +208,20 @@ $(document).ready(function() {
         $(this).attr('disabled', 'disabled');
         $('form[method="POST"] [type="submit"] .fa').removeClass('fa-paper-plane-o').addClass('fa-spinner fa-spin');
         $('form[method="POST"]').submit();
-    })
+    });
+    // $('#custom_emitter').change(customEmitterDisplay)
+    $("#btn-custom-emitter").click(function(e){
+        var $this = $(this);
+        if (e.target == this) {            
+            var customEmitter = $("#custom_emitter")
+            if (customEmitter.is(':checked')) {
+                customEmitter.prop('checked', false);
+            } else {
+                customEmitter.prop('checked', true);
+            }
+        }
+        customEmitterDisplay();
+    });
 
     $(document).on('click', '.label-tel > .fa', function() {
         removeNum($(this).parent().attr('data-telnum'));

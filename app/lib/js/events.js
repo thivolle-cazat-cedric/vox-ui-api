@@ -57,9 +57,9 @@ $(document).ready(function() {
                     }
                     var mess = "de <strong>" + name + "</strong> <"+callObj['caller_num']+">";
                     mess += '<br>';
-                    mess += getUriIfo(callObj['caller_num'])
+                    mess += getLinkBtnIcommingCall(callObj, contacts)
                     toastr["info"](mess, "Appel entrant");
-                    notify.showMessage(callObj['id'], 'Appel entrant','de ' + name + ' <'+callObj['caller_num']+'>', getUriIfo(callObj['caller_num']))
+                    notify.showMessage(callObj['id'], 'Appel entrant','de ' + name + ' <'+callObj['caller_num']+'>', getUriIncommingCall(callObj))
                 });
             }
         })
@@ -72,7 +72,7 @@ $(document).ready(function() {
                 }
                 var mess = "<strong>" + name + "</strong> <"+callObj['caller_num']+">";
                 mess += '<br>';
-                mess += getUriIfo(callObj['caller_num'])
+                mess += getLinkBtnIcommingCall(callObj, callerNameList)
                 if (callObj['caller_num'] != myExtension) {        
                     toastr["success"](mess, "Vous etes en communication avec " + callObj['caller_num'])
                 }

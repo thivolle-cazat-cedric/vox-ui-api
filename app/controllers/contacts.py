@@ -3,7 +3,7 @@ from __future__ import absolute_import, division, unicode_literals
 from flask import Blueprint, render_template, request, abort, redirect, url_for, session
 from flask.json import jsonify
 from app.voxity import contact
-from app.controllers import is_auth
+from app.controllers import is_auth, is_admin
 from app.utils import value_or_zero
 from app.voxity.objects.contact import ContactForm
 
@@ -15,7 +15,13 @@ LIST_AVAILABLE = [5, 10, 25, 50, 100]
 @CONTACT.route('all.json', methods=["GET"])
 @is_auth
 def json_data():
-    return jsonify({'data': contact.get().get('list', []) or []})
+    resp = contact.get().get('list', [])
+    for num in contact.Contact.LOCAL_EXTEN.keys():
+        resp.append({
+            'telephoneNumber': num,
+            'cn': contact.Contact.LOCAL_EXTEN[num]
+        })
+    return jsonify({'data': resp})
 
 
 @CONTACT.route('', methods=["GET"])
@@ -26,8 +32,6 @@ def view():
     item = request.args.get('item', 25)
     page = request.args.get('page', 1)
     pager = dict()
-    new_contact = session.get('new_contact', None)
-    update_contact = session.get('update_contact', None)
 
     if item != 'all':
         contacts = contact.get(page=page, limit=item, ret_object=True)
@@ -84,7 +88,7 @@ def contact_uid(uid=None):
 def search():
     c = list()
     form_value = dict()
-    if not request.args.get('name', ''):
+    if not request.args.get('name', None):
         abort(400)
     else:
         form_value['name'] = "{0}".format(request.args.get('name', ''))
@@ -126,7 +130,13 @@ def whois():
         request.args.get('number')
     ).replace(' ', '').replace('.', '').replace('-', '')
 
-    c += contact.get()['list']
+    if number in contact.Contact.LOCAL_EXTEN:
+        c.append({
+            'telephoneNumber': number,
+            'cn': contact.Contact.LOCAL_EXTEN[number]
+        })
+    else:
+        c += contact.get()['list']
 
     for elt in c:
         if elt.get('mobile', '') == number or \
@@ -136,8 +146,52 @@ def whois():
     return jsonify({'data': name_list})
 
 
+@CONTACT.route('whois.html', methods=['GET'])
+@is_auth
+def whois_view():
+
+    if not request.args.get('number', ''):
+        abort(400)
+
+    c = list()
+    name_list = list()
+
+    number = '{0}'.format(
+        request.args.get('number')
+    ).replace(' ', '').replace('.', '').replace('-', '')
+
+    if number in contact.Contact.LOCAL_EXTEN:
+        c.append(
+            contact.Contact(
+                uid='local-' + number,
+                telephoneNumber=number,
+                cn=contact.Contact.LOCAL_EXTEN[number]
+            )
+        )
+    else:
+        c += contact.get(ret_object=True)['list']
+
+    for elt in c:
+        if elt.mobile == number or \
+           elt.telephone_number == number:
+            name_list.append(elt)
+
+    if len(name_list) == 1:
+        return redirect(url_for('.view_uid', uid=name_list[0].uid))
+    else:
+        return render_template(
+            'contacts/index.html',
+            container_class='container-fluid',
+            contacts=name_list,
+            item="all",
+            contact_total=len(name_list),
+            whois_mode=True
+        ).encode('utf-8')
+
+
 @CONTACT.route('add.html', methods=['GET'])
 @is_auth
+@is_admin
 def get_add(form=None, api_errors=None):
     validate_state = False
     if form:
@@ -152,6 +206,7 @@ def get_add(form=None, api_errors=None):
 
 @CONTACT.route('add.html', methods=['POST'])
 @is_auth
+@is_admin
 def post_add():
     api_errors = None
     form = ContactForm(request.form)
@@ -168,8 +223,38 @@ def post_add():
     return get_add(form=form, api_errors=api_errors)
 
 
+@CONTACT.route('local-<num>.html', methods=["GET"])
+@is_auth
+def view_local(num):
+    c = contact.Contact(
+        uid='local-' + num,
+        telephoneNumber=num,
+        cn=contact.Contact.LOCAL_EXTEN[num]
+    )
+
+    return render_template(
+        'contacts/view.html',
+        contact=c,
+        read_only=True
+    ).encode('utf-8')
+
+
 @CONTACT.route('<uid>.html', methods=["GET"])
 @is_auth
+def view_uid(uid):
+    c = contact.get_uid(uid=uid, ret_object=True)
+    if not c:
+        abort(404)
+
+    return render_template(
+        'contacts/view.html',
+        contact=c,
+    ).encode('utf-8')
+
+
+@CONTACT.route('edit/<uid>.html', methods=["GET"])
+@is_auth
+@is_admin
 def edit(uid=None):
     c = contact.get_uid(uid=uid, ret_object=True)
     if c:
@@ -183,8 +268,9 @@ def edit(uid=None):
         abort(404)
 
 
-@CONTACT.route('<uid>.html', methods=["POST"])
+@CONTACT.route('edit/<uid>.html', methods=["POST"])
 @is_auth
+@is_admin
 def edit_save(uid=None):
     c = contact.get_uid(uid=uid, ret_object=True)
     if not c:
@@ -220,6 +306,7 @@ def edit_save(uid=None):
 
 @CONTACT.route('remove-<uid>.html', methods=["GET"])
 @is_auth
+@is_admin
 def remove_warning(uid):
     c = contact.get_uid(uid=uid, ret_object=True)
     if not c:
@@ -233,6 +320,7 @@ def remove_warning(uid):
 
 @CONTACT.route('remove-<uid>.html', methods=["POST"])
 @is_auth
+@is_admin
 def remove(uid):
     c = contact.get_uid(uid=uid, ret_object=True)
     if not c:

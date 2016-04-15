@@ -29,9 +29,12 @@
         {%set tmp = session.pop('remove_contact')%}
     </div>
     {%endif%}
+    {%if is_admin()%}
     <p class="text-right">
         <a href="{{url_for('CONTACT.get_add')}}" class="btn btn-primary"><i class="fa fa-plus"></i></a>
     </p>
+    {%endif%}
+    {%if not whois_mode%}
     <p>
         <h4>Recherche</h4>
         <form method="GET" action="{{url_for('CONTACT.search')}}">
@@ -48,7 +51,9 @@
             </div>
         </form>
     </p>
+    {% endif %}
     <hr>
+{%if contacts|length > 0%}
     <div class="table-responsive">
         <table class="table table-hover table-striped">
             <thead>
@@ -73,7 +78,16 @@
                 <th class="text-center">Numéro principal</th>
                 <th class="text-center">Numéro secondaire</th>
                 <th class="text-center">Mail</th>
-                <th style="min-width:70px; max-width:70px; width:70px"></th>
+                <th style="min-width:110px; max-width:110px; width:110px">
+                    <div class="btn-group btn-group-xs disabled">
+                        <button class="btn btn-default btn-xs disabled" data-toggle="tooltip" title="Détail"><i class="fa fa-eye"></i></button>
+                        <button class="btn btn-success btn-xs disabled" data-toggle="tooltip" title="Envoyer un SMS"><i class="fa fa-comment-o"></i></button>
+                        {%if is_admin()%}
+                        <button class="btn btn-info btn-xs disabled" data-toggle="tooltip" title="Modifier"><i class="fa fa-edit"></i></button>
+                        <button class="btn btn-danger btn-xs disabled" data-toggle="tooltip" title="Suprimer"><i class="fa fa-trash-o"></i></button>
+                        {%endif%}
+                    </div>
+                </th>
             </thead>
             <tbody>
                 {% for c in contacts%}
@@ -94,10 +108,18 @@
                         {%endif%}
 
                     </td>
-                    <td class="text-center">
+                    <td class="text-right">
                         <div class="btn-group btn-group-xs">
-                            <a href="{{url_for('CONTACT.edit', **{'uid':c.uid})}}" class="btn btn-default btn-xs"><i class="fa fa-edit"></i></a>
+                            <a href="{{url_for('CONTACT.view_uid', **{'uid':c.uid})}}" class="btn btn-default btn-xs"><i class="fa fa-eye"></i></a>
+                            {%if c.have_mobile()%}
+                            <a href="{{url_for('SMS.new', phone_number=c.have_mobile()[0])}}" class="btn btn-success btn-xs"><i class="fa fa-comment-o"></i></a>
+                            {# {%else%}
+                            <button class="btn btn-success btn-xs disabled" disabled><i class="fa fa-comment-o"></i></button>#}
+                            {%endif%}
+                            {%if is_admin()%}
+                            <a href="{{url_for('CONTACT.edit', **{'uid':c.uid})}}" class="btn btn-info btn-xs"><i class="fa fa-edit"></i></a>
                             <a href="{{url_for('CONTACT.remove_warning', **{'uid':c.uid})}}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+                            {%endif%}
                         </div>
                     </td>
                 </tr>
@@ -153,8 +175,17 @@
                 </li>
             </ul>
         </nav>
-
-
     {%endif%}
+
+
+{% elif  not search_mode and not whois_mode%}
+    <p class="alert alert-info text-center">
+        Vous n'avez aucun contact renseigné dans l'annuaire 
+    </p>
+{%elif whois_mode%}
+    <p class="alert alert-info text-center">
+        Aucun contact trouvez avec un numéro : <strong>{{request.args.get('number')}}</strong>
+    </p>
+{% endif %}
 </div>
 {% endblock %}

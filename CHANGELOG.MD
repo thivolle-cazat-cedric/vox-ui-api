@@ -20,6 +20,17 @@
 
 ### 1.0 βeta
 
+##### 1.0.6
+###### Nouveautés
+ - Lorsqu'un contact possède un numéro de mobile, vous avez un lien direct pour lui envoyer un SMS.
+ - Ajout d'une correspondance nom/numéro dans le journal d'appel. *(non-fonctionnel)*
+
+###### Améliorations & Corrections
+ - Amélioration de l'envoi de SMS, vous n'êtes plus obligé de renseigner un nom d'émetteur.
+ - Amélioration des droits dans l'application. Un nom administrateur ne peut pas ajouter, modifier, supprimer de contact.
+ - Amélioration de la vue d'un poste, on affiche le numéro appelé, le nom de l'appelant. *(dans le cas ou la case **remplacer le numéro par la description** dans octopus)*
+ - Correction d'un bug lors de l'affichage de tout le journal d'appel.
+
 ##### 1.0.5
  - Intégration des SMS, listing et envoi unique ou multiple
  - Mise à jour du fichier de déploiment sur apache2 *(redémarrage automatique lors de la modification d'un fichier)*

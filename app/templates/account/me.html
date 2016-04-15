@@ -3,25 +3,32 @@
 <div class="col-xs-12">
     <div class="btn-group btn-group-justified" role="group">
         <a href="https://client.voxity.fr/" class="btn btn-warning" role="button" target="_blank">Interface client</a>
-        <a href="https://octoptus.voxity.fr" class="btn btn-warning" role="button" target="_blank">Administation des lignes</a>
+        {%if is_admin()%}<a href="https://octoptus.voxity.fr" class="btn btn-warning" role="button" target="_blank">Administation des lignes</a>{%endif%}
     </div>
     <h2>{{session['user']['name']}}</h2>
+    <dl class="dl-horizontal well">
+        <dt><i class="fa fa-envelope fa-2x" data-toggle="tooltip" data-placement="auto" title="mail addresse"></i></dt>
+            <dd><a class="btn btn-link" href="mailto:{{session['user']['mail']}}">{{session['user']['mail']}}</a></dd>
 
-        <dl class="dl-horizontal well">
-            <dt><i class="fa fa-envelope fa-2x" data-toggle="tooltip" data-placement="auto" title="mail addresse"></i></dt>
-                <dd><a class="btn btn-link" href="mailto:{{session['user']['mail']}}">{{session['user']['mail']}}</a></dd>
+        <dt><i class="glyphicon glyphicon-phone-alt fa-2x" data-toggle="tooltip" data-placement="auto" title="internal extension"></i></dt>
+            <dd><span class="btn btn-link callable">{{session['user']['internalExtension']}}</span></dd>
 
-            <dt><i class="glyphicon glyphicon-phone-alt fa-2x" data-toggle="tooltip" data-placement="auto" title="internal extension"></i></dt>
-                <dd><span class="btn btn-link callable">{{session['user']['internalExtension']}}</span></dd>
+        {% if session['user']['mobilePhoneNumber']%}
+        <dt><i class="glyphicon glyphicon-phone fa-2x" data-toggle="tooltip" data-placement="auto" title="mobil phone number"></i></dt>
+            <dd><span class="btn btn-link callable">{{session['user']['mobilePhoneNumber']}}</span></dd>
+        {% endif %}
+        {% if session['user']['otherPhoneNumber']%}
+        <dt><i class="fa fa-phone fa-2x" data-toggle="tooltip" data-placement="auto" title="other phonne number"></i></dt>
+            <dd><span class="btn btn-link callable">{{session['user']['otherPhoneNumber']}}</span></dd>
+        {% endif %}
+    </dl>
 
-            {% if session['user']['mobilePhoneNumber']%}
-            <dt><i class="glyphicon glyphicon-phone fa-2x" data-toggle="tooltip" data-placement="auto" title="mobil phone number"></i></dt>
-                <dd><span class="btn btn-link callable">{{session['user']['mobilePhoneNumber']}}</span></dd>
-            {% endif %}
-            {% if session['user']['otherPhoneNumber']%}
-            <dt><i class="fa fa-phone fa-2x" data-toggle="tooltip" data-placement="auto" title="other phonne number"></i></dt>
-                <dd><span class="btn btn-link callable">{{session['user']['otherPhoneNumber']}}</span></dd>
-            {% endif %}
-        </dl>
+    <dif class="row">
+        <div class="col-xs-12 col-sm-4 col-sm-offset-4">
+            <p class="alert alert-info text-center">
+                Vous êtes {%if is_admin()%}administrateur{%else%}Utilisateur{%endif%}
+            </p>
+        </div>
+    </dif>
 </div>
 {% endblock %}

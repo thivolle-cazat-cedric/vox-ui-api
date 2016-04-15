@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, division, unicode_literals
 from flask import current_app
-from .objects.sms import Sms
+from .objects.sms import Sms, SmsRespons
 from . import connectors, check_respons
 
 
-def get_base_url():
-    return current_app.config['BASE_URL'] + '/sms/'
+def get_url(additional=None):
+    ret = current_app.config['BASE_URL'] + '/sms/'
+    if additional:
+        ret += additional
+
+    return ret
 
 
 def get(ret_object=False):
@@ -17,7 +21,7 @@ def get(ret_object=False):
 
     con = connectors()
     if con:
-        resp = con.get(get_base_url())
+        resp = con.get(get_url())
         if check_respons(resp):
             ret = resp.json().get('result', [])
             sms_list = Sms.litst_obj_from_list(ret)
@@ -51,18 +55,20 @@ def get_group_by_dest(ret_object=False, **kwargs):
 def send(message):
     if isinstance(message, Sms):
         message = message.to_dict()
-    elif isinstance(message, dict):
+    elif not isinstance(message, dict):
         raise ValueError('sms.send : arg1 must be sms instance or dict representation')
 
     con = connectors()
     data = {}
     data['phone_number'] = message['phone_number']
     data['content'] = message['content']
-    data['emitter'] = message['emitter']
+    data['emitter'] = message.get('emitter', None)
+    if not data['emitter']:
+        data.pop('emitter', None)
 
     if con is not None:
         resp = con.post(
-            get_base_url(),
+            get_url(),
             json=data,
             headers={'Content-Type': 'application/json'}
         )
@@ -72,5 +78,25 @@ def send(message):
                 return Sms(**message)
             else:
                 return Sms(**message)
+
+    return None
+
+
+def get_responses(ret_object=False, **kwargs):
+    con = connectors()
+    if con is not None:
+        resp = con.get(get_url('responses'))
+
+        if check_respons(resp):
+            responses = resp.json().get('result', None)
+            ret = []
+            if responses:
+                for response in responses:
+                    response = SmsRespons(**response)
+                    if ret_object:
+                        ret.append(response)
+                    else:
+                        ret.append(response.to_dict())
+            return ret
 
     return None

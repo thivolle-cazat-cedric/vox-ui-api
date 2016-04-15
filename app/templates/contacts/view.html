@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+{% block body %}
+    <h3>Détail du contact</h3>
+    <hr>
+    <div class="col-xs-12">
+        <table class="table table-hover">
+            <tr>
+                <td class="text-center minimal"><i class="fa fa-user"></i></td>
+                <td class="text-right"><strong>Nom</strong></td>
+                <td colspan="2">{{contact.cn}}</td>
+            </tr>
+            <tr>
+                <td class="text-center minimal"><i class="fa fa-phone"></i></td>
+                <td class="text-right "><strong>Téléphone principal</strong></td>
+                {%set val = contact.telephone_number|val_or_label("N/A") %}
+                <td {%if val == contact.telephone_number%}class="callable"{%endif%}>{{val}}</td>
+                <td class="minimal">
+                    {%if is_mobile(contact.telephone_number)%}
+                    <a href="{{url_for('SMS.new', phone_number=contact.telephone_number)}}" class="btn btn-success"><i class="fa fa-comment-o"></i></a>
+                    {%endif%}
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center minimal"><i class="fa fa-keyboard-o"></i></td>
+                <td class="text-right"><strong>raccourcie</strong> &nbsp; <i class="fa fa-angle-up"></i></td>
+                <td colspan="2">{{contact.phone_number_raccourci|val_or_label("N/A")}}</td>
+            </tr>
+            <tr>
+                <td class="text-center minimal"><i class="fa fa-phone"></i></td>
+                <td class="text-right"><strong>Téléphone secondair</strong></td>
+                {%set val = contact.mobile|val_or_label("N/A") %}
+                <td {%if val == contact.mobile%}class="callable"{%endif%}>{{val}}</td>
+                <td class="minimal">
+                    {%if is_mobile(contact.mobile)%}
+                    <a href="{{url_for('SMS.new', phone_number=contact.mobile)}}" class="btn btn-success"><i class="fa fa-comment-o"></i></a>
+                    {%endif%}
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center minimal"><i class="fa fa-keyboard-o"></i></td>
+                <td class="text-right"><strong>raccourcie</strong> &nbsp; <i class="fa fa-angle-up"></i></td>
+                <td colspan="2">{{contact.phone_mobile_raccourci|val_or_label("N/A")}}</td>
+            </tr>
+            <tr>
+                <td class="text-center minimal"><i class="fa fa-envelope"></i></td>
+                <td class="text-right"><strong>Adresse mail</strong></td>
+                <td colspan="2">{{contact.mail|val_or_label("N/A")}}</td>
+            </tr>
+        </table>
+        <hr>
+        {% if not read_only and is_admin()%}
+        <div class="btn-group btn-group-justified" role="group">
+            <a href="{{url_for('CONTACT.edit', uid=contact.uid)}}" class="btn btn-info">
+                <i class="fa fa-edit"></i>
+                Modifier
+            </a>
+            <a href="{{url_for('CONTACT.remove_warning', uid=contact.uid)}}" class="btn btn-danger">
+                <i class="fa fa-trash-o"></i>
+                Supprimer
+            </a>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}

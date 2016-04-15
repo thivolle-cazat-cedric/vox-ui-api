@@ -22,6 +22,12 @@ def sms_gp_by():
     return jsonify({'data': sms.get_group_by_dest()})
 
 
+@SMS.route('json/responses', methods=["GET"])
+@is_auth
+def sms_responses():
+    return jsonify({'data': sms.get_responses()})
+
+
 @SMS.route('', methods=["GET"])
 @SMS.route('index.html', methods=["GET"])
 @is_auth
@@ -38,7 +44,7 @@ def index():
 def new():
     return render_template(
         'sms/form.html',
-        form=SmsForm()
+        form=SmsForm(request.args)
     )
 
 
