@@ -15,7 +15,7 @@ from app.utils.jinja2_filters import number_clear, val_or_label, is_admin
 from app.voxity.objects.contact import is_mobile
 
 
-__VERSION__ = "1.0.5β"
+__VERSION__ = "1.0.6β"
 
 
 def create_app(env='prod'):
