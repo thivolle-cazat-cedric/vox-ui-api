@@ -28,12 +28,16 @@ function generate_call(exten){
 
             },
             success: function(data, status) {
-                if (data.data.status === 1) {
+                if (data.data.status === 200) {
                     toastr["success"]("Appel en cours ver le " + exten, "Click to call");
                     $('#callModal').modal('hide');
 
                 } else if(data.data.status === 500){
                     toastr["error"]("Vous avez rejetté l'appel " + exten, "Click to call");
+                } else {
+                    console.log(data);
+                    console.error("Unexpended response for generate call");
+                    toastr["warning"]("Réponse inattendue", "Click to call");
                 }
             },
             error: function(xhr, state, data){

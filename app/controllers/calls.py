@@ -15,7 +15,7 @@ def generate_call():
     if 'exten' in request.form:
         resp = channel.create(request.form['exten'])
         if resp.get('status', False):
-            if str(resp['status']) == "1":
+            if str(resp['status']) == "200":
                 return jsonify({'data': resp})
             elif str(resp['status']) == "500":
                 return jsonify({'data': resp})

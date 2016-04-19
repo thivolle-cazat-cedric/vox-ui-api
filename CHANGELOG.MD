@@ -20,6 +20,10 @@
 
 ### 1.0 βeta
 
+##### 1.0.7
+###### Améliorations & Corrections
+ - Correction de la remontée du click 2 call en erreur
+
 ##### 1.0.6
 ###### Nouveautés
  - Lorsqu'un contact possède un numéro de mobile, vous avez un lien direct pour lui envoyer un SMS.
