@@ -20,7 +20,7 @@
 
 ### 1.0 βeta
 
-##### 1.0.7
+##### 1.0.7 [:danger: en cours]
 ###### Améliorations & Corrections
  - Correction de la remontée du click 2 call en erreur
 
