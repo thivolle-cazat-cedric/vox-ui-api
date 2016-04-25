@@ -53,7 +53,10 @@
                         <i class="fa fa-cogs fa-fw"></i> Paramètres
                     </a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="{{url_for('ACCOUNT.logout_me')}}">
+                    {#<li><a href="{{url_for('ACCOUNT.logout_me')}}">
+                        <i class="fa fa-power-off text-danger fa-fw"></i> Déconnexion
+                    </a></li>#}
+                    <li><a href="https://api.voxity.fr/api/v1/login" target="_BLANK">
                         <i class="fa fa-power-off text-danger fa-fw"></i> Déconnexion
                     </a></li>
                   </ul>
