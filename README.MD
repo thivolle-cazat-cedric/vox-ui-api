@@ -57,4 +57,4 @@ SECRET_KEY = '$key'
 
 L'appliaction est lancé sur l'uri [127.0.0.1:6500](http://127.0.0.1:6500)
 
-Pour le déployer vox-ui-api, un un dossier [vox-ui-api.webstartapp.fr](./deploy) est disponible présentant des fichiers exemples.
+Pour le déployer vox-ui-api, un un dossier **deploy** est disponible présentant des fichiers exemples.
