@@ -1,22 +1,26 @@
-# Projet d'interface simplifié
+# Voxity User Interface - API 
+
+## Présentation de Vox-ui-api
+###### Projet d'interface simplifiée
 
 Basé sur [l'API Voxity](https://api.voxity.fr/doc). Cette interface vous permet de :
 
- - Lister et rechercher vos contacts
- - Lister les postes & connaitre leurs états
+ - Gérer vos contacts
+ - Lister les postes et connaitre leurs états
  - Générer des appels
- - Notification de bureau *lors d'appels entrants*
+ - Avoir des notifications de bureau *lors d'appels entrants, ou de déconnexion de son poste*
+ - Connaitre avec qui est en ligne un poste
 
-Retrouvez le site démonstration : [vox-ui-api](http://vox-ui-api.webstartapp.fr)
+Retrouvez le site démonstration : [vox-ui-api.webstartapp.fr](http://vox-ui-api.webstartapp.fr)
 
 -----
 
-# Requierment
+# Installation
+
+## Requierment
  - Python & pip
  - Virtualenv
  - Acces au site client.voxity.fr pour générer ces CLIENT_ID/CLIENT_SECRET
-
-# Installation
 
 ## Création des accès à l'API
 
@@ -27,7 +31,7 @@ Retrouvez le site démonstration : [vox-ui-api](http://vox-ui-api.webstartapp.fr
     - Url de redirection : http://127.0.0.1:6500/callback
  3. Récupérer votre client_id et votre client_secret
 
-## Installation du projet
+## Récupération et configuration de l'application
 
 ```bash
 $ git clone --recursive ssh://git@baltig.thivolle-cazat.fr:2288/root/voxity-ui-api.git
@@ -51,4 +55,6 @@ SECRET_KEY = '$key'
 (venv) $ ./manage.py runserver -p 6500
 ```
 
-L'appliaction est lancer sur l'uri [127.0.0.1:6500](http://127.0.0.1:6500)
+L'appliaction est lancé sur l'uri [127.0.0.1:6500](http://127.0.0.1:6500)
+
+Pour le déployer vox-ui-api, un un dossier [vox-ui-api.webstartapp.fr](./deploy) est disponible présentant des fichiers exemples.
