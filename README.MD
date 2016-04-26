@@ -28,7 +28,7 @@ Retrouvez le site démonstration : [vox-ui-api.webstartapp.fr](http://vox-ui-api
  1. Aller sur le site [votre compte voxity](https://client.voxity.fr/voxity-api/configuration)
  2. Cliquer sur **+**
     - Non : test ui api
-    - Url de redirection : http://127.0.0.1:6500/callback
+    - Url de redirection : http://127.0.0.1:6500/account/signin-callback
  3. Récupérer votre client_id et votre client_secret
 
 ## Récupération et configuration de l'application
