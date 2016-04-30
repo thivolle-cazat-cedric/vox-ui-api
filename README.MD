@@ -13,6 +13,8 @@ Basé sur [l'API Voxity](https://api.voxity.fr/doc). Cette interface vous permet
 
 Retrouvez le site démonstration : [vox-ui-api.webstartapp.fr](http://vox-ui-api.webstartapp.fr)
 
+L'application n'est pas proposée et ni supportée par Voxity. En cas de disfonctionnement, créez un ticket via l'outil Github 
+
 -----
 
 # Installation
@@ -39,11 +41,13 @@ $ cd voxity-ui-api
 $ virtualenv venv
 $ source venv/bin/activate
 (venv) $ pip install -r requirement.txt
+(venv) $ touch app/config/env/prod.py
 (venv) $ key=`./manage.py generate_key`
-(venv) $ echo "
-CLIENT_ID = '<your_client_id>
-CLIENT_SECRET = '<your_client_secret>'
-SECRET_KEY = '$key'
+(venv) $ client_id=<your_client_id>
+(venv) $ client_secret=<your_client_secret>
+(venv) $ echo "CLIENT_ID = '''$client_id'''
+CLIENT_SECRET = '''$client_secret'''
+SECRET_KEY = '''$key'''
 " > app/config/env/prod.py
 ```
 
@@ -56,5 +60,3 @@ SECRET_KEY = '$key'
 ```
 
 L'appliaction est lancé sur l'uri [127.0.0.1:6500](http://127.0.0.1:6500)
-
-Pour le déployer vox-ui-api, un un dossier **deploy** est disponible présentant des fichiers exemples.
