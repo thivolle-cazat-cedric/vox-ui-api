@@ -19,7 +19,9 @@ TAGS = [
     "etat des postes",
     "Samples",
     "Exemple",
-    "vox-ui-api"
+    "vox-ui-api",
+    "voxity-ui-api",
+    "voxity user interface api",
 ]
 
 
@@ -56,7 +58,20 @@ def about():
 
 @PUBLIC.route('features.html', methods=["GET"])
 def features():
-    return render_template('public/features.html', page_title="fonctionalités")
+    return render_template(
+        'public/features.html',
+        page_title="fonctionalités",
+        meta_keywords_list=TAGS
+    )
+
+
+@PUBLIC.route('screenshot.html', methods=["GET"])
+def screen():
+    return render_template(
+        'public/screen.html',
+        page_title="Captures d'écran",
+        meta_keywords_list=TAGS
+    )
 
 
 @PUBLIC.route('sitemap.xml', methods=["GET"])

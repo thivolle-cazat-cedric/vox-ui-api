@@ -63,3 +63,13 @@
     {%endif%}
 </div>
 {% endmacro %}
+
+{% macro nav_link(name, bp_endpoint, icon_class, li_class) %}
+<li class="{{li_class}}{% if bp_endpoint != '#' and url_for(bp_endpoint) == request.path %} active{% endif %}">
+    <a href="{%if bp_endpoint != '#' %}{{url_for(bp_endpoint)}}{%else%}#{%endif%}">
+        <i class="{{icon_class}} fa-fw"></i> 
+         <span class="hidden-sm hidden-xs">{{name}}</span>
+    </a>
+</li>
+{% endmacro %}
+

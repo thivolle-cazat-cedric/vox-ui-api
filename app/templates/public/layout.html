@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% from '_macro.html' import nav_link %}
 <html lang="fr">
     <head>
         <meta charset="utf-8">
@@ -64,34 +65,14 @@
 
             <nav>
                 <ul class="nav nav-pills pull-left">
-                    <li {% if url_for('PUBLIC.features') == request.path %}class="active"{% endif %}>
-                        <a href="{{url_for('PUBLIC.features')}}">
-                            <i class="fa fa-cogs fa-fw"></i> 
-                             <span class="hidden-sm hidden-xs">Fonctionnalités</span>
-                        </a>
-                    </li>
+                    {{nav_link('Fonctionnalités', 'PUBLIC.features', 'fa fa-cogs')}}
+                    {{nav_link("Captures d'écran", 'PUBLIC.screen', 'fa fa-camera')}}
                 </ul>
                 <ul class="nav nav-pills pull-right">
-                    <li {% if url_for('PUBLIC.changelog') == request.path %}class="active"{% endif %}>
-                        <a href="{{url_for('PUBLIC.changelog')}}">
-                            <i class="fa fa-tags fa-fw"></i> 
-                             <span class="hidden-sm hidden-xs">Change Log</span>
-                        </a>
-                    </li>
-
-                     <li {% if url_for('PUBLIC.about') == request.path %}class="active"{% endif %}>
-                        <a href="{{url_for('PUBLIC.about')}}">
-                            <i class="fa fa-info-circle fa-fw"></i> 
-                             <span class="hidden-sm hidden-xs">À propos</span>
-                        </a>
-                    </li>
-
-                    <li class="disabled">
-                        <a href="#">
-                            <i class="fa fa-book fa-fw"></i> 
-                             <span class="hidden-sm hidden-xs">Documentation</span>
-                        </a>
-                    </li>
+                    {{nav_link('Change Log', 'PUBLIC.changelog', 'fa fa-tags')}}
+                    {{nav_link('À propos', 'PUBLIC.about', 'fa fa-info-circle')}}
+                    {{nav_link('Documentation', '#', 'fa fa-book', 'disabled')}}
+                </ul>
             </nav>
         </div>
         {% endif %}

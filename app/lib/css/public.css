@@ -244,3 +244,19 @@ div .ombre-b{
 .features
 ###############
 */
+
+.screen-sm {
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+.screen-sm > p {
+    min-height: 20px;
+}
+.screen-zoom {
+    z-index: 1999;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+}
