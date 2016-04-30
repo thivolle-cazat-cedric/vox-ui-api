@@ -34,7 +34,7 @@ Retrouvez le site démonstration : [vox-ui-api.webstartapp.fr](http://vox-ui-api
 ## Récupération et configuration de l'application
 
 ```bash
-$ git clone --recursive ssh://git@baltig.thivolle-cazat.fr:2288/root/voxity-ui-api.git
+$ git clone --recursive https://github.com/thivolle-cazat-cedric/vox-ui-api.git
 $ cd voxity-ui-api
 $ virtualenv venv
 $ source venv/bin/activate
