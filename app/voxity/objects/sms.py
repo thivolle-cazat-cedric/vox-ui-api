@@ -137,6 +137,9 @@ class Sms(ObjectBase):
     @property
     def status_local(self):
         try:
+            if self.code == 0:
+                return self._STATUS['fr']['DELIVERED']
+
             return self._STATUS['fr'][self.status]
         except Exception:
             return self.status

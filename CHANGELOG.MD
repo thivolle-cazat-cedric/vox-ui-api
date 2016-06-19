@@ -24,6 +24,7 @@
 ###### Améliorations & Corrections
  - Correction de la remontée du click 2 call en erreur
  - Solution temporaire pour la déconnexion
+ - Correction de bug sur les status SMS
 
 ##### 1.0.6
 ###### Nouveautés

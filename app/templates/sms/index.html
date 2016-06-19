@@ -85,11 +85,13 @@
                                 <div class="row">
                                     <div class="col-xs-1 text-left">
                                         {%set tooltip_mess = s.code_message_local%}
-                                        {% if s.status == 'PENDING' %}
-                                            {% set label = 'warning'%}
-                                        {%elif s.status == 'DELIVERED'%}
+                                        {% if s.code == 0 %}
                                             {% set label = 'success'%}
-                                            {%set tooltip_mess = s.delivery_date.strftime('%d/%m/%y %H:%M')%}
+                                            {% if s.delivery_date%}
+                                                {%set tooltip_mess = s.delivery_date.strftime('%d/%m/%y %H:%M')%}
+                                            {%endif%}
+                                        {%elif s.status == 'DELIVERED'%}
+                                            {% set label = 'warning'%}
                                         {%elif s.status == 'ERROR'%}
                                             {% set label = 'danger'%}
                                         {%else%}
