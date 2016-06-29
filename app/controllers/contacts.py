@@ -219,6 +219,8 @@ def post_add():
             return redirect(url_for('.view'))
         else:
             api_errors = resp.get('error', {'internal': 'Error inconnue'})
+            if not isinstance(api_errors, dict):
+                api_errors = {'message': api_errors}
 
     return get_add(form=form, api_errors=api_errors)
 
