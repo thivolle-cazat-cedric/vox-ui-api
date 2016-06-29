@@ -6,7 +6,11 @@ from app.voxity import self_user, logout, bind, oauth_status, save_token, refres
 from app.controllers import is_auth, clear_session, valide_session
 
 
-ACCOUNT = Blueprint('ACCOUNT', __name__)
+ACCOUNT = Blueprint(
+    'ACCOUNT',
+    __name__,
+    template_folder='./templates'
+)
 LIST_AVAILABLE = [5, 10, 25, 50, 100]
 
 
@@ -28,14 +32,14 @@ def me():
 @is_auth
 def me_view():
     refresh_user_session()
-    return render_template('account/me.html')
+    return render_template('me.html')
 
 
 @ACCOUNT.route('settings/notify.html', methods=["GET"])
 def settings_notify():
     refresh_user_session()
     return render_template(
-        'account/notify.html',
+        'notify.html',
         container_class='container-fluid'
     )
 

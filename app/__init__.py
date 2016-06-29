@@ -51,10 +51,7 @@ def create_app(env='prod'):
         controllers.CALLS,
         url_prefix='/calls/'
     )
-    app.register_blueprint(
-        controllers.ACCOUNT,
-        url_prefix='/account/'
-    )
+    app.register_blueprint(controllers.ACCOUNT)
     app.register_blueprint(
         controllers.CALLS_LOG,
         url_prefix='/call_log/'
