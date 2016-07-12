@@ -46,6 +46,7 @@ function refreshState() {
 }
 $(document).ready(function() {
     $("#refresh-dashboard").click(refreshState);
+    setInterval(refreshState, 6500)
 });
 
 // var ring = 'fa fa-2x fa-fw fa-phone-square text-danger animated infinite flash'
