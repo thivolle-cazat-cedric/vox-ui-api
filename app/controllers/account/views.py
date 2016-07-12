@@ -9,7 +9,8 @@ from app.controllers import is_auth, clear_session, valide_session
 ACCOUNT = Blueprint(
     'ACCOUNT',
     __name__,
-    template_folder='./templates'
+    template_folder='./templates',
+    url_prefix='/account/'
 )
 LIST_AVAILABLE = [5, 10, 25, 50, 100]
 
@@ -21,14 +22,14 @@ def refresh_user_session():
         abort(500)
 
 
-@ACCOUNT.route('me.json', methods=["GET"])
+@ACCOUNT.route('how_i_am.json', methods=["GET"])
 @is_auth
 def me():
     refresh_user_session()
     return jsonify({'data': self_user()})
 
 
-@ACCOUNT.route('me.html', methods=["GET"])
+@ACCOUNT.route('how_i_am.html', methods=["GET"])
 @is_auth
 def me_view():
     refresh_user_session()
