@@ -33,6 +33,7 @@
 
     </head>
     <body>
+{%if config['TRACKER_FILE']%}{% include config['TRACKER_FILE'] %}{%endif%}
         {% if 'user' in session%}
         <div class="btn-group" id="user-link">
             <a href="{{url_for('ACCOUNT.signin_check')}}" class="btn btn-default">

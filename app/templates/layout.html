@@ -26,6 +26,7 @@
 
     </head>
     <body>
+{%if config['TRACKER_FILE']%}{% include config['TRACKER_FILE'] %}{%endif%}
 {% from '_macro.html' import input_text, input_text_button with context %}
         <div class="header clearfix">
             <h3 class="text-muted">
