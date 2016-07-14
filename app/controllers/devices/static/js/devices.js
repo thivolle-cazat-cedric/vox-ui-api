@@ -31,21 +31,13 @@ function updateState(deviceId, statusName, iconClass){
     icon.attr('data-original-title', statusName)
 }
 function refreshState() {
-    var icon = $("#refresh-dashboard .fa")
-    $("#refresh-dashboard").addClass('active disabled');
-    icon.addClass('fa-spin')
     getDevices(function(devices){
         if (typeof devices === 'object'){
             devices.forEach(function(device){
                 updateState(device['id'], device['state_desc'], device['icon_class']);
             });
         }
-        icon.removeClass('fa-spin');
-        $("#refresh-dashboard").removeClass('active disabled');
     })
 }
 $(document).ready(function() {
-    $("#refresh-dashboard").click(refreshState);
 });
-
-// var ring = 'fa fa-2x fa-fw fa-phone-square text-danger animated infinite flash'

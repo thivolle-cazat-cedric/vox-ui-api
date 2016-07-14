@@ -2,10 +2,6 @@
 {% block body %}
 {% set middle_visible = (devices|length / 2)| round(0,'ceil') | int%}
 
-<p class="text-center">
-    <button class="btn btn-default" type="button" id="refresh-dashboard"><i class="fa fa-refresh"></i></button>
-</p>
-
 <div class="col-xs-12 {%if col_length > 1%}col-sm-6{%endif%} {%if col_length > 2%}col-md-4{%endif%}">
     <ul class="list-group vox-blf-dashbord">
     {% for d in devices%}
