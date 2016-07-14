@@ -47,6 +47,8 @@ def create_app(env='prod'):
     app.register_blueprint(controllers.ACCOUNT)
     app.register_blueprint(controllers.CALLS_LOG)
     app.register_blueprint(controllers.SMS)
+    if app.config['DEBUG'] == True:
+        app.register_blueprint(controllers.API_PROXY)
 
     @app.route("/favicon.ico")
     def favicon():

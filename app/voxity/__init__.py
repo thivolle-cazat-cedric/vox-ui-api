@@ -137,3 +137,20 @@ def logout():
         return resp
 
     return None
+
+
+def api_proxy(uri, method, params=None, data=None):
+    method = method.lower()
+    con = connectors()
+    if uri and uri[0] != '/':
+        uri = "/" + uri
+    uri = "https://api.voxity.fr/api" + uri
+    if con is None:
+        return None
+
+    if method == 'get':
+        if params is not None and not isinstance(params, dict):
+            raise ValueError('voxity.proxy : params must be a dict')
+        resp = con.get(uri, params=params)
+
+    return resp
