@@ -3,7 +3,12 @@ from __future__ import absolute_import, division, unicode_literals
 from flask import Blueprint, render_template
 from markdown2 import markdown
 
-PUBLIC = Blueprint('PUBLIC', __name__)
+PUBLIC = Blueprint('PUBLIC',
+    __name__,
+    template_folder='templates',
+    url_prefix='/',
+    static_folder='static'
+)
 
 DESC = "Projet libre d'application web présentant les possibilités "
 DESC += "d'intégration de l'API Voxity. Click2call, notification "
@@ -76,4 +81,4 @@ def screen():
 
 @PUBLIC.route('sitemap.xml', methods=["GET"])
 def sitemap():
-    return render_template('sitemap.xml'), 200, {'Content-Type': 'text/xml; charset=utf-8'}
+    return render_template('public/sitemap.xml'), 200, {'Content-Type': 'text/xml; charset=utf-8'}

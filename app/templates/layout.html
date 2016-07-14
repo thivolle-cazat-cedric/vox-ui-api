@@ -85,8 +85,8 @@
                             <span class="hidden-sm hidden-xs">SMS</span>
                         </a>
                     </li>
-                    <li role="presentation" {% if url_for('DEVICES.devices_view').split('/')[1] in request.path %}class="active"{% endif %}>
-                        <a href="{{url_for('DEVICES.devices_view')}}">
+                    <li role="presentation" {% if url_for('DEVICES.index').split('/')[1] in request.path %}class="active"{% endif %}>
+                        <a href="{{url_for('DEVICES.index')}}">
                             <i class="fa fa-dashboard"></i>
                             <span class="hidden-sm hidden-xs">Tableau de bord</span>
                         </a>
@@ -149,7 +149,7 @@
             <script type="text/javascript">
                 var token = "{{session['oauth_token']['access_token']}}";
                 var myExtension = "{{session['user']['internalExtension']}}";
-                var DASHBOARD_URI = "{{url_for('DEVICES.devices_view')}}";
+                var DASHBOARD_URI = "{{url_for('DEVICES.index')}}";
             </script>
             <script src="{{url_for('static', filename='js/events.js')}}"></script>
         {%endif%}

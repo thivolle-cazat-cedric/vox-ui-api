@@ -7,14 +7,18 @@ from app.controllers import is_auth
 from app.utils import roundup
 
 
-DEVICES = Blueprint('DEVICES', __name__)
+DEVICES = Blueprint('DEVICES',
+    __name__,
+    template_folder='templates',
+    url_prefix='/devices/',
+    static_folder='static'
+)
 
 
-@DEVICES.route('view.html', methods=["GET"])
+@DEVICES.route('index.html', methods=["GET"])
 @is_auth
-def devices_view():
+def index():
     item_per_lst = 4
-
     devices = device.get(ret_object=True, sort_by_extention=True)
     total_devices = len(devices)
     col = roundup(total_devices / item_per_lst)
@@ -36,6 +40,12 @@ def devices_view():
     )
 
 
+@DEVICES.route('index.json', methods=["GET"])
+@is_auth
+def devices_json():
+    return jsonify({'data': device.get()})
+
+
 @DEVICES.route('<device_id>.html', methods=["GET"])
 @is_auth
 def device_view(device_id=None):
@@ -49,13 +59,7 @@ def device_view(device_id=None):
     )
 
 
-@DEVICES.route('json/', methods=["GET"])
-@is_auth
-def devices_json():
-    return jsonify({'data': device.get()})
-
-
-@DEVICES.route('json/<device_id>', methods=["GET"])
+@DEVICES.route('<device_id>.json', methods=["GET"])
 @is_auth
 def device_json(device_id):
     return jsonify({'data': device.get_id(device_id)})

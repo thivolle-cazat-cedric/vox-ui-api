@@ -33,40 +33,20 @@ def create_app(env='prod'):
         static_folder="app/lib"
     )
     config_loader(app.config, env)
-
-    app.register_blueprint(
-        controllers.PUBLIC,
-        url_prefix='/'
-    )
-    app.register_blueprint(
-        controllers.DEVICES,
-        url_prefix='/devices/'
-    )
-    app.register_blueprint(
-        controllers.CONTACT,
-        url_prefix='/contacts/'
-    )
-
-    app.register_blueprint(
-        controllers.CALLS,
-        url_prefix='/calls/'
-    )
-    app.register_blueprint(controllers.ACCOUNT)
-    app.register_blueprint(
-        controllers.CALLS_LOG,
-        url_prefix='/call_log/'
-    )
-    app.register_blueprint(
-        controllers.SMS,
-        url_prefix='/sms/'
-    )
+    app.config['__VERSION__'] = __VERSION__
 
     app.jinja_env.filters['num_clear_format'] = number_clear
     app.jinja_env.filters['val_or_label'] = val_or_label
     app.jinja_env.globals['is_admin'] = is_admin
     app.jinja_env.globals['is_mobile'] = is_mobile
 
-    app.config['__VERSION__'] = __VERSION__
+    app.register_blueprint(controllers.PUBLIC)
+    app.register_blueprint(controllers.DEVICES)
+    app.register_blueprint(controllers.CONTACT)
+    app.register_blueprint(controllers.CALLS)
+    app.register_blueprint(controllers.ACCOUNT)
+    app.register_blueprint(controllers.CALLS_LOG)
+    app.register_blueprint(controllers.SMS)
 
     @app.route("/favicon.ico")
     def favicon():

@@ -7,7 +7,11 @@ from app.controllers import is_auth
 from app.utils import value_or_zero
 
 
-CALLS_LOG = Blueprint('CALLS_LOG', __name__)
+CALLS_LOG = Blueprint('CALLS_LOG',
+    __name__,
+    template_folder='templates',
+    url_prefix='/calls_log/'
+)
 
 LIST_AVAILABLE = [5, 10, 25, 50, 100]
 

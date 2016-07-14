@@ -7,7 +7,12 @@ from app.voxity.objects.sms import SmsForm, Sms
 from app.controllers import is_auth
 
 
-SMS = Blueprint('SMS', __name__)
+SMS = Blueprint('SMS',
+    __name__,
+    template_folder='templates',
+    url_prefix='/sms/',
+    static_folder='static'
+)
 
 
 @SMS.route('json/', methods=["GET"])

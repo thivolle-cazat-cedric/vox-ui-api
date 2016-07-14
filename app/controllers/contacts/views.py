@@ -8,7 +8,11 @@ from app.utils import value_or_zero
 from app.voxity.objects.contact import ContactForm
 
 
-CONTACT = Blueprint('CONTACT', __name__)
+CONTACT = Blueprint('CONTACT',
+    __name__,
+    template_folder='templates',
+    url_prefix='/contacts/'
+)
 LIST_AVAILABLE = [5, 10, 25, 50, 100]
 
 
@@ -95,7 +99,7 @@ def search():
 
     c = contact.get(cn=form_value['name'], ret_object=True)
     return render_template(
-        'contacts/index.html',
+        'contact/index.html',
         container_class='container-fluid',
         contacts=c['list'],
         item="all",
@@ -180,7 +184,7 @@ def whois_view():
         return redirect(url_for('.view_uid', uid=name_list[0].uid))
     else:
         return render_template(
-            'contacts/index.html',
+            'contact/index.html',
             container_class='container-fluid',
             contacts=name_list,
             item="all",
@@ -197,7 +201,7 @@ def get_add(form=None, api_errors=None):
     if form:
         validate_state = True
     return render_template(
-        'contacts/form.html',
+        'contact/form.html',
         form=form or ContactForm(),
         api_errors=api_errors,
         validate_state=validate_state
@@ -233,7 +237,7 @@ def view_local(num):
     )
 
     return render_template(
-        'contacts/view.html',
+        'contact/view.html',
         contact=c,
         read_only=True
     ).encode('utf-8')
@@ -247,7 +251,7 @@ def view_uid(uid):
         abort(404)
 
     return render_template(
-        'contacts/view.html',
+        'contact/view.html',
         contact=c,
     ).encode('utf-8')
 
@@ -260,7 +264,7 @@ def edit(uid=None):
     if c:
         c_form = ContactForm(**c.to_dict())
         return render_template(
-            'contacts/form.html',
+            'contact/form.html',
             form=c_form,
             edit_mode=True
         ).encode('utf-8')
@@ -289,7 +293,7 @@ def edit_save(uid=None):
             return redirect(url_for('.view'))
         else:
             return render_template(
-                'contacts/form.html',
+                'contact/form.html',
                 form=c_form,
                 edit_mode=True,
                 api_errors=resp.get('error', {}),
@@ -297,7 +301,7 @@ def edit_save(uid=None):
             ).encode('utf-8')
     else:
         return render_template(
-            'contacts/form.html',
+            'contact/form.html',
             form=c_form,
             edit_mode=True,
             validate_state=True
@@ -313,7 +317,7 @@ def remove_warning(uid):
         abort(404)
 
     return render_template(
-        'contacts/remove.html',
+        'contact/remove.html',
         contact=c
     ).encode('utf-8')
 

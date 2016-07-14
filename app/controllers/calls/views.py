@@ -6,7 +6,10 @@ from app.controllers import is_auth
 from app.voxity import channel
 
 
-CALLS = Blueprint('CALLS', __name__)
+CALLS = Blueprint('CALLS',
+    __name__,
+    url_prefix='/calls/'
+)
 
 
 @CALLS.route('generate', methods=["POST"])
