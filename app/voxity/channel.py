@@ -29,10 +29,14 @@ def get(ret_object=False, **kwargs):
         resp = con.get(get_base_url(), params=kwargs)
         if check_respons(resp):
             ret = resp.json().get('result', [])
+            ret = Channel.litst_obj_from_list(ret, **kwargs)
             if not ret_object:
-                return ret
+                r = []
+                for c in ret:
+                    r.append(c.to_dict())
+                    return r
             else:
-                return Channel.litst_obj_from_list(ret, **kwargs)
+                return ret
 
     return None
 

@@ -84,3 +84,9 @@ class Channel(ObjectBase):
             return self._FA_ICON[self.channel_state]
         except Exception:
             return "fa fa-question-circle"
+
+    def to_dict(self):
+        d = super(Channel, self).to_dict()
+        d['is_incomming_call'] = self.is_incomming_call()
+        d['icon_class'] = self.get_icon_stat()
+        return d

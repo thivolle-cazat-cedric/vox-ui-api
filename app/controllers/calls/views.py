@@ -39,7 +39,7 @@ def channels_json():
     return jsonify({'data': channel.get_local_filter(**filter_query)})
 
 
-@CALLS.route('<device_id>.json', methods=["GET"])
+@CALLS.route('<id>.json', methods=["GET"])
 @is_auth
-def channel_json(device_id):
-    return jsonify({'data': channel.get_id(device_id)})
+def channel_json(id):
+    return jsonify({'data': channel.get_id(id)})

@@ -2,6 +2,22 @@
 {% block body %}
 {% set middle_visible = (devices|length / 2)| round(0,'ceil') | int%}
 
+<div class="col-xs-12 text-right">
+
+    <div class="row">
+        <div class="col-xs-12 text-right col-offset-sm-2 col-sm-10">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default disabled" disabled="disabled" id="show-contact">
+                    <i class="fa fa-users"></i>
+                </button>
+                <button type="button" class="btn btn-default" id="show-channels">
+                    <i class="fa fa-volume-control-phone"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+<hr>
+</div>
 <div class="col-xs-12 {%if col_length > 1%}col-sm-6{%endif%} {%if col_length > 2%}col-md-4{%endif%}">
     <ul class="list-group vox-blf-dashbord">
     {% for d in devices%}
@@ -81,6 +97,24 @@
 </div>
 {%endif%}
 
+<!-- Modal -->
+<div class="modal fade" id="main-modal" tabindex="-1" role="dialog" aria-labelledby="mm-head">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="mm-head">Modal title</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 {% endblock %}
 
@@ -99,4 +133,5 @@
         }
     </script>
     <script src="{{url_for('DEVICES.static', filename='js/devices.js')}}"></script>
+    <script src="{{url_for('static', filename='js/dashboard.js')}}"></script>
 {% endblock %}
