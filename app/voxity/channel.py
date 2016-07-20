@@ -34,7 +34,7 @@ def get(ret_object=False, **kwargs):
                 r = []
                 for c in ret:
                     r.append(c.to_dict())
-                    return r
+                return r
             else:
                 return ret
 

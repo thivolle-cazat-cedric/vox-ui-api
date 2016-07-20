@@ -10,7 +10,7 @@ var DEVICE_CLASS = {
 
 function getDevices(done){
     $.ajax({
-        url: "/devices/json/",
+        url: "/devices/index.json",
         method: "GET",
         success: function(d, status) {
             if (d.data) {

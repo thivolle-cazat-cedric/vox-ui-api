@@ -1,4 +1,5 @@
 var LOADCALSS = "fa-circle-o-notch fa-spin";
+var REG_INTERNAL_EXTEN = /^[1-7]\d{2,3}$/
 
 
 function getDeviceChanels(deviceId, done){
@@ -69,25 +70,23 @@ function createPannel(exten, channels){
     console.log(channels)
     if (Array.isArray(channels)) {
         var panel = ''; 
-        panel += '<div class="row">'
-            panel += '<div class="col-xs-12 col-md-6">'
-                panel += '<div class="panel panel-default">';
-                    panel += '<div class="panel-heading" role="tab" id="headingOne">';
-                        panel += '<h4 class="panel-title">';
-                            panel += '<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">';
-                                panel += exten;
-                                panel += '<span class="label label-default pull-right">'+ channels.length +'</span>';
-                            panel += '</a>';
-                        panel += '</h4>';
-                    panel += '</div>';
-                    panel += '<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">';
-                        panel += '<div class="panel-body">';
-                            panel += '<ul class="list-group">';
-                                channels.forEach(function(elt){
-                                    panel += rowChannel(elt);
-                                })
-                            panel += '</ul>';
-                        panel += '</div>';
+        panel += '<div class="col-xs-12 col-md-6">'
+            panel += '<div class="panel panel-default">';
+                panel += '<div class="panel-heading" role="tab" id="headingOne">';
+                    panel += '<h4 class="panel-title">';
+                        panel += '<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">';
+                            panel += exten;
+                            panel += '<span class="label label-default pull-right">'+ channels.length +'</span>';
+                        panel += '</a>';
+                    panel += '</h4>';
+                panel += '</div>';
+                panel += '<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">';
+                    panel += '<div class="panel-body">';
+                        panel += '<ul class="list-group">';
+                            channels.forEach(function(elt){
+                                panel += rowChannel(elt);
+                            })
+                        panel += '</ul>';
                     panel += '</div>';
                 panel += '</div>';
             panel += '</div>';
@@ -107,22 +106,27 @@ function generateModalContent(view){
             if(!err){
                 channels = {};
                 chan.forEach(function(c){
-                    if(c.is_incomming_call){
-                        if (!c.transfer_to) {
-                            var exten = c.exten;
-                        } else {
-                            var exten = c.transfer_to;
-                        }
-                    }
+                    var exten = c.exten;
+                    // if(c.is_incomming_call){
+                    //     if (!c.transfer_to) {
+                    //         var exten = c.exten;
+                    //     } else {
+                    //         var exten = c.transfer_to;
+                    //     }
+                    // }
                     if (channels[exten] === undefined) {
                         channels[exten] = [];
                     }
                     channels[exten].push(c)
                 })
-                var body = "";
-                $.each(channels, function(value, ext){
-                    body += createPannel(value, ext)
+                var body = '<div class="row">';
+                $.each(channels, function(ext, value){
+                    console.log()
+                    if (REG_INTERNAL_EXTEN.test(ext)) {
+                        body += createPannel(ext, value)
+                    }
                 })
+                body+= '</div'
                 $('#main-modal .modal-body').html(body)
                 $('#main-modal').modal('show');
                 $('#show-channels > i ').removeClass(LOADCALSS).addClass('fa-volume-control-phone');
