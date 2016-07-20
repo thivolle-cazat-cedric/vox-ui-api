@@ -40,4 +40,5 @@ function refreshState() {
     })
 }
 $(document).ready(function() {
+    setInterval(refreshState, 6500)
 });

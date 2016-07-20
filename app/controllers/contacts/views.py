@@ -223,6 +223,8 @@ def post_add():
             return redirect(url_for('.view'))
         else:
             api_errors = resp.get('error', {'internal': 'Error inconnue'})
+            if not isinstance(api_errors, dict):
+                api_errors = {'message': api_errors}
 
     return get_add(form=form, api_errors=api_errors)
 
@@ -288,15 +290,20 @@ def edit_save(uid=None):
     if c_form.validate():
         c = c_form.get_object(contact.Contact)
         resp = contact.update(**c.to_dict(is_query=True))
-        if resp and resp.get('result') and resp.get('result').get('uid', None) == uid and not resp.get('errors'):
+        if resp and resp.get('result') and resp.get('result').get('uid', None) == uid and not resp.get('errors') and not resp.get('error'):
             session['update_contact'] = c.to_dict()
             return redirect(url_for('.view'))
         else:
+            error = resp.get('error', {})
+            if not isinstance(error, dict):
+                error = {
+                    'message': error
+                }
             return render_template(
                 'contact/form.html',
                 form=c_form,
                 edit_mode=True,
-                api_errors=resp.get('error', {}),
+                api_errors=error,
                 validate_state=True
             ).encode('utf-8')
     else:

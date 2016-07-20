@@ -89,8 +89,8 @@ class Contact(ObjectBase):
         dico = super(Contact, self).to_dict()
         if is_query:
             dico['telephoneNumber'] = dico.pop('telephone_number', None)
-            dico['phonenumberraccourci'] = dico.pop('phone_number_raccourci', None)
-            dico['employeenumber'] = dico.pop('phone_mobile_raccourci', None)
+            dico['phoneNumberRaccourci'] = dico.pop('phone_number_raccourci', None)
+            dico['employeeNumber'] = dico.pop('phone_mobile_raccourci', None)
 
         return dico
 
