@@ -53,6 +53,69 @@ function generate_call(exten){
     }
 }
 
+function findNAme(){
+    if ($('[data-whois-num]').length > 2) {
+        $.ajax({
+        url: "/contacts/all.json",
+        method: "GET",
+        success: function(d, status) {
+                if (d.data) {
+                    var contacts = {};
+                    d.data.forEach(function(el) {
+                        if (el['telephoneNumber']) {
+
+                            if (contacts[el['telephoneNumber']] === undefined) {
+                                contacts[el['telephoneNumber']] = [];
+                            }
+                            contacts[el['telephoneNumber']].push(el['cn'])
+                        }
+
+                        if (el['mobile']) {
+
+                            if (contacts[el['mobile']] === undefined) {
+                                contacts[el['mobile']] = [];
+                            }
+                            contacts[el['mobile']].push(el['cn'])
+                        }
+                    });
+                    $('[data-whois-num]').each(function() {
+                        var num = $(this).attr('data-whois-num');
+                        var elt = this;
+                        if (contacts[num]) {
+                            var t = contacts[num][0]
+                            if ($(elt).attr('data-whois-suf')) {
+                                t += $(elt).attr('data-whois-suf');
+                            }
+                            $(this).text(t)
+                            $(this).attr('style', 'display:inline');
+                        }
+                    });
+                } else {
+                    console.error("Unknow respons");
+                }
+            },
+            error: function(xhr, state, d){
+                console.error("can find name");
+            }
+        });
+    } else if($('[data-whois-num]').length < 7){
+        $('[data-whois-num]').each(function() {
+            var elt = this;
+            whois($(this).attr('data-whois-num'), function(err, names){
+                if (!err && names[0]){
+                    var t = names[0].cn
+                    if ($(elt).attr('data-whois-suf')) {
+                        t += $(elt).attr('data-whois-suf');
+                    }
+                    $(elt).text(t)
+                    $(elt).attr('style', 'display:inline');
+                }
+            })
+        })
+
+    }
+}
+
 function whois(number, done){
     if (number) {
         $.ajax({
@@ -222,67 +285,9 @@ $(document).ready(function() {
                 else if (tag != 'input' && event.charCode == 104 && window.location.pathname != DASHBOARD_URI) {window.location.pathname = DASHBOARD_URI;}
             }
         }
+        findNAme();
     });
 
-    if ($('[data-whois-num]').length > 2) {
-        $.ajax({
-        url: "/contacts/all.json",
-        method: "GET",
-        success: function(d, status) {
-                if (d.data) {
-                    var contacts = {};
-                    d.data.forEach(function(el) {
-                        if (el['telephoneNumber']) {
-
-                            if (contacts[el['telephoneNumber']] === undefined) {
-                                contacts[el['telephoneNumber']] = [];
-                            }
-                            contacts[el['telephoneNumber']].push(el['cn'])
-                        }
-
-                        if (el['mobile']) {
-
-                            if (contacts[el['mobile']] === undefined) {
-                                contacts[el['mobile']] = [];
-                            }
-                            contacts[el['mobile']].push(el['cn'])
-                        }
-                    });
-                    $('[data-whois-num]').each(function() {
-                        var num = $(this).attr('data-whois-num');
-                        var elt = this;
-                        if (contacts[num]) {
-                            var t = contacts[num][0]
-                            if ($(elt).attr('data-whois-suf')) {
-                                t += $(elt).attr('data-whois-suf');
-                            }
-                            $(this).text(t)
-                            $(this).attr('style', 'display:inline');
-                        }
-                    });
-                } else {
-                    console.error("Unknow respons");
-                }
-            },
-            error: function(xhr, state, d){
-                console.error("can find name");
-            }
-        });
-    } else if($('[data-whois-num]').length < 7){
-        $('[data-whois-num]').each(function() {
-            var elt = this;
-            whois($(this).attr('data-whois-num'), function(err, names){
-                if (!err && names[0]){
-                    var t = names[0].cn
-                    if ($(elt).attr('data-whois-suf')) {
-                        t += $(elt).attr('data-whois-suf');
-                    }
-                    $(elt).text(t)
-                    $(elt).attr('style', 'display:inline');
-                }
-            })
-        })
-
-    }
+    
 
 });

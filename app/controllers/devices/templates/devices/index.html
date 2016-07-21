@@ -10,7 +10,7 @@
                 <button type="button" class="btn btn-default disabled" disabled="disabled" id="show-contact">
                     <i class="fa fa-users"></i>
                 </button>
-                <button type="button" class="btn btn-default" id="show-channels">
+                <button type="button" class="btn btn-default" id="show-channels" data-toggle="tooltip" title="Appels en cours">
                     <i class="fa fa-volume-control-phone"></i>
                 </button>
             </div>
@@ -98,7 +98,7 @@
 {%endif%}
 
 <!-- Modal -->
-<div class="modal fade" id="main-modal" tabindex="-1" role="dialog" aria-labelledby="mm-head">
+<div class="modal fade" id="main-modal" tabindex="-1" role="dialog" aria-labelledby="mm-head" data-view="">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -109,6 +109,7 @@
 
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-toggle="tooltip" title="Actualiser" id="mm-refresh"><i class="fa fa-refresh"></i></button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>

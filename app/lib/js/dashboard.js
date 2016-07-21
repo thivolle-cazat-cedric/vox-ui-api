@@ -45,7 +45,7 @@ function rowChannel(channel){
     } else {
         var faClass = 'fa-arrow-up';
         var directionClass = 'list-group-item-info';
-        var name = channel.callee_num;
+        var name = channel.caller_name;
         var num = channel.caller_num;
     }
 
@@ -67,7 +67,6 @@ function rowChannel(channel){
 }
 
 function createPannel(exten, channels){
-    console.log(channels)
     if (Array.isArray(channels)) {
         var panel = ''; 
         panel += '<div class="col-xs-12 col-md-6">'
@@ -93,7 +92,6 @@ function createPannel(exten, channels){
         panel += '</div>';
         return panel;
     } else {
-        console.log("channels must be an array");
         return ""
     }
     
@@ -102,6 +100,9 @@ function createPannel(exten, channels){
 function generateModalContent(view){
     var views = {}
     views.channels = function(){
+        $('#mm-refresh i').removeClass('fa-refresh').addClass(LOADCALSS);
+        $('#mm-refresh').attr('disabled', 'disabled');
+        $('#main-modal .modal-header .modal-title').text('Appels en cours');
         getChannels(function(err, chan){
             if(!err){
                 channels = {};
@@ -121,27 +122,40 @@ function generateModalContent(view){
                 })
                 var body = '<div class="row">';
                 $.each(channels, function(ext, value){
-                    console.log()
                     if (REG_INTERNAL_EXTEN.test(ext)) {
                         body += createPannel(ext, value)
                     }
                 })
                 body+= '</div'
-                $('#main-modal .modal-body').html(body)
+                $('#main-modal .modal-body').html(body);
                 $('#main-modal').modal('show');
-                $('#show-channels > i ').removeClass(LOADCALSS).addClass('fa-volume-control-phone');
 
+            } else {
+                toastr["warning"]("Réponse inattendue lors du chragement des appels", "Appels en cours");
             }
+            $('#mm-refresh i').removeClass(LOADCALSS).addClass('fa-refresh');
+            $('#mm-refresh').removeAttr('disabled')
+            $('#show-channels > i ').removeClass(LOADCALSS).addClass('fa-volume-control-phone');
+            findNAme();
         })
     }
-    views[view]();
+    if (views[view]) {
+        views[view]();
+        $('#main-modal').attr('data-view', view)
+    // } else {
+        // $('#main-modal').attr('data-view', '')
+    }
 }
 
 
 $(document).ready(function() {
     $("#show-channels").on('click', function(){
         $('#show-channels > i ').removeClass('fa-volume-control-phone').addClass(LOADCALSS);
-        $('#main-modal .modal-header .modal-title').text('Appels en cours')
         generateModalContent('channels');
     })
+
+    $('#mm-refresh').on('click', function(){
+        generateModalContent($('#main-modal').attr('data-view'))
+    })
+
 });
