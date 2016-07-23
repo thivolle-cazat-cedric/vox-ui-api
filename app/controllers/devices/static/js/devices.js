@@ -40,5 +40,19 @@ function refreshState() {
     })
 }
 $(document).ready(function() {
-    setInterval(refreshState, 6500)
+    var autoRefresh = setInterval(refreshState, 6500);
+    $('#channels-auto-refresh').click(function(){
+        if ($('#channels-auto-refresh i').hasClass('fa-check-square-o')) {
+            $(this).removeClass('active');
+            clearInterval(autoRefresh);
+            $('#channels-auto-refresh i').removeClass('fa-check-square-o').addClass('fa-square-o');
+            autoRefresh = null
+        } else {
+            $(this).addClass('active');
+            $('#channels-auto-refresh i').removeClass('fa-square-o').addClass('fa-check-square-o');
+            refreshState();
+            autoRefresh = setInterval(refreshState, 6500);
+        }
+    })
+
 });

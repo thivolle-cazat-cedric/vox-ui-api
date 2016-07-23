@@ -10,11 +10,14 @@
     <div class="row">
         <div class="col-xs-12 text-right col-offset-sm-2 col-sm-10">
             <div class="btn-group">
-                <button type="button" class="btn btn-default" id="show-contact">
+                <button type="button" class="btn btn-default" id="show-contact" data-toggle="tooltip" title="Contacts">
                     <i class="fa fa-users"></i>
                 </button>
                 <button type="button" class="btn btn-default" id="show-channels" data-toggle="tooltip" title="Appels en cours">
                     <i class="fa fa-volume-control-phone"></i>
+                </button>
+                <button type="button" class="btn btn-default active" id="channels-auto-refresh" data-toggle="tooltip" title="Actualisation automatique">
+                    <i class="fa fa-check-square-o"></i>
                 </button>
             </div>
         </div>
@@ -118,7 +121,6 @@
         </div>
     </div>
 </div>
-
 
 {% endblock %}
 
