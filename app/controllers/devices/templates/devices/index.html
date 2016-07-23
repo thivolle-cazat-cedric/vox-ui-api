@@ -1,4 +1,7 @@
 {% extends "layout.html" %}
+{% block csss %}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/jqc-1.12.3/dt-1.10.12/r-2.1.0/datatables.min.css"/>
+{%endblock%}
 {% block body %}
 {% set middle_visible = (devices|length / 2)| round(0,'ceil') | int%}
 
@@ -7,7 +10,7 @@
     <div class="row">
         <div class="col-xs-12 text-right col-offset-sm-2 col-sm-10">
             <div class="btn-group">
-                <button type="button" class="btn btn-default disabled" disabled="disabled" id="show-contact">
+                <button type="button" class="btn btn-default" id="show-contact">
                     <i class="fa fa-users"></i>
                 </button>
                 <button type="button" class="btn btn-default" id="show-channels" data-toggle="tooltip" title="Appels en cours">
@@ -123,7 +126,7 @@
     <link rel="stylesheet" href="{{url_for('static', filename='res/animate.min.css')}}">
 {% endblock %}
 
-{% block jsscript %}
+{% block jsscript %} 
     <script>
         {%if devices|length%}
         var STATES_TRANSLATE ={ {%for lg in devices[0]._DESCRIPTION.keys() %}
@@ -135,4 +138,6 @@
     </script>
     <script src="{{url_for('DEVICES.static', filename='js/devices.js')}}"></script>
     <script src="{{url_for('static', filename='js/dashboard.js')}}"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.12/datatables.min.js"></script>
+
 {% endblock %}
