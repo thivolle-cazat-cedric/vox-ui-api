@@ -162,12 +162,17 @@ function generateModalContent(view){
                     channels[exten].push(c)
                 })
                 var body = '<div class="row">';
-                $.each(channels, function(ext, value){
-                    if (REG_INTERNAL_EXTEN.test(ext)) {
-                        body += createPannel(ext, value)
-                    }
-                })
-                body+= '</div'
+                if (channels.length > 0){
+
+                    $.each(channels, function(ext, value){
+                        if (REG_INTERNAL_EXTEN.test(ext)) {
+                            body += createPannel(ext, value);
+                        }
+                    })
+                } else {
+                    body += '<div class="alert alert-info text-center"> Aucun appel en cours</div>';
+                }
+                body+= '</div>';
                 $('#main-modal .modal-body').html(body);
                 $('#main-modal').modal('show');
 
