@@ -68,7 +68,7 @@
             </h3>
             <nav>
                 <ul class="nav nav-pills pull-left">
-                    <li {% if '/'.join((url_for('CALLS_LOG.json_data').split('/')[0:-1])) in request.path %}class="active"{% endif %}>
+                    <li class="disabled {% if '/'.join((url_for('CALLS_LOG.json_data').split('/')[0:-1])) in request.path %}active{% endif %}">
                         <a href="{{url_for('CALLS_LOG.view', **{'direction':'incoming'})}}">
                             <i class="fa fa-newspaper-o"></i> 
                              <span class="hidden-sm hidden-xs">Journal</span>
