@@ -14,14 +14,16 @@
 
 ### 1.1 βeta [:danger: en cours]
 
- - [X] Ajout d'un contact 
- - [X] Édition d'un contact
  - [ ] Déconnexion *(la déconnexion n'est pas fonctionnelle, il faut ce déconnecter via l'API directement)*
+
+##### 1.1.0 βeta
+ - Tableau de bord revu, accès rapide aux contacts, et aux appels en cours
+ - Rafréchissement automatique de l'état des postes
+ - Correction de bug mineur
 
 ### 1.0 βeta
 
-##### 1.0.7 [:danger: en cours]
-###### Améliorations & Corrections
+##### 1.0.7
  - Correction de la remontée du click 2 call en erreur
  - Solution temporaire pour la déconnexion
  - Correction de bug sur les status SMS
