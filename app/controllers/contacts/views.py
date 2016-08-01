@@ -11,12 +11,12 @@ from app.voxity.objects.contact import ContactForm
 CONTACT = Blueprint('CONTACT',
     __name__,
     template_folder='templates',
-    url_prefix='/contacts/'
+    url_prefix='/contacts'
 )
 LIST_AVAILABLE = [5, 10, 25, 50, 100]
 
 
-@CONTACT.route('all.json', methods=["GET"])
+@CONTACT.route('/all.json', methods=["GET"])
 @is_auth
 def json_data():
     resp = contact.get().get('list', [])
@@ -28,8 +28,8 @@ def json_data():
     return jsonify({'data': resp})
 
 
-@CONTACT.route('', methods=["GET"])
-@CONTACT.route('index.html', methods=["GET"])
+@CONTACT.route('/', methods=["GET"])
+@CONTACT.route('/index.html', methods=["GET"])
 @is_auth
 def view():
 
@@ -77,7 +77,7 @@ def view():
     ).encode('utf-8')
 
 
-@CONTACT.route('<uid>.json', methods=["GET"])
+@CONTACT.route('/<uid>.json', methods=["GET"])
 @is_auth
 def contact_uid(uid=None):
     c = contact.get_uid(uid=uid)
@@ -87,7 +87,7 @@ def contact_uid(uid=None):
         abort(404)
 
 
-@CONTACT.route('search.html', methods=['GET'])
+@CONTACT.route('/search.html', methods=['GET'])
 @is_auth
 def search():
     c = list()
@@ -109,7 +109,7 @@ def search():
     ).encode('utf-8')
 
 
-@CONTACT.route('search.json', methods=['GET'])
+@CONTACT.route('/search.json', methods=['GET'])
 @is_auth
 def search_json():
     search = dict()
@@ -120,7 +120,7 @@ def search_json():
     return jsonify({'data': c})
 
 
-@CONTACT.route('whois.json', methods=['GET'])
+@CONTACT.route('/whois.json', methods=['GET'])
 @is_auth
 def whois():
 
@@ -150,7 +150,7 @@ def whois():
     return jsonify({'data': name_list})
 
 
-@CONTACT.route('whois.html', methods=['GET'])
+@CONTACT.route('/whois.html', methods=['GET'])
 @is_auth
 def whois_view():
 
@@ -193,7 +193,7 @@ def whois_view():
         ).encode('utf-8')
 
 
-@CONTACT.route('add.html', methods=['GET'])
+@CONTACT.route('/add.html', methods=['GET'])
 @is_auth
 @is_admin
 def get_add(form=None, api_errors=None):
@@ -208,7 +208,7 @@ def get_add(form=None, api_errors=None):
     ).encode('utf-8')
 
 
-@CONTACT.route('add.html', methods=['POST'])
+@CONTACT.route('/add.html', methods=['POST'])
 @is_auth
 @is_admin
 def post_add():
@@ -229,7 +229,7 @@ def post_add():
     return get_add(form=form, api_errors=api_errors)
 
 
-@CONTACT.route('local-<num>.html', methods=["GET"])
+@CONTACT.route('/local-<num>.html', methods=["GET"])
 @is_auth
 def view_local(num):
     c = contact.Contact(
@@ -245,7 +245,7 @@ def view_local(num):
     ).encode('utf-8')
 
 
-@CONTACT.route('<uid>.html', methods=["GET"])
+@CONTACT.route('/<uid>.html', methods=["GET"])
 @is_auth
 def view_uid(uid):
     c = contact.get_uid(uid=uid, ret_object=True)
@@ -258,7 +258,7 @@ def view_uid(uid):
     ).encode('utf-8')
 
 
-@CONTACT.route('edit/<uid>.html', methods=["GET"])
+@CONTACT.route('/edit/<uid>.html', methods=["GET"])
 @is_auth
 @is_admin
 def edit(uid=None):
@@ -274,7 +274,7 @@ def edit(uid=None):
         abort(404)
 
 
-@CONTACT.route('edit/<uid>.html', methods=["POST"])
+@CONTACT.route('/edit/<uid>.html', methods=["POST"])
 @is_auth
 @is_admin
 def edit_save(uid=None):
@@ -315,7 +315,7 @@ def edit_save(uid=None):
         ).encode('utf-8')
 
 
-@CONTACT.route('remove-<uid>.html', methods=["GET"])
+@CONTACT.route('/remove-<uid>.html', methods=["GET"])
 @is_auth
 @is_admin
 def remove_warning(uid):
@@ -329,7 +329,7 @@ def remove_warning(uid):
     ).encode('utf-8')
 
 
-@CONTACT.route('remove-<uid>.html', methods=["POST"])
+@CONTACT.route('/remove-<uid>.html', methods=["POST"])
 @is_auth
 @is_admin
 def remove(uid):

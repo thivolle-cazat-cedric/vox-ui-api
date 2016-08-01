@@ -10,31 +10,31 @@ from app.controllers import is_auth
 SMS = Blueprint('SMS',
     __name__,
     template_folder='templates',
-    url_prefix='/sms/',
+    url_prefix='/sms',
     static_folder='static'
 )
 
 
-@SMS.route('json/', methods=["GET"])
+@SMS.route('/json/', methods=["GET"])
 @is_auth
 def sms_json():
     return jsonify({'data': sms.get()})
 
 
-@SMS.route('json/group_by_dest', methods=["GET"])
+@SMS.route('/json/group_by_dest', methods=["GET"])
 @is_auth
 def sms_gp_by():
     return jsonify({'data': sms.get_group_by_dest()})
 
 
-@SMS.route('json/responses', methods=["GET"])
+@SMS.route('/json/responses', methods=["GET"])
 @is_auth
 def sms_responses():
     return jsonify({'data': sms.get_responses()})
 
 
-@SMS.route('', methods=["GET"])
-@SMS.route('index.html', methods=["GET"])
+@SMS.route('/', methods=["GET"])
+@SMS.route('/index.html', methods=["GET"])
 @is_auth
 def index():
     return render_template(
@@ -44,7 +44,7 @@ def index():
     )
 
 
-@SMS.route('new.html', methods=["GET"])
+@SMS.route('/new.html', methods=["GET"])
 @is_auth
 def new():
     return render_template(
@@ -53,7 +53,7 @@ def new():
     )
 
 
-@SMS.route('new.html', methods=["POST"])
+@SMS.route('/new.html', methods=["POST"])
 @is_auth
 def send():
     sms_form = SmsForm(request.form)

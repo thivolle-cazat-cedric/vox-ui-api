@@ -6,7 +6,7 @@ from markdown2 import markdown
 PUBLIC = Blueprint('PUBLIC',
     __name__,
     template_folder='templates',
-    url_prefix='/',
+    url_prefix='',
     static_folder='static'
 )
 
@@ -30,8 +30,8 @@ TAGS = [
 ]
 
 
-@PUBLIC.route("")
-@PUBLIC.route("index.html")
+@PUBLIC.route("/")
+@PUBLIC.route("/index.html")
 def index():
     return render_template(
         'public/index.html',
@@ -40,7 +40,7 @@ def index():
     )
 
 
-@PUBLIC.route('changelog.html', methods=["GET"])
+@PUBLIC.route('/changelog.html', methods=["GET"])
 def changelog():
     local_tag = TAGS
     local_tag.append('Évolution')
@@ -53,7 +53,7 @@ def changelog():
     )
 
 
-@PUBLIC.route('about.html', methods=["GET"])
+@PUBLIC.route('/about.html', methods=["GET"])
 def about(): 
     return render_template(
         'public/about.html',
@@ -61,7 +61,7 @@ def about():
     )
 
 
-@PUBLIC.route('features.html', methods=["GET"])
+@PUBLIC.route('/features.html', methods=["GET"])
 def features():
     return render_template(
         'public/features.html',
@@ -70,7 +70,7 @@ def features():
     )
 
 
-@PUBLIC.route('screenshot.html', methods=["GET"])
+@PUBLIC.route('/screenshot.html', methods=["GET"])
 def screen():
     return render_template(
         'public/screen.html',
@@ -79,6 +79,6 @@ def screen():
     )
 
 
-@PUBLIC.route('sitemap.xml', methods=["GET"])
+@PUBLIC.route('/sitemap.xml', methods=["GET"])
 def sitemap():
     return render_template('public/sitemap.xml'), 200, {'Content-Type': 'text/xml; charset=utf-8'}

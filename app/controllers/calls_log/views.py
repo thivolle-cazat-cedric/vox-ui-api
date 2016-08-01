@@ -10,19 +10,19 @@ from app.utils import value_or_zero
 CALLS_LOG = Blueprint('CALLS_LOG',
     __name__,
     template_folder='templates',
-    url_prefix='/calls_log/'
+    url_prefix='/calls_log'
 )
 
 LIST_AVAILABLE = [5, 10, 25, 50, 100]
 
 
-@CALLS_LOG.route('all.json', methods=["GET"])
+@CALLS_LOG.route('/all.json', methods=["GET"])
 @is_auth
 def json_data():
     return jsonify({'data': get_log()})
 
 
-@CALLS_LOG.route('my.json', methods=["GET"])
+@CALLS_LOG.route('/my.json', methods=["GET"])
 @is_auth
 def my_json():
     return jsonify(
@@ -32,7 +32,7 @@ def my_json():
     )
 
 
-@CALLS_LOG.route('<direction>_calls.html', methods=["GET"])
+@CALLS_LOG.route('/<direction>_calls.html', methods=["GET"])
 @is_auth
 def view(direction='incoming'):
     if direction not in ['incoming', 'outing']:
@@ -88,7 +88,7 @@ def view(direction='incoming'):
     ).encode('utf-8')
 
 
-@CALLS_LOG.route('<direction>_calls.json', methods=["GET"])
+@CALLS_LOG.route('/<direction>_calls.json', methods=["GET"])
 @is_auth
 def json_view(direction='incoming'):
     if direction not in ['incoming', 'outing']:

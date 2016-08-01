@@ -8,11 +8,11 @@ from app.voxity import channel
 
 CALLS = Blueprint('CALLS',
     __name__,
-    url_prefix='/calls/'
+    url_prefix='/calls'
 )
 
 
-@CALLS.route('generate', methods=["POST"])
+@CALLS.route('/generate', methods=["POST"])
 @is_auth
 def generate_call():
     if 'exten' in request.form:
@@ -28,7 +28,7 @@ def generate_call():
     abort(500)
 
 
-@CALLS.route('json/', methods=["GET"])
+@CALLS.route('/json/', methods=["GET"])
 @is_auth
 def channels_json():
     filter_query = dict()
@@ -39,7 +39,7 @@ def channels_json():
     return jsonify({'data': channel.get_local_filter(**filter_query)})
 
 
-@CALLS.route('<id>.json', methods=["GET"])
+@CALLS.route('/<id>.json', methods=["GET"])
 @is_auth
 def channel_json(id):
     return jsonify({'data': channel.get_id(id)})
