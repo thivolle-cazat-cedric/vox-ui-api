@@ -111,4 +111,4 @@ def callback():
     if 'next_uri_aft_signin' in session:
         return redirect(session.pop('next_uri_aft_signin'))
     else:
-        return redirect(url_for('DEVICES.devices_view'))
+        return redirect(url_for(current_app.config['DASHBOARD_VEIW']))
