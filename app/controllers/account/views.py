@@ -91,7 +91,7 @@ def signin():
     return redirect(authorization_url)
 
 
-@ACCOUNT.route("signin-callback", methods=["GET"])
+@ACCOUNT.route("/signin-callback", methods=["GET"])
 def callback():
     """
     Step 3: Retrieving an access token.
