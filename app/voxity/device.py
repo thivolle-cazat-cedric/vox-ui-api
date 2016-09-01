@@ -17,7 +17,7 @@ def get(ret_object=False, **kwargs):
 
     con = connectors()
     if con:
-        resp = con.get(get_base_url())
+        resp = con.get(get_base_url(), params={'details': 'true'})
         if check_respons(resp):
             ret = resp.json().get('data', [])
             devices = Device.litst_obj_from_list(ret, **kwargs)
@@ -41,7 +41,7 @@ def get_id(d_id, ret_object=False):
 
     con = connectors()
     if con:
-        resp = con.get(get_base_url() + d_id)
+        resp = con.get(get_base_url() + d_id, params={'details': 'true'})
         if check_respons(resp):
             ret = resp.json().get('data', [])
             if not ret_object:

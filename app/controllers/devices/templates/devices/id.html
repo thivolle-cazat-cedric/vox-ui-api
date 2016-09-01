@@ -26,6 +26,18 @@
                         <td>Last update</td>
                         <td>{{device.last_update}}</td>
                     </tr>
+                    <tr>
+                        <td>User Agent</td>
+                        <td>{{device.useragent}}</td>
+                    </tr>
+                    <tr>
+                        <td>Enregistrement SIP</td>
+                        <td>
+                            {% if device.ipaddr %}
+                                {{device.ipaddr}}:{{device.port}} ({{device.lastms}}ms)
+                            {% endif %}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
                

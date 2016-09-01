@@ -22,7 +22,12 @@ class Device(ObjectBase):
         'last_update',
         'state',
         'state_desc',
-        'icon_class'
+        'icon_class',
+        'callerid',
+        'ipaddr',
+        'port',
+        'lastms',
+        'useragent'
     ]
 
     _DESCRIPTION = {
@@ -53,7 +58,6 @@ class Device(ObjectBase):
             for dico in lst_dict:
                 l.append(Device(**dico))
             return l
-
 
     def __init__(self, *args, **kwargs):
         super(Device, self).__init__(*args, **kwargs)
@@ -97,8 +101,14 @@ class Device(ObjectBase):
         except Exception:
             try:
                 return self._DESCRIPTION[self._lang]['unknow']
-            except Exception, e:
+            except Exception:
                 return self.state_desc or 'unknow'
+
+    @property
+    def name(self):
+        if self.callerid:
+            return self.callerid.split('<')[0].strip()
+        return "Inconnue"
 
     def to_dict(self):
         ret = super(Device, self).to_dict()
