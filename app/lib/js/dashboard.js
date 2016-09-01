@@ -162,7 +162,7 @@ function generateModalContent(view){
                     channels[exten].push(c)
                 })
                 var body = '<div class="row">';
-                if (channels.length > 0){
+                if (!$.isEmptyObject(channels)){
 
                     $.each(channels, function(ext, value){
                         if (REG_INTERNAL_EXTEN.test(ext)) {

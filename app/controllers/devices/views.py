@@ -10,12 +10,12 @@ from app.utils import roundup
 DEVICES = Blueprint('DEVICES',
     __name__,
     template_folder='templates',
-    url_prefix='/devices/',
+    url_prefix='/devices',
     static_folder='static'
 )
 
 
-@DEVICES.route('index.html', methods=["GET"])
+@DEVICES.route('/index.html', methods=["GET"])
 @is_auth
 def index():
     item_per_lst = 4
@@ -40,13 +40,13 @@ def index():
     )
 
 
-@DEVICES.route('index.json', methods=["GET"])
+@DEVICES.route('/index.json', methods=["GET"])
 @is_auth
 def devices_json():
     return jsonify({'data': device.get()})
 
 
-@DEVICES.route('<device_id>.html', methods=["GET"])
+@DEVICES.route('/<device_id>.html', methods=["GET"])
 @is_auth
 def device_view(device_id=None):
     d = device.get_id(device_id, ret_object=True)
@@ -59,18 +59,17 @@ def device_view(device_id=None):
     )
 
 
-@DEVICES.route('<device_id>.json', methods=["GET"])
+@DEVICES.route('/<device_id>.json', methods=["GET"])
 @is_auth
 def device_json(device_id):
 
     return jsonify({'data': device.get_id(device_id, ret_object=False)})
 
 
-@DEVICES.route('<device_id>/channels.json', methods=["GET"])
+@DEVICES.route('/<device_id>/channels.json', methods=["GET"])
 def device_channels_json(device_id):
     d = device.get_id(device_id, ret_object=True)
     if d:
         return jsonify({'data': channel.get_local_filter(ret_object=False, exten=d.extension)})
     else:
         abort(404)
-

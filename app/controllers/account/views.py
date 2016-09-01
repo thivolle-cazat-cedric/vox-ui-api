@@ -9,7 +9,7 @@ from app.controllers import is_auth, clear_session, valide_session
 ACCOUNT = Blueprint('ACCOUNT',
     __name__,
     template_folder='templates',
-    url_prefix='/account/',
+    url_prefix='/account',
     static_folder='static'
 )
 LIST_AVAILABLE = [5, 10, 25, 50, 100]
@@ -22,21 +22,21 @@ def refresh_user_session():
         abort(500)
 
 
-@ACCOUNT.route('how_i_am.json', methods=["GET"])
+@ACCOUNT.route('/how_i_am.json', methods=["GET"])
 @is_auth
 def me():
     refresh_user_session()
     return jsonify({'data': self_user()})
 
 
-@ACCOUNT.route('how_i_am.html', methods=["GET"])
+@ACCOUNT.route('/how_i_am.html', methods=["GET"])
 @is_auth
 def me_view():
     refresh_user_session()
     return render_template('account/me.html')
 
 
-@ACCOUNT.route('settings/notify.html', methods=["GET"])
+@ACCOUNT.route('/settings/notify.html', methods=["GET"])
 def settings_notify():
     refresh_user_session()
     return render_template(
@@ -45,12 +45,12 @@ def settings_notify():
     )
 
 
-@ACCOUNT.route('status.json', methods=["GET"])
+@ACCOUNT.route('/status.json', methods=["GET"])
 def get_oauth_status():
     return jsonify({'data': oauth_status()})
 
 
-@ACCOUNT.route('logout', methods=["GET"])
+@ACCOUNT.route('/logout', methods=["GET"])
 def logout_me():
     try:
         logout()
@@ -60,12 +60,12 @@ def logout_me():
     return redirect(url_for('PUBLIC.index'))
 
 
-@ACCOUNT.route('signin-check', methods=["GET"])
+@ACCOUNT.route('/signin-check', methods=["GET"])
 def signin_check(try_refresh=True):
     if valide_session():
         oauth_s = oauth_status()
         if oauth_s is not None and oauth_s == 'authenticated':
-            return redirect(request.args.get('next', url_for('DEVICES.index')))
+            return redirect(request.args.get('next', url_for(current_app.config['DASHBOARD_VEIW'])))
         elif oauth_s is None and try_refresh:
             refresh_token()
             return signin_check(try_refresh=False)
@@ -75,7 +75,7 @@ def signin_check(try_refresh=True):
         return redirect(url_for('ACCOUNT.signin'))
 
 
-@ACCOUNT.route('signin', methods=["GET"])
+@ACCOUNT.route('/signin', methods=["GET"])
 def signin():
     clear_session()
 
@@ -91,7 +91,7 @@ def signin():
     return redirect(authorization_url)
 
 
-@ACCOUNT.route("signin-callback", methods=["GET"])
+@ACCOUNT.route("/signin-callback", methods=["GET"])
 def callback():
     """
     Step 3: Retrieving an access token.
@@ -111,4 +111,4 @@ def callback():
     if 'next_uri_aft_signin' in session:
         return redirect(session.pop('next_uri_aft_signin'))
     else:
-        return redirect(url_for('DEVICES.devices_view'))
+        return redirect(url_for(current_app.config['DASHBOARD_VEIW']))
