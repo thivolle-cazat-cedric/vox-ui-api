@@ -1,9 +1,6 @@
 {% extends "err/main.html" %}
 
 {% block leadmessage %}
- Can't find this resource <kbd>{{request.path}}</kbd>. sorry !<br>
-    Maybe this resource has moved.<br>
-    <small>
-        Look the top of the page, you see <span class="label label-danger" style="font-weight: 200;">αlpha</span>
-    </small>
+    Resource <kbd>{{request.path}}</kbd> non touvez<br>
+    Peut etre quelle à changer de chemin.<br>
 {% endblock %}
