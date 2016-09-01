@@ -107,9 +107,9 @@ def oauth_status():
             return con.get(
                 current_app.config['BASE_URL'] + '/oauth/status'
             ).json().get('message', 'unknow').lower()
-        except Exception, e:
+        except Exception:
             pass
-            
+
     return None
 
 
@@ -144,7 +144,7 @@ def api_proxy(uri, method, params=None, data=None):
     con = connectors()
     if uri and uri[0] != '/':
         uri = "/" + uri
-    uri = "https://api.voxity.fr/api" + uri
+    uri = current_app.config['BASE_URL'] + uri
     if con is None:
         return None
 
