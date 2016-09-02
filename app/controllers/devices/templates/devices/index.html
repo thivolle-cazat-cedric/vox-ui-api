@@ -29,7 +29,7 @@
     {% for d in devices%}
         {% set view_md_start = 1 * item_per_lst%}
         {% set view_md_end = view_md_start + item_per_lst%}
-        <li id="{{d.id}}" class="list-group-item  {%if session['user']['internalExtension'] == d.extension%}info{%endif%} visible-xs
+        <li id="{{d.id}}" class="list-group-item  {%if session['user']['internalExtension'] == d.extension%}list-group-item-info{%endif%} visible-xs
             {% if loop.index <= middle_visible%}visible-sm{%endif%}
             {% if loop.index <= view_md_start and loop.index <= view_md_end %}visible-md visible-lg{%endif%}
         ">
@@ -57,7 +57,7 @@
     {% for d in devices%}
         {% set view_md_start = 1 * item_per_lst%}
         {% set view_md_end = view_md_start + item_per_lst%}
-        <li id="{{d.id}}" class="list-group-item  {%if session['user']['internalExtension'] == d.extension%}info{%endif%} 
+        <li id="{{d.id}}" class="list-group-item  {%if session['user']['internalExtension'] == d.extension%}list-group-item-info{%endif%} 
             {% if loop.index > middle_visible%}visible-sm {%else%} hidden {%endif%} 
             {% if loop.index > view_md_start and loop.index <= view_md_end %}visible-md visible-lg{%endif%}
         ">
@@ -66,7 +66,7 @@
                     <i class="{{d.icon_class}}" data-toggle="tooltip" title="{{d.state_description}}"></i>
                 </div>
                 <div class="col-xs-8 {%if d.id%}callable {%endif%}blf-name">
-                    <button role="button" class="btn btn-link btn-block text-left" {%if not d.id%}disabled{%endif%}>{{d.extension}} - {{d.name}}</button>
+                    <button role="button" class="btn btn-link btn-block text-left" {%if not d.id%}disabled{%endif%}>{{d.extension}}({{session['user']['internalExtension']}}) - {{d.name}}</button>
                 </div>
                 <div class="col-xs-2 blf-info text-right">
                     {%if d.id %}
@@ -86,7 +86,7 @@
     {% for d in devices%}
         {% set view_md_start = 2 * item_per_lst%}
         {% set view_md_end = view_md_start + item_per_lst%}
-        <li id="{{d.id}}" class="list-group-item  {%if session['user']['internalExtension'] == d.extension%}info{%endif%} 
+        <li id="{{d.id}}" class="list-group-item  {%if session['user']['internalExtension'] == d.extension%}list-group-item-info{%endif%} 
             {% if loop.index > view_md_start and loop.index <= view_md_end%}visible-sm visible-md visible-lg {%else%} hidden {%endif%}
             
         ">
