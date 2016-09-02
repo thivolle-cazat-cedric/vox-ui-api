@@ -66,7 +66,7 @@
                     <i class="{{d.icon_class}}" data-toggle="tooltip" title="{{d.state_description}}"></i>
                 </div>
                 <div class="col-xs-8 {%if d.id%}callable {%endif%}blf-name">
-                    <button role="button" class="btn btn-link btn-block text-left" {%if not d.id%}disabled{%endif%}>{{d.extension}}({{session['user']['internalExtension']}}) - {{d.name}}</button>
+                    <button role="button" class="btn btn-link btn-block text-left" {%if not d.id%}disabled{%endif%}>{{d.extension}} - {{d.name}}</button>
                 </div>
                 <div class="col-xs-2 blf-info text-right">
                     {%if d.id %}
