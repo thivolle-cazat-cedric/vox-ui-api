@@ -2,17 +2,17 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-5">
-                <a href="{{url_for('PUBLIC.about')}}">
+                <a href="{{config['ABOUT_URI']}}">
                 Proposé par Cedric TC
                 </a>
             </div>
             <div class="col-xs-2 text-center">
-                <a href="{{url_for('PUBLIC.index')}}">
+                <a href="{{config['INDEX_PAGE_URI']}}">
                     <img src="{{url_for('static', filename='icon/app/75-icon_app.png')}}" alt="" class="img img-logo-app">
                 </a>
             </div>
             <div class="col-xs-5 text-right">
-                <a href="{{url_for('PUBLIC.changelog')}}">
+                <a href="{{config['CHANGELOG_URI']}}">
                     Version {{config['__VERSION__']}}
                 </a>
             </div>

@@ -57,7 +57,7 @@ def logout_me():
     except Exception:
         pass
     clear_session()
-    return redirect(url_for('PUBLIC.index'))
+    return redirect(current_app.config['LOGOUT_URI'])
 
 
 @ACCOUNT.route('/signin-check', methods=["GET"])

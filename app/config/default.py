@@ -20,3 +20,7 @@ OAUTHLIB_INSECURE_TRANSPORT = '1'
 TRACKER_FILE = None
 
 DASHBOARD_VEIW = "DEVICES.index"
+LOGOUT_URI = "/account/signin-check"
+INDEX_PAGE_URI = LOGOUT_URI
+CHANGELOG_URI = '/changelog'
+ABOUT_URI = '/about.html'

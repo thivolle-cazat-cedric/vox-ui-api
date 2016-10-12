@@ -40,7 +40,6 @@ def create_app(env='prod'):
     app.jinja_env.globals['is_admin'] = is_admin
     app.jinja_env.globals['is_mobile'] = is_mobile
 
-    app.register_blueprint(controllers.PUBLIC)
     app.register_blueprint(controllers.DEVICES)
     app.register_blueprint(controllers.CONTACT)
     app.register_blueprint(controllers.CALLS)
