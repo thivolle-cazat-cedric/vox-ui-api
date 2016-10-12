@@ -257,7 +257,6 @@ $(document).ready(function() {
     })
 
     $(document).on('click', '.callable', function(event){
-        console.log($(this))
         if ($(this).attr('data-number')) {
             var num = filter_exten($(this).attr('data-number'));
         } else {

@@ -16,7 +16,12 @@
 
  - [ ] Déconnexion *(la déconnexion n'est pas fonctionnelle, il faut ce déconnecter via l'API directement)*
 
-##### 1.1.0 βeta
+##### 1.1.1 βeta
+ - Affichage des noms dans le dashboard
+ - Affichage des détails d'un device *(user agent, temps de réponse sip, addresse ip d'enregistrement)*
+ - Détachement du site publique
+
+##### 1.1.0
  - Tableau de bord revu, accès rapide aux contacts, et aux appels en cours
  - Rafréchissement automatique de l'état des postes
  - Correction de bug mineur
