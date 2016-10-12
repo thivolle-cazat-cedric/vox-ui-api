@@ -26,9 +26,11 @@ function getDevices(done){
 }
 
 function updateState(deviceId, statusName, iconClass){
-    var icon = $('.vox-blf-dashbord #'+deviceId+' .icon-blf-state i')
-    icon.attr('class', iconClass);
-    icon.attr('data-original-title', statusName)
+    if(deviceId){        
+        var icon = $('.vox-blf-dashbord #'+deviceId+' .icon-blf-state i')
+        icon.attr('class', iconClass);
+        icon.attr('data-original-title', statusName)
+    }
 }
 function refreshState() {
     getDevices(function(devices){
