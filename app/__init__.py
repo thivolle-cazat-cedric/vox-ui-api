@@ -46,12 +46,17 @@ def create_app(env='prod'):
     app.register_blueprint(controllers.ACCOUNT)
     app.register_blueprint(controllers.CALLS_LOG)
     app.register_blueprint(controllers.SMS)
-    if app.config['DEBUG'] == True:
+    if app.config['DEBUG']:
         app.register_blueprint(controllers.API_PROXY)
 
     @app.route("/favicon.ico")
     def favicon():
         return redirect(url_for('static', filename='icon/fav/vox-ui-api.ico'))
+
+    @app.route("/")
+    @app.route("/index.html")
+    def index():
+        return redirect(url_for(app.config['DASHBOARD_VEIW']))
 
     @app.errorhandler(401)
     def err_401(e):
