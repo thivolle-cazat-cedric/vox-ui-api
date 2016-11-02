@@ -1,6 +1,9 @@
 venv/*
+!app/config/env/__init__.py
 app/config/env/prod.py
 *.pyc
 *.DS_Store
 app.wsgi
 /app/templates/track.html
+app/lib/res
+app/lib/res/*

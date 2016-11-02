@@ -10,8 +10,8 @@
 
         <!-- Bootstrap -->
         <link rel="stylesheet" href="{{url_for('static', filename='res/bootstrap/dist/css/bootstrap.min.css')}}">
-        <link rel="stylesheet" href="{{url_for('static', filename='res/toastr/build/toastr.min.css')}}">
-        <link rel="stylesheet" href="{{url_for('static', filename='res/Font-Awesome/css/font-awesome.min.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='res/toastr/toastr.min.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='res/font-awesome/css/font-awesome.min.css')}}">
         <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -140,13 +140,13 @@
         </div>
         <!-- /callModal -->
         {%endif%}
-        <script src="{{url_for('static', filename='res/jquery-1.12.1.min.js')}}"></script>
+        <script src="{{url_for('static', filename='res/jquery/dist/jquery.min.js')}}"></script>
         <script src="{{url_for('static', filename='res/bootstrap/dist/js/bootstrap.min.js')}}"></script>
         <!-- toastr -->
-        <script src="{{url_for('static', filename='res/toastr/build/toastr.min.js')}}"></script>
+        <script src="{{url_for('static', filename='res/toastr/toastr.min.js')}}"></script>
         <script src="{{url_for('static', filename='js/main.js')}}"></script>
         {% if 'oauth_token' in session and 'access_token' in session['oauth_token']%}
-            <script src="{{url_for('static', filename='res/socket.io-1.4.5.js')}}"></script>
+            <script src="{{url_for('static', filename='res/socket.io-client/socket.io.js')}}"></script>
             <script type="text/javascript">
                 var token = "{{session['oauth_token']['access_token']}}";
                 var myExtension = "{{session['user']['internalExtension']}}";

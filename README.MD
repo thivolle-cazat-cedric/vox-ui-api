@@ -20,8 +20,9 @@ L'application n'est pas proposée et ni supportée par Voxity. En cas de disfonc
 # Installation
 
 ## Requierment
- - Python & pip
+ - Python2.7 & pip
  - Virtualenv
+ - Bower
  - Acces au site client.voxity.fr pour générer ces CLIENT_ID/CLIENT_SECRET
 
 ## Création des accès à l'API
@@ -36,7 +37,7 @@ L'application n'est pas proposée et ni supportée par Voxity. En cas de disfonc
 ## Récupération et configuration de l'application
 
 ```bash
-git clone --recursive https://github.com/thivolle-cazat-cedric/vox-ui-api.git
+git clone https://github.com/thivolle-cazat-cedric/vox-ui-api.git
 cd voxity-ui-api
 virtualenv venv
 source venv/bin/activate
@@ -49,6 +50,7 @@ echo "CLIENT_ID = '''$client_id'''
 CLIENT_SECRET = '''$client_secret'''
 SECRET_KEY = '''$key'''
 " > app/config/env/prod.py
+bower install
 ```
 
 -----
