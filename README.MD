@@ -20,7 +20,8 @@ L'application n'est pas proposée et ni supportée par Voxity. En cas de disfonc
 # Installation
 
 ## Requierment
- - Python2.7 & pip
+ - Python (2.7 or 3.4)
+ - pip
  - Virtualenv
  - Bower
  - Acces au site client.voxity.fr pour générer ces CLIENT_ID/CLIENT_SECRET

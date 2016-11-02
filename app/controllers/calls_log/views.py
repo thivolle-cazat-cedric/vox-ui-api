@@ -130,8 +130,7 @@ def json_view(direction='incoming'):
                 pager['end'] = pager['max']
                 pager['start'] = pager['end'] - 10
 
-    except Exception, e:
-        raise e
+    except Exception:
         abort(500)
 
     return jsonify(

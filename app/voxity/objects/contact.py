@@ -15,7 +15,7 @@ from app.utils.jinja2_filters import number_clear
 
 
 def is_mobile(number):
-    mobile_regex = re.compile(ur'^0[67]\d{8}$')
+    mobile_regex = re.compile(r'^0[67]\d{8}$')
     if number and mobile_regex.match(number_clear(number, space=False)):
         return True
     else:
