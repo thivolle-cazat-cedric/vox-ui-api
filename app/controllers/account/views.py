@@ -65,7 +65,7 @@ def signin_check(try_refresh=True):
     if valide_session():
         oauth_s = oauth_status()
         if oauth_s is not None and oauth_s == 'authenticated':
-            return redirect(request.args.get('next', url_for(current_app.config['DASHBOARD_VEIW'])))
+            return redirect(request.args.get('next', url_for(current_app.config['DASHBOARD_VIEW'])))
         elif oauth_s is None and try_refresh:
             refresh_token()
             return signin_check(try_refresh=False)
@@ -111,4 +111,4 @@ def callback():
     if 'next_uri_aft_signin' in session:
         return redirect(session.pop('next_uri_aft_signin'))
     else:
-        return redirect(url_for(current_app.config['DASHBOARD_VEIW']))
+        return redirect(url_for(current_app.config['DASHBOARD_VIEW']))

@@ -55,7 +55,7 @@ def create_app(env='prod'):
     @app.route("/")
     @app.route("/index.html")
     def index():
-        return redirect(url_for(app.config['DASHBOARD_VEIW']))
+        return redirect(url_for(app.config['DASHBOARD_VIEW']))
 
     @app.errorhandler(401)
     def err_401(e):
