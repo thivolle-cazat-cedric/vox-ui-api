@@ -44,7 +44,6 @@ def create_app(env='prod'):
     app.register_blueprint(controllers.CONTACT)
     app.register_blueprint(controllers.CALLS)
     app.register_blueprint(controllers.ACCOUNT)
-    app.register_blueprint(controllers.SMS)
     if app.config['DEBUG']:
         app.register_blueprint(controllers.API_PROXY)
 
